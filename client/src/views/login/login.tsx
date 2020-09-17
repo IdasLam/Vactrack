@@ -12,7 +12,9 @@ const Login: FunctionComponent = () => {
             <div className="login-container_google-login">
                 <div>
                     <h1>Login</h1>
-                    <a href="#">login link</a>
+                    <a href="#">
+                        <img src="btn_google_signin_light_normal_web.png" alt="google login button" />
+                    </a>
                 </div>
             </div>
         </div>

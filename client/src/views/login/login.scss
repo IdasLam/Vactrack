@@ -1,0 +1,52 @@
+.login-container {
+    max-width: 100vw;
+    max-height: 100vh;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 2fr 1fr;
+    place-items: start center;
+    overflow: hidden;
+
+    .image-wrapper {
+        height: 100%;
+        overflow: hidden;
+
+        .login-container__img {
+            height: auto;
+            max-height: 100%;
+            max-width: 100%;
+        }
+    }
+
+    .login-container_google-login {
+        h1 {
+            font-family: 'Rubik Mono One', sans-serif;
+            font-weight: normal;
+        }
+
+        text-align: center;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    .login-container {
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .login-container_google-login {
+        display: flex;
+        justify-content: center;
+        place-items: center center;
+        background-color: grey;
+        grid-row: 1;
+        grid-column: 2;
+        grid-row: 1 / span all;
+    }
+
+    .image-wrapper {
+        grid-row: 2 / span all;
+        padding-bottom: 10vh;
+    }
+}

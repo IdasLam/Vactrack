@@ -1,17 +1,17 @@
 .logo-container {
     width: 100%;
-    padding: calc(12px + 5vw);
+    padding: calc(25px + 5vw);
     max-width: 800px;
     text-align: center;
 
     .logo-container__img {
         width: 100%;
-        max-width: 80%;
+        max-width: 70%;
     }
 
     .logo-container__slogan {
         text-align: center;
-        font-size: clamp(16px, 5vw, 32px);
+        font-size: clamp(16px, 5vw, 26px);
         font-family: 'Ruda', sans-serif;
     }
 }

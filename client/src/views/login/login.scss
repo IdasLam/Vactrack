@@ -1,4 +1,5 @@
 .login-container {
+    padding: 10vh 0;
     max-width: 100vw;
     max-height: 100vh;
     height: 100vh;
@@ -8,13 +9,14 @@
     overflow: hidden;
 
     .image-wrapper {
+        text-align: center;
         height: 100%;
         overflow: hidden;
 
         .login-container__img {
             height: auto;
             max-height: 100%;
-            max-width: 100%;
+            max-width: 90%;
         }
     }
 
@@ -30,16 +32,18 @@
     }
 }
 
-@media only screen and (min-width: 800px) {
+@media only screen and (min-width: 950px) {
     .login-container {
         grid-template-columns: 2fr 1fr;
+        background-color: #fff;
+        padding: unset;
     }
 
     .login-container_google-login {
         display: flex;
         justify-content: center;
         place-items: center center;
-        background-color: grey;
+        background-color: #F8F8F8;
         grid-row: 1;
         grid-column: 2;
         grid-row: 1 / span all;

@@ -1,7 +1,7 @@
 import Joi from "joi"
 
 export const email = (inputEmail: string) => {
-    const schema = Joi.string().email({ tlds: {allow: false} });
+    const schema = Joi.string().email({ tlds: {allow: false} }).required();
     const { error } = schema.validate(inputEmail);
 
     return error === undefined

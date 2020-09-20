@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useState } from 'react'
 import Logo from '../../components/logo/logo'
 import './login.scss'
-import { TextField, Button } from '@material-ui/core'
+// import { TextField, Button } from '@material-ui/core'
 import * as validate from "../../services/validation"
 import * as user from "../../services/user"
+import MicrosoftLogin from "react-microsoft-login";
 
 type Credentials = {
     email: string | null,
@@ -16,41 +17,46 @@ type ValidatedCredentials = {
 }
 
 const Login: FunctionComponent = () => {
-    const emailInput = "login-email"
-    const passwordInput = "login-password"
+    const client_id = '8369cae8-b48f-4086-ae04-a728930b4a05'
+    // const emailInput = "login-email"
+    // const passwordInput = "login-password"
 
-    const [validEmail, setValidEmail] = useState(true)
-    const [validPassword, setValidPassword] = useState(true)
-    const [credentials, setCredentials] = useState<Credentials>({email: null, password: null})
+    // const [validEmail, setValidEmail] = useState(true)
+    // const [validPassword, setValidPassword] = useState(true)
+    // const [credentials, setCredentials] = useState<Credentials>({email: null, password: null})
 
-    const handeInput = (id: string) => (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-        const input = event.target.value
+    // const handeInput = (id: string) => (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    //     const input = event.target.value
         
         
-        switch (id) {
-            case emailInput:
-                setValidEmail(validate.email(input))
-                setCredentials({...credentials, email: emailInput})
-                break;
+    //     switch (id) {
+    //         case emailInput:
+    //             setValidEmail(validate.email(input))
+    //             setCredentials({...credentials, email: emailInput})
+    //             break;
                 
-            case passwordInput:
-                setValidPassword(validate.password(input))
-                setCredentials({...credentials, password: passwordInput})
-            break;
-        }
-    }
+    //         case passwordInput:
+    //             setValidPassword(validate.password(input))
+    //             setCredentials({...credentials, password: passwordInput})
+    //         break;
+    //     }
+    // }
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        console.log("hello");
+    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault()
+    //     console.log("hello");
         
 
-        if (credentials.email === null || credentials.password === null) {
-            return
-        }
+    //     if (credentials.email === null || credentials.password === null) {
+    //         return
+    //     }
 
-        user.login(credentials as ValidatedCredentials)
-    }
+    //     user.login(credentials as ValidatedCredentials)
+    // }
+
+    const authHandler = (err: any, data: any) => {
+        console.log(err, data);
+    };
 
     return (
         <div className="login-container">
@@ -61,34 +67,7 @@ const Login: FunctionComponent = () => {
             <div className="login-container_register_login">
                 <div>
                     <h1>Login</h1>
-                    <form noValidate className="login_form" onSubmit={handleSubmit}>
-                        <TextField
-                            error={!validEmail}
-                            helperText={!validEmail ? "Not valid" : " "}
-                            id="outlined-secondary"
-                            label="Email"
-                            variant="outlined"
-                            color="primary"
-                            type="email"
-                            onChange={handeInput(emailInput)}
-                            />
-                        <TextField
-                            error={!validPassword}
-                            helperText={!validPassword ? "Not valid" : " "}
-                            id="outlined-secondary"
-                            label="Password"
-                            variant="outlined"
-                            color="primary"
-                            type="password"
-                            onChange={handeInput(passwordInput)}
-                        />
-                        <Button type="submit" variant="contained" size="large" color="primary">
-                        LOGIN
-                        </Button>
-                    </form>
-                    <Button href="#text-buttons" color="primary">
-                    or register
-                    </Button>
+                    <MicrosoftLogin clientId={client_id} authCallback={authHandler} />
                 </div>
             </div>
         </div>

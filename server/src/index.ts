@@ -10,8 +10,11 @@ import express from 'express'
 import auth from './routes/auth'
 import * as error from './routes/middlewares/errors'
 import family from './routes/family'
+import cors from 'cors'
 
 const app = express()
+
+const isProd = process.env.NODE_ENV === 'production'
 
 // const db = admin.firestore()
 
@@ -25,6 +28,7 @@ const app = express()
 
 // hej()
 
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 app.use(express.json())
 app.use('/api', auth)
 app.use('/api', family)

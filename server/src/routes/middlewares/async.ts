@@ -1,4 +1,4 @@
-import {Response, Request, NextFunction} from 'express'
+import { Response, Request, NextFunction } from 'express'
 
 type CallbackFunction = (req: Request, res: Response) => Promise<void>
 

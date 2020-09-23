@@ -11,15 +11,16 @@ const MiddeButton: FunctionComponent = () => {
 
     if (addVaccine.includes(path)) {
         return (
-            <Button
-                variant="contained"
-                onClick={() => {
-                    history.replace('/add/vaccine')
-                }}
-                className="add_new"
-            >
-                <p>X</p>
-            </Button>
+            <div className="add_new">
+                <Button
+                    variant="contained"
+                    onClick={() => {
+                        history.replace('/add/vaccine')
+                    }}
+                >
+                    <p>X</p>
+                </Button>
+            </div>
         )
     }
 

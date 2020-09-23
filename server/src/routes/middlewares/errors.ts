@@ -17,5 +17,5 @@ export const JoiError: Middleware = (error, req, res, next) => {
 }
 
 export const firebaseError: Middleware = (error, req, res, next) => {
-    console.log('firebase cuck', util.inspect(error, { showHidden: true, depth: null }))
+    console.log('firebase', util.inspect(error, { showHidden: true, depth: null }))
 }

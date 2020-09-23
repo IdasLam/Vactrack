@@ -1,20 +1,21 @@
 import React, { FunctionComponent, useEffect } from 'react'
 import * as firebase from 'firebase/app'
 import Layout from '../../components/layout/layout'
+import { useHistory } from 'react-router-dom'
+import * as user from '../../services/user/user'
 
 const Home: FunctionComponent = () => {
-    useEffect(() => {
-        firebase.auth().onAuthStateChanged(async (user) => {
-            if (user) {
-                console.log('logedin', user.uid)
-            } else {
-                // User not logged in or has just logged out.
-                // redirect to login
+    const history = useHistory()
 
-                console.log('not')
-            }
-        })
+    useEffect(() => {
+        const isLoggedIn = user.isLoggedIn()
+        console.log('mounting')
+
+        if (!isLoggedIn) {
+            history.replace('/')
+        }
     }, [])
+
     return (
         <Layout>
             <h1></h1>

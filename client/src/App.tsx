@@ -3,6 +3,8 @@ import React from 'react'
 // import logo from './logo.svg'
 // import './App.css'
 import Login from './views/login/login'
+import Home from './views/home/home'
+
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import indigo from '@material-ui/core/colors/indigo'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
@@ -36,10 +38,14 @@ const theme = createMuiTheme({
 })
 
 function App() {
+    // om loggad in kan inte komma in i / vice versa
     return (
         <ThemeProvider theme={theme}>
             <Router>
                 <Switch>
+                    <Route path="/home">
+                        <Home />
+                    </Route>
                     <Route path="/">
                         <Login />
                     </Route>

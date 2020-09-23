@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import SloganLogo from '../../components/logo/logo'
+import SloganLogo from '../../components/logo/sloganlogo'
 import './login.scss'
 import { Button, CircularProgress } from '@material-ui/core'
 import * as user from '../../services/user/user'

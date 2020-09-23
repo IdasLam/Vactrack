@@ -1,62 +1,63 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
-import Logo from '../../components/logo/logo'
+import SloganLogo from '../../components/logo/logo'
 import './login.scss'
-import { TextField, Button } from '@material-ui/core'
-import * as user from '../../services/user'
+import { Button } from '@material-ui/core'
+import * as user from '../../services/user/user'
+import * as fetch from '../../services/family/family'
+import { createUser } from '../../services/user/create'
+import { useHistory } from 'react-router-dom'
 
-// type Credentials = {
-//     email: string | null
-//     password: string | null
-// }
+const auth = async (history: any) => {
+    try {
+        const result = await user.Oauth()
+        if (result.credential) {
+            const user = result.user
 
-// type ValidatedCredentials = {
-//     email: string
-//     password: string
-// }
+            if (user !== null) {
+                const response = await fetch.login(user.uid)
+
+                if (response.status === 200) {
+                    history.replace('/home')
+                }
+            }
+        }
+    } catch (error) {
+        const errorMessage = error.message
+
+        if (errorMessage === 'Request failed with status code 404') {
+            console.log('not in databse')
+            const success = await createUser()
+
+            if (success) {
+                return history.replace('/home')
+            }
+
+            console.log('error unable to create user')
+        }
+    }
+}
 
 const Login: FunctionComponent = () => {
-    // const client_id = '8369cae8-b48f-4086-ae04-a728930b4a05'
-    // const emailInput = "login-email"
-    // const passwordInput = "login-password"
-
-    // const [validEmail, setValidEmail] = useState(true)
-    // const [validPassword, setValidPassword] = useState(true)
-    // const [credentials, setCredentials] = useState<Credentials>({email: null, password: null})
-
-    // const handeInput = (id: string) => (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    //     const input = event.target.value
-
-    //     switch (id) {
-    //         case emailInput:
-    //             setValidEmail(validate.email(input))
-    //             setCredentials({...credentials, email: emailInput})
-    //             break;
-
-    //         case passwordInput:
-    //             setValidPassword(validate.password(input))
-    //             setCredentials({...credentials, password: passwordInput})
-    //         break;
-    //     }
-    // }
-
-    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault()
-    //     console.log("hello");
-
-    //     if (credentials.email === null || credentials.password === null) {
-    //         return
-    //     }
-
-    //     user.login(credentials as ValidatedCredentials)
-    // }
+    const history = useHistory()
 
     useEffect(() => {
-        user.Oauth()
+        auth(history)
+
+        // firebase.auth().onAuthStateChanged(async (user) => {
+        //     if (user) {
+        //         console.log('logedin', user.uid)
+        //     } else {
+        //         // User not logged in or has just logged out.
+        //         // redirect to login
+
+        //         console.log('not')
+        //     }
+        // })
     }, [])
 
     return (
         <div className="login-container">
-            <Logo />
+            <SloganLogo />
             <div className="image-wrapper">
                 <img className="login-container__img" src="login.png" alt="" />
             </div>

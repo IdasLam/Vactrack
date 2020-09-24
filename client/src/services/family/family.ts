@@ -1,39 +1,49 @@
 import Axios, { AxiosResponse } from 'axios'
 import { url } from '../api/api'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
 
-// type Credantials2 = {
-//     email: string
-//     password: string
-// }
+const auth = firebase.auth()
+const firestore = firebase.firestore()
 
-// type Credentials = (uid: string) => boolean
-
-// export const login = async (credantials: Credantials2) => {
-//     const response = await Axios.post('/api/login', credantials)
-
-//     console.log(response)
-// }
-
-type Fetch = (uid: string, name?: string) => Promise<AxiosResponse>
-
-/**
- * Login user, response depening on new user or not
- * @param uid
- */
-export const login: Fetch = async (uid) => {
-    const response = await Axios.post(url + '/api/account', { uid })
-
-    console.log(response)
-    return response
-}
+type Fetch = (uid: string, name?: string) => Promise<AxiosResponse<any>>
 
 /**
  * Create user in database
  * @param uid
  * @param name
  */
-export const create: Fetch = async (uid, name) => {
-    const response = await Axios.post(url + '/api/account/create', { uid, name })
+export const create = async (uid: string, name: string) => {
+    // const response = await Axios.post(url + '/api/account/create', { uid, name })
+    // return response
 
-    return response
+    const docRef = firestore.collection('family').doc(uid)
+
+    await docRef.set({
+        [name]: {
+            status: 'user',
+            vaccines: [],
+            activeVaccines: [],
+        },
+    })
+
+    return 200
+}
+
+/**
+ * Login user, if user dont already exist create one
+ * @param uid
+ */
+export const login = async (uid: string, name: string) => {
+    // const response = await Axios.post(url + '/api/account', { uid })
+
+    // console.log(response)
+    // return response
+    const res = await firestore.collection('family').doc(uid).get()
+
+    if (res.exists) {
+        return 200
+    }
+
+    create(uid, name)
 }

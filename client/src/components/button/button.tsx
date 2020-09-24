@@ -19,7 +19,7 @@ const MiddeButton: FunctionComponent = () => {
                         history.replace('/add/vaccine')
                     }}
                 >
-                    <AddIcon fontSize="default" />
+                    <AddIcon fontSize="large" />
                 </Button>
             </div>
         )

@@ -3,9 +3,10 @@ import Layout from '../../components/layout/layout'
 import { useHistory } from 'react-router-dom'
 import * as user from '../../services/user/user'
 import * as fetch from '../../services/family/family'
-
+import People from '../../components/people/people'
 import firebase from 'firebase/app'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
+import { Family } from '../../models/family'
 
 const firestore = firebase.firestore()
 
@@ -13,7 +14,9 @@ const Home: FunctionComponent = () => {
     const history = useHistory()
     const [uid, setUid] = useState<string>()
     const doc = firestore.doc(`family/${uid}`)
-    const [value] = useDocumentData(doc)
+    const [value, loading] = useDocumentData<Family>(doc)
+
+    console.log(loading)
 
     useEffect(() => {
         const isLoggedIn = user.isLoggedIn()
@@ -31,7 +34,10 @@ const Home: FunctionComponent = () => {
 
     return (
         <Layout>
-            <h1>ello</h1>
+            <People people={value} loading={loading} />
+            <section className="main-section-container">
+                <h1>ello</h1>
+            </section>
         </Layout>
     )
 }

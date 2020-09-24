@@ -3,17 +3,19 @@ import Layout from '../../components/layout/layout'
 import { useHistory } from 'react-router-dom'
 import * as user from '../../services/user/user'
 import * as fetch from '../../services/family/family'
-import People from '../../components/people/people'
 import firebase from 'firebase/app'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
-import { Family } from '../../models/family'
+import { Family, Vaccinations } from '../../models/family'
 import { CircularProgress } from '@material-ui/core'
+import Upcoming from '../../components/vaccine/upcoming'
+import People from '../../components/people/people'
 
 const firestore = firebase.firestore()
 
 const Home: FunctionComponent = () => {
     const history = useHistory()
     const [uid, setUid] = useState<string>()
+    const [upcomingVaccinations, setUpcomingVaccionations] = useState<Vaccinations>({})
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
@@ -27,7 +29,13 @@ const Home: FunctionComponent = () => {
         } else {
             setUid(user.getUid())
         }
-    }, [])
+    }, [history])
+
+    useEffect(() => {
+        if (value) {
+            setUpcomingVaccionations(fetch.filterActiveVaccines(value))
+        }
+    }, [value])
 
     if (loading) {
         return (
@@ -36,16 +44,16 @@ const Home: FunctionComponent = () => {
             </div>
         )
     }
-    if (value) {
-        console.log(value)
-    }
 
     return (
         <Layout>
-            <People people={value} />
+            <People family={value} />
             <section className="main-section-container">
                 <p>Featuring</p>
                 <p>Upcoming vaccinations</p>
+                <div className="upcoming-vaccinations">
+                    <Upcoming vaccines={upcomingVaccinations} />
+                </div>
             </section>
         </Layout>
     )

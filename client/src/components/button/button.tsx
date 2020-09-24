@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import './button.scss'
+import AddIcon from '@material-ui/icons/Add'
 
 const MiddeButton: FunctionComponent = () => {
     const path = window.location.pathname
@@ -18,7 +19,7 @@ const MiddeButton: FunctionComponent = () => {
                         history.replace('/add/vaccine')
                     }}
                 >
-                    <p>X</p>
+                    <AddIcon fontSize="default" />
                 </Button>
             </div>
         )

@@ -4,42 +4,41 @@ import './login.scss'
 import { Button, CircularProgress } from '@material-ui/core'
 import * as user from '../../services/user/user'
 import * as fetch from '../../services/family/family'
-import { createUser } from '../../services/user/create'
 import { useHistory } from 'react-router-dom'
 
 const auth = async (history: any, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
-    try {
-        setLoading(true)
-        const result = await user.Oauth()
+    // try {
+    setLoading(true)
+    const result = await user.Oauth()
 
-        if (result.credential) {
-            const user = result.user
+    if (result.credential) {
+        const user = result.user
 
-            if (user !== null) {
-                setLoading(false)
-                const response = await fetch.login(user.uid)
+        if (user !== null) {
+            setLoading(false)
+            const response = await fetch.login(user.uid, user.displayName ?? 'user')
 
-                if (response.status === 200) {
-                    return history.replace('/home')
-                }
-            }
-        }
-        setLoading(false)
-    } catch (error) {
-        setLoading(false)
-        const errorMessage = error.message
-
-        if (errorMessage === 'Request failed with status code 404') {
-            console.log('not in databse')
-            const success = await createUser()
-
-            if (success) {
+            if (response === 200) {
                 return history.replace('/home')
             }
-
-            console.log('error unable to create user')
         }
     }
+    setLoading(false)
+    // } catch (error) {
+    //     setLoading(false)
+    //     const errorMessage = error.message
+
+    //     if (errorMessage === 'Request failed with status code 404') {
+    //         console.log('not in databse')
+    //         const success = await createUser()
+
+    //         if (success) {
+    //             return history.replace('/home')
+    //         }
+
+    //         console.log('error unable to create user')
+    //     }
+    // }
 }
 
 const Login: FunctionComponent = () => {
@@ -54,17 +53,6 @@ const Login: FunctionComponent = () => {
         if (!loggedIn) {
             auth(history, setLoading)
         }
-
-        // firebase.auth().onAuthStateChanged(async (user) => {
-        //     if (user) {
-        //         console.log('logedin', user.uid)
-        //     } else {
-        //         // User not logged in or has just logged out.
-        //         // redirect to login
-
-        //         console.log('not')
-        //     }
-        // })
     }, [])
 
     if (loading) {

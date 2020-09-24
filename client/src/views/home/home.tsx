@@ -7,6 +7,7 @@ import People from '../../components/people/people'
 import firebase from 'firebase/app'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { Family } from '../../models/family'
+import { CircularProgress } from '@material-ui/core'
 
 const firestore = firebase.firestore()
 
@@ -28,15 +29,23 @@ const Home: FunctionComponent = () => {
         }
     }, [])
 
+    if (loading) {
+        return (
+            <div className="loader">
+                <CircularProgress />
+            </div>
+        )
+    }
     if (value) {
         console.log(value)
     }
 
     return (
         <Layout>
-            <People people={value} loading={loading} />
+            <People people={value} />
             <section className="main-section-container">
-                <h1>ello</h1>
+                <p>Featuring</p>
+                <p>Upcoming vaccinations</p>
             </section>
         </Layout>
     )

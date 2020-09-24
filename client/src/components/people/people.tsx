@@ -2,28 +2,18 @@ import React, { FunctionComponent } from 'react'
 import { Family } from '../../models/family'
 import './people.scss'
 import AddIcon from '@material-ui/icons/Add'
-import { Button, CircularProgress } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 
 type PeopleTypes = {
     people: Family | undefined
-    loading: boolean
 }
 
 const People: FunctionComponent<PeopleTypes> = (props) => {
-    const { people, loading } = props
-    const peopleIsEmpty = !loading && !people
+    const { people } = props
     const history = useHistory()
 
-    if (loading) {
-        return (
-            <div className="loader">
-                <CircularProgress />
-            </div>
-        )
-    }
-
-    if (peopleIsEmpty) {
+    if (!people) {
         return (
             <div className="people-container">
                 <div className="person-container new-person">

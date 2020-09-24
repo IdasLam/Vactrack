@@ -1,19 +1,15 @@
 import React, { FunctionComponent } from 'react'
-import { Family } from '../../models/family'
+import { FamilyProps } from '../../models/family'
 import './people.scss'
 import AddIcon from '@material-ui/icons/Add'
 import { Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 
-type PeopleTypes = {
-    people: Family | undefined
-}
-
-const People: FunctionComponent<PeopleTypes> = (props) => {
-    const { people } = props
+const People: FunctionComponent<FamilyProps> = (props) => {
+    const { family } = props
     const history = useHistory()
 
-    if (!people) {
+    if (!family) {
         return (
             <div className="people-container">
                 <div className="person-container new-person">
@@ -32,9 +28,9 @@ const People: FunctionComponent<PeopleTypes> = (props) => {
     }
 
     const addPerson = () => {
-        if (!people) return
+        if (!family) return
 
-        const elements = Object.keys(people)
+        const elements = Object.keys(family)
             .sort((a, b) => a.charCodeAt(0) - b.charCodeAt(0))
             .map((person) => {
                 const firstname = person.split(' ')[0]

@@ -1,28 +1,14 @@
+import * as firebase from 'firebase/app'
+import './firebase'
 import 'normalize.css'
 import React, { useEffect, useState } from 'react'
-import Login from './views/login/login'
-import Home from './views/home/home'
-
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import indigo from '@material-ui/core/colors/indigo'
 import { BrowserRouter as Router, Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom'
-import * as firebase from 'firebase/app'
-import 'firebase/analytics'
-import 'firebase/database'
+import Login from './views/login/login'
+import Home from './views/home/home'
 
-const firebaseConfig = {
-    apiKey: 'AIzaSyBOuPwXoezhpGhnHBFyl9AouCzODbzMWQA',
-    authDomain: 'vactrack-87132.firebaseapp.com',
-    databaseURL: 'https://vactrack-87132.firebaseio.com',
-    projectId: 'vactrack-87132',
-    storageBucket: 'vactrack-87132.appspot.com',
-    messagingSenderId: '91574914055',
-    appId: '1:91574914055:web:ff382a849dce483795eea2',
-    measurementId: 'G-RVBYD3F8WN',
-}
-
-firebase.initializeApp(firebaseConfig)
-firebase.analytics()
+// firebase.firestore()
 
 const theme = createMuiTheme({
     palette: {

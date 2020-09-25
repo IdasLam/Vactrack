@@ -85,3 +85,11 @@ export const anyActiveVaccines = (vaccinations: Vaccinations) => {
 
     return vaccines.includes(true)
 }
+
+export const getDataForUser = (value: Family, firstname: string | null) => {
+    return Object.entries(value).find((row) => {
+        const fullname = row[0].toLowerCase()
+
+        return firstname !== null && fullname.includes(firstname)
+    })
+}

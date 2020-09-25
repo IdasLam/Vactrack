@@ -19,12 +19,10 @@ const PastCards: FunctionComponent<Cards> = (props) => {
                 <div className="vaccine-card" key={name + convertDate(date)}>
                     <p className="vaccine-name">{name}</p>
                     {revaccination ? <span>{convertDate(revaccination)}</span> : null}
-                    <p>Vaccination date: {convertDate(date)}</p>
+                    <p>Most recent vaccination: {convertDate(date)}</p>
                 </div>
             )
         })
-
-        console.log(cards)
 
         return cards
     }

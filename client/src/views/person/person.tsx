@@ -39,8 +39,6 @@ const Person: FunctionComponent = (props) => {
     }, [setFirstname])
 
     useEffect(() => {
-        console.log(value)
-
         if (value) {
             setData(fetch.getDataForUser(value, firstname))
         }

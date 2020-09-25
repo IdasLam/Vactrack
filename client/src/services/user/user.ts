@@ -5,7 +5,7 @@ const provider = new firebase.auth.GoogleAuthProvider()
 
 export const signIn = () => {
     firebase.auth().signInWithRedirect(provider)
-    console.log('loged')
+    // console.log('loged')
 }
 
 export const signOut = () => {

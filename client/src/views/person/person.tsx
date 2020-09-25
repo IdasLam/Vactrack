@@ -12,6 +12,7 @@ import * as family from '../../models/family'
 import EditIcon from '@material-ui/icons/Edit'
 import './person.scss'
 import Upcoming from '../../components/vaccine/upcoming'
+import PastCards from '../../components/vaccine/past'
 
 const firestore = firebase.firestore()
 
@@ -24,6 +25,7 @@ const Person: FunctionComponent = (props) => {
     const [data, setData] = useState<[string, family.Person] | undefined>()
     const [upcomingVaccinations, setUpcomingVaccionations] = useState<family.Vaccinations>()
     const [anyActiveVaccines, setAnyActiveVaccines] = useState<boolean>(false)
+    const [allVaccinations, setAllVaccintaions] = useState<family.AllTypesOfVaccines[]>([])
 
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
@@ -47,6 +49,7 @@ const Person: FunctionComponent = (props) => {
     useEffect(() => {
         if (data && value) {
             setUpcomingVaccionations(fetch.filterActiveVaccinesByPerson(value, data[0]))
+            setAllVaccintaions(fetch.pastVaccinatons(value, data[0]))
         }
     }, [data])
 
@@ -59,8 +62,6 @@ const Person: FunctionComponent = (props) => {
     if (loading) {
         return <Loader />
     }
-
-    console.log(value)
 
     if (data) {
         return (
@@ -76,6 +77,13 @@ const Person: FunctionComponent = (props) => {
                     >
                         <p>Upcoming vaccinations</p>
                         <Upcoming vaccines={upcomingVaccinations} />
+                    </div>
+                    <div
+                        className="past-vaccinations"
+                        style={allVaccinations.length > 0 ? { display: 'block' } : { display: 'none' }}
+                    >
+                        <p>Past vaccinations</p>
+                        <PastCards vaccines={allVaccinations} />
                     </div>
                 </section>
             </Layout>

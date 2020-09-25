@@ -1,16 +1,10 @@
 import React, { FunctionComponent } from 'react'
 import dayjs from 'dayjs'
-import { Vaccinations } from '../../models/family'
+import { ActiveVaccinations } from '../../models/family'
 import './upcoming.scss'
 
-type Vaccine = {
-    vaccines: Vaccinations
-}
-
-const Upcoming: FunctionComponent<Vaccine> = (props) => {
+const Upcoming: FunctionComponent<ActiveVaccinations> = (props) => {
     const { vaccines } = props
-
-    console.log(vaccines)
 
     const convertDate = (date: firebase.firestore.Timestamp) => {
         return dayjs(date.toDate()).format('YYYY/MM/DD')

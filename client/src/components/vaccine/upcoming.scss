@@ -1,0 +1,54 @@
+.upcoming-vaccinations {
+    padding: 20px 0;
+
+    .vaccine-card{
+        position: relative;
+        box-shadow: 0px 4px 10px 0px #00000052;
+        padding: 20px 40px;
+        border-radius: 10px;
+        color: white;
+        font-family: 'Roboto', sans-serif;
+        
+        p {
+            color: inherit;
+            margin: 10px 0;
+        }
+
+        p:first-child {
+            margin-top: 0;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+            font-size: clamp(16px, 3vw, 22px);
+        }
+
+        .vaccine-name,
+        span {
+            font-weight: bold;
+        }
+
+        span {
+            margin: 20px 40px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}
+
+.vaccine-card:nth-child(1n){
+    background-color: #e91e63;
+}
+
+.vaccine-card:nth-child(2n){
+    background-color: #9c27b0;
+}
+
+.vaccine-card:nth-child(3n){
+    background-color: #673ab7;
+}
+
+.vaccine-card:nth-child(4n){
+    background-color: #2196f3;
+}

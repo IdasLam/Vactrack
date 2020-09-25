@@ -1,73 +1,82 @@
-import React, { FunctionComponent, useState } from 'react'
-import Logo from '../../components/logo/logo'
+import React, { FunctionComponent, useEffect, useState } from 'react'
+import SloganLogo from '../../components/logo/sloganlogo'
 import './login.scss'
-// import { TextField, Button } from '@material-ui/core'
-import * as validate from "../../services/validation"
-import * as user from "../../services/user"
-import MicrosoftLogin from "react-microsoft-login";
+import { Button, CircularProgress } from '@material-ui/core'
+import * as user from '../../services/user/user'
+import * as fetch from '../../services/family/family'
+import { useHistory } from 'react-router-dom'
 
-type Credentials = {
-    email: string | null,
-    password: string | null
-}
+const auth = async (history: any, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
+    // try {
+    setLoading(true)
+    const result = await user.Oauth()
 
-type ValidatedCredentials = {
-    email: string,
-    password: string
+    if (result.credential) {
+        const user = result.user
+
+        if (user !== null) {
+            setLoading(false)
+            const response = await fetch.login(user.uid, user.displayName ?? 'user')
+
+            if (response === 200) {
+                return history.replace('/home')
+            }
+        }
+    }
+    setLoading(false)
+    // } catch (error) {
+    //     setLoading(false)
+    //     const errorMessage = error.message
+
+    //     if (errorMessage === 'Request failed with status code 404') {
+    //         console.log('not in databse')
+    //         const success = await createUser()
+
+    //         if (success) {
+    //             return history.replace('/home')
+    //         }
+
+    //         console.log('error unable to create user')
+    //     }
+    // }
 }
 
 const Login: FunctionComponent = () => {
-    const client_id = '8369cae8-b48f-4086-ae04-a728930b4a05'
-    // const emailInput = "login-email"
-    // const passwordInput = "login-password"
+    const history = useHistory()
+    const [loading, setLoading] = useState(false)
 
-    // const [validEmail, setValidEmail] = useState(true)
-    // const [validPassword, setValidPassword] = useState(true)
-    // const [credentials, setCredentials] = useState<Credentials>({email: null, password: null})
+    useEffect(() => {
+        const loggedIn = user.isLoggedIn()
 
-    // const handeInput = (id: string) => (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    //     const input = event.target.value
-        
-        
-    //     switch (id) {
-    //         case emailInput:
-    //             setValidEmail(validate.email(input))
-    //             setCredentials({...credentials, email: emailInput})
-    //             break;
-                
-    //         case passwordInput:
-    //             setValidPassword(validate.password(input))
-    //             setCredentials({...credentials, password: passwordInput})
-    //         break;
-    //     }
-    // }
+        if (!loggedIn) {
+            auth(history, setLoading)
+        }
+    }, [history, setLoading])
 
-    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault()
-    //     console.log("hello");
-        
-
-    //     if (credentials.email === null || credentials.password === null) {
-    //         return
-    //     }
-
-    //     user.login(credentials as ValidatedCredentials)
-    // }
-
-    const authHandler = (err: any, data: any) => {
-        console.log(err, data);
-    };
+    if (loading) {
+        return (
+            <div className="loader">
+                <CircularProgress />
+            </div>
+        )
+    }
 
     return (
         <div className="login-container">
-            <Logo />
+            <SloganLogo />
             <div className="image-wrapper">
                 <img className="login-container__img" src="login.png" alt="" />
             </div>
             <div className="login-container_register_login">
                 <div>
                     <h1>Login</h1>
-                    <MicrosoftLogin clientId={client_id} authCallback={authHandler} />
+                    <Button
+                        onClick={() => {
+                            user.signIn()
+                        }}
+                    >
+                        <img src="btn_google_signin_light_normal_web.png" alt="" />
+                    </Button>
                 </div>
             </div>
         </div>

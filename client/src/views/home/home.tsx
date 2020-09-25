@@ -14,12 +14,13 @@ const firestore = firebase.firestore()
 
 const Home: FunctionComponent = () => {
     const history = useHistory()
+    const [anyActiveVaccines, setAnyActiveVaccines] = useState<boolean>(false)
     const [uid, setUid] = useState<string>()
     const [upcomingVaccinations, setUpcomingVaccionations] = useState<Vaccinations>({})
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
-    console.log(loading)
+    // console.log(loading)
 
     useEffect(() => {
         const isLoggedIn = user.isLoggedIn()
@@ -29,13 +30,20 @@ const Home: FunctionComponent = () => {
         } else {
             setUid(user.getUid())
         }
-    }, [history])
+    }, [history, setUid])
 
     useEffect(() => {
         if (value) {
             setUpcomingVaccionations(fetch.filterActiveVaccines(value))
+            // fetch.anyActiveVaccines(upcomingVaccinations)
         }
     }, [value])
+
+    useEffect(() => {
+        if (upcomingVaccinations) {
+            setAnyActiveVaccines(fetch.anyActiveVaccines(upcomingVaccinations));
+        }
+    }, [upcomingVaccinations])
 
     if (loading) {
         return (
@@ -50,8 +58,8 @@ const Home: FunctionComponent = () => {
             <People family={value} />
             <section className="main-section-container">
                 <p>Featuring</p>
-                <p>Upcoming vaccinations</p>
-                <div className="upcoming-vaccinations">
+                <div className="upcoming-vaccinations" style={!anyActiveVaccines ? {display: 'none'} : {display: 'block'}}>
+                    <p>Upcoming vaccinations</p>
                     <Upcoming vaccines={upcomingVaccinations} />
                 </div>
             </section>

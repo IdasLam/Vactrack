@@ -68,7 +68,12 @@ const Person: FunctionComponent = (props) => {
                 <section className="main-section-container">
                     <div className="person-name">
                         <h1 className="person-name">{data[0]}</h1>
-                        <Button className="edit-person">
+                        <Button
+                            className="edit-person"
+                            onClick={() => {
+                                history.push(`/edit/person?name=${data[0]}`)
+                            }}
+                        >
                             <EditIcon color="primary" />
                         </Button>
                     </div>

@@ -3,7 +3,10 @@
 
     .person-name {
         margin: unset;
-        padding-right: 20px;
         text-transform: capitalize;
     }
+}
+
+.edit-person {
+    padding: unset !important;
 }

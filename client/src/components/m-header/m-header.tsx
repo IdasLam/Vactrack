@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import Logo from '../logo/logo'
 // import { MenuIcon } from '@material-ui/icons'
 import MenuIcon from '@material-ui/icons/Menu'
@@ -11,6 +11,10 @@ import { useHistory } from 'react-router-dom'
 const MHeader: FunctionComponent = () => {
     const [menu, setMenu] = useState(false)
     const history = useHistory()
+
+    useEffect(() => {
+        document.body.style.overflow = menu ? 'hidden' : ''
+    }, [menu])
 
     return (
         <header>

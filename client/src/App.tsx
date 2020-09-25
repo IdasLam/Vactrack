@@ -7,6 +7,7 @@ import indigo from '@material-ui/core/colors/indigo'
 import { BrowserRouter as Router, Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import Login from './views/login/login'
 import Home from './views/home/home'
+import Person from './views/person/person'
 
 // firebase.firestore()
 
@@ -36,15 +37,13 @@ function App() {
         })
     }, [history, setIsLoggedIn])
 
-    // useEffect(() => {
-    //     if (isLoggedIn === true) {
-    //     }
-    // }, [isLoggedIn])
-
     // om loggad in kan inte komma in i / vice versa
     return (
         <ThemeProvider theme={theme}>
             <Switch>
+                <Route path="/person?name=:id">
+                    <Person />
+                </Route>
                 <Route path="/home">
                     <Home />
                 </Route>

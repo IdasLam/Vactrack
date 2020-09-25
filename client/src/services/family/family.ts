@@ -3,7 +3,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import dayjs from 'dayjs'
-import { Family, Vaccinations } from '../../models/family'
+import { ActiveVaccine, Family, Vaccinations } from '../../models/family'
 
 // const auth = firebase.auth()
 const firestore = firebase.firestore()
@@ -50,7 +50,12 @@ export const login = async (uid: string, name: string) => {
     create(uid, name)
 }
 
-export const filterActiveVaccines = (family: Family) => {
+type FilteredActiveVaccines = {
+    [key: string]: ActiveVaccine[]
+}
+
+// Get revaccinations 3 months ahead, whole family
+export const filterActiveVaccines = (family: Family): FilteredActiveVaccines => {
     return Object.entries(family).reduce((acc, curr) => {
         const vaccinationNotificationRange = 3
         const [name, data] = curr
@@ -76,6 +81,7 @@ export const filterActiveVaccines = (family: Family) => {
     }, {})
 }
 
+// for every person in document
 export const anyActiveVaccines = (vaccinations: Vaccinations) => {
     const vaccines = Object.entries(vaccinations).map((row) => {
         const data = row[1]
@@ -92,4 +98,20 @@ export const getDataForUser = (value: Family, firstname: string | null) => {
 
         return firstname !== null && fullname.includes(firstname)
     })
+}
+
+export const filterActiveVaccinesByPerson = (family: Family, name: string) => {
+    const familyActiveVaccines = filterActiveVaccines(family)
+
+    const res = Object.entries(familyActiveVaccines).find((row) => {
+        return row[0] === name
+    })
+
+    if (!res) {
+        return {}
+    }
+
+    const [clientName, data] = res
+
+    return { [clientName]: data }
 }

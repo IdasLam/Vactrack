@@ -3,7 +3,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import dayjs from 'dayjs'
-import { ActiveVaccine, AllTypesOfVaccines, Family, Vaccinations } from '../../models/family'
+import { ActiveVaccine, AllTypesOfVaccines, Family, PastVaccinations, Vaccinations } from '../../models/family'
 
 // const auth = firebase.auth()
 const firestore = firebase.firestore()
@@ -116,16 +116,28 @@ export const filterActiveVaccinesByPerson = (family: Family, name: string) => {
     return { [clientName]: data }
 }
 
-export const pastVaccinatons = (family: Family, name: string) => {
+// export const pastVaccinatons = (allVaccines:AllTypesOfVaccines[]) => {
+//     allVaccines.forEach(vaccine => {
+//         console.log(vaccine);
+
+//     })
+// }
+
+export const pastVaccinatons: PastVaccinations = (family, name) => {
     const person = Object.entries(family).find((row) => {
         return row[0] === name
     })
 
     if (!person) {
-        return {}
+        return []
     }
 
     const [, data] = person
+    // const missingVaccines = data.activeVaccines.filter((activeVaccine) => {
+    //     return data.vaccines.some((vaccine) => {
+    //         return activeVaccine.name === vaccine.name
+    //     })
+    // })
 
     const allVaccinations: AllTypesOfVaccines[] = [...data.activeVaccines, ...data.vaccines]
 

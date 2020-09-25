@@ -21,9 +21,9 @@ const People: FunctionComponent<FamilyProps> = (props) => {
 
     const click = (name?: string) => {
         if (name) {
-            history.replace(`/person?name=${name.toLowerCase()}`)
+            history.push(`/person?name=${name.toLowerCase()}`)
         } else {
-            history.replace(`/add/person`)
+            history.push(`/add/person`)
         }
     }
 

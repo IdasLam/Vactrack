@@ -10,9 +10,11 @@ module.exports = {
         'plugin:prettier/recommended', // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
         'plugin:react/recommended',
     ],
+    plugins: ['react', '@typescript-eslint'],
     rules: {
         // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
         '@typescript-eslint/explicit-module-boundary-types': 'off',
-        '@typescript-eslint/explicit-function-return-type': 'off'
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        'react/prop-types': 'off'
     },
 }

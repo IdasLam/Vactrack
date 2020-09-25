@@ -1,39 +1,31 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import Layout from '../../components/layout/layout'
-import { useHistory } from 'react-router-dom'
 import * as user from '../../services/user/user'
 import * as fetch from '../../services/family/family'
 import firebase from 'firebase/app'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
 import { Family, Vaccinations } from '../../models/family'
-import { CircularProgress } from '@material-ui/core'
 import Upcoming from '../../components/vaccine/upcoming'
 import People from '../../components/people/people'
+import Loader from '../../components/loading/loading'
 
 const firestore = firebase.firestore()
 
 const Home: FunctionComponent = () => {
-    const history = useHistory()
     const [anyActiveVaccines, setAnyActiveVaccines] = useState<boolean>(false)
-    const [uid, setUid] = useState<string>()
     const [upcomingVaccinations, setUpcomingVaccionations] = useState<Vaccinations>({})
+    const [uid, setUid] = useState<string>()
+
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
     useEffect(() => {
-        const isLoggedIn = user.isLoggedIn()
-
-        if (!isLoggedIn) {
-            history.replace('/')
-        } else {
-            setUid(user.getUid())
-        }
-    }, [history, setUid])
+        setUid(user.getUid())
+    }, [setUid])
 
     useEffect(() => {
         if (value) {
             setUpcomingVaccionations(fetch.filterActiveVaccines(value))
-            // fetch.anyActiveVaccines(upcomingVaccinations)
         }
     }, [value])
 
@@ -44,11 +36,7 @@ const Home: FunctionComponent = () => {
     }, [upcomingVaccinations])
 
     if (loading) {
-        return (
-            <div className="loader">
-                <CircularProgress />
-            </div>
-        )
+        return <Loader />
     }
 
     return (

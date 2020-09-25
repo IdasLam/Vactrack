@@ -1,12 +1,11 @@
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
-import { stringify } from 'querystring'
-import * as fetch from '../family/family'
 
 const provider = new firebase.auth.GoogleAuthProvider()
 
 export const signIn = () => {
     firebase.auth().signInWithRedirect(provider)
+    console.log('loged')
 }
 
 export const signOut = () => {

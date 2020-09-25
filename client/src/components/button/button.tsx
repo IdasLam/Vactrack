@@ -8,7 +8,6 @@ const MiddeButton: FunctionComponent = () => {
     const path = window.location.pathname
     const addVaccine = ['/home', '/profile']
     const history = useHistory()
-    // const addPerson = ['/home', '/profile']
 
     if (addVaccine.includes(path)) {
         return (
@@ -16,7 +15,7 @@ const MiddeButton: FunctionComponent = () => {
                 <Button
                     variant="contained"
                     onClick={() => {
-                        history.replace('/add/vaccine')
+                        history.push('/add/vaccine')
                     }}
                 >
                     <AddIcon fontSize="large" />

@@ -4,8 +4,6 @@ import './layout.scss'
 import MiddeButton from '../button/button'
 
 const Layout: FunctionComponent = (props) => {
-    const path = window.location.pathname
-
     return (
         <div>
             <MHeader />

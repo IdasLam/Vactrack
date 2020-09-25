@@ -14,17 +14,20 @@ const MHeader: FunctionComponent = () => {
 
     return (
         <header>
-            <div className="menu-header">
-                <Button
-                    onClick={() => {
-                        setMenu(true)
-                    }}
-                >
-                    <MenuIcon color="primary" fontSize="large" />
-                </Button>
-                <Button onClick={() => history.push('/home')}>
-                    <Logo />
-                </Button>
+            <div className="mobile-menu-header">
+                <div>
+                    <Button
+                        onClick={() => {
+                            setMenu(true)
+                        }}
+                        className="burgermenu"
+                    >
+                        <MenuIcon color="primary" fontSize="large" />
+                    </Button>
+                    <Button onClick={() => history.push('/home')}>
+                        <Logo />
+                    </Button>
+                </div>
             </div>
             <div>
                 {/* {menu ?  : null} */}

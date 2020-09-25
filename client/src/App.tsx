@@ -34,12 +34,12 @@ function App() {
                 history.replace('/home')
             }
         })
-    }, [setIsLoggedIn])
+    }, [history, setIsLoggedIn])
 
-    useEffect(() => {
-        if (isLoggedIn === true) {
-        }
-    }, [isLoggedIn])
+    // useEffect(() => {
+    //     if (isLoggedIn === true) {
+    //     }
+    // }, [isLoggedIn])
 
     // om loggad in kan inte komma in i / vice versa
     return (

@@ -13,6 +13,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import './person.scss'
 import Upcoming from '../../components/vaccine/upcoming'
 import PastCards from '../../components/vaccine/past'
+import { Button } from '@material-ui/core'
 
 const firestore = firebase.firestore()
 
@@ -67,7 +68,9 @@ const Person: FunctionComponent = (props) => {
                 <section className="main-section-container">
                     <div className="person-name">
                         <h1 className="person-name">{data[0]}</h1>
-                        <EditIcon color="primary" />
+                        <Button className="edit-person">
+                            <EditIcon color="primary" />
+                        </Button>
                     </div>
                     <div
                         className="upcoming-vaccinations"

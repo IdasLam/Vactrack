@@ -30,3 +30,7 @@ export type Vaccinations = {
 export type ActiveVaccinations = {
     vaccines: Vaccinations | undefined
 }
+
+export type AllTypesOfVaccines = Vaccine & {
+    revaccination?: firebase.firestore.Timestamp
+}

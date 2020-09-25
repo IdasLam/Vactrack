@@ -1,0 +1,9 @@
+.person-name {
+    display: inline-flex;
+
+    .person-name {
+        margin: unset;
+        padding-right: 20px;
+        text-transform: capitalize;
+    }
+}

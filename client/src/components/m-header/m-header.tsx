@@ -6,9 +6,11 @@ import Button from '@material-ui/core/Button'
 import './header.scss'
 import { CSSTransition } from 'react-transition-group'
 import './menu.scss'
+import { useHistory } from 'react-router-dom'
 
 const MHeader: FunctionComponent = () => {
     const [menu, setMenu] = useState(false)
+    const history = useHistory()
 
     return (
         <header>
@@ -20,7 +22,9 @@ const MHeader: FunctionComponent = () => {
                 >
                     <MenuIcon color="primary" fontSize="large" />
                 </Button>
-                <Logo />
+                <Button onClick={() => history.push('/home')}>
+                    <Logo />
+                </Button>
             </div>
             <div>
                 {/* {menu ?  : null} */}

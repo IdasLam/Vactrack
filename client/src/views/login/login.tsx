@@ -48,12 +48,10 @@ const Login: FunctionComponent = () => {
     useEffect(() => {
         const loggedIn = user.isLoggedIn()
 
-        console.log(loggedIn)
-
         if (!loggedIn) {
             auth(history, setLoading)
         }
-    }, [])
+    }, [history, setLoading])
 
     if (loading) {
         return (

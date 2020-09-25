@@ -26,3 +26,7 @@ export type FamilyProps = {
 export type Vaccinations = {
     [key: string]: ActiveVaccine[]
 }
+
+export type ActiveVaccinations = {
+    vaccines: Vaccinations
+}

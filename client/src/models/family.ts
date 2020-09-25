@@ -34,3 +34,5 @@ export type ActiveVaccinations = {
 export type AllTypesOfVaccines = Vaccine & {
     revaccination?: firebase.firestore.Timestamp
 }
+
+export type PastVaccinations = (family: Family, name: string) => AllTypesOfVaccines[]

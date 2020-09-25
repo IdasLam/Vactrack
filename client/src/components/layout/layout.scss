@@ -5,4 +5,11 @@ main {
 .main-section-container {
     width: 90%;
     margin: 0 auto;
+
+    h1 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        font-size: clamp(16px, 6vw, 32px);
+
+    }
 }

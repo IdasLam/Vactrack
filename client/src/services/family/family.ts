@@ -60,19 +60,18 @@ export const filterActiveVaccines = (family: Family) => {
             const upcomingVaccines = activeVaccines.filter((vaccine) => {
                 const date = dayjs(vaccine.date.toDate())
                 const diff = date.diff(dayjs(), 'month')
-    
+
                 return diff <= vaccinationNotificationRange && diff >= 0
             })
-    
+
             return {
                 ...acc,
                 [name]: upcomingVaccines,
             }
-
         }
 
         return {
-            ...acc
+            ...acc,
         }
     }, {})
 }
@@ -82,7 +81,7 @@ export const anyActiveVaccines = (vaccinations: Vaccinations) => {
         const data = row[1]
 
         return data.length > 0
-    });
+    })
 
     return vaccines.includes(true)
 }

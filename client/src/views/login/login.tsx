@@ -1,66 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import SloganLogo from '../../components/logo/sloganlogo'
 import './login.scss'
-import { Button, CircularProgress } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import * as user from '../../services/user/user'
-import * as fetch from '../../services/family/family'
-import { useHistory } from 'react-router-dom'
-
-const auth = async (history: any, setLoading: React.Dispatch<React.SetStateAction<boolean>>) => {
-    // try {
-    setLoading(true)
-    const result = await user.Oauth()
-
-    if (result.credential) {
-        const user = result.user
-
-        if (user !== null) {
-            setLoading(false)
-            const response = await fetch.login(user.uid, user.displayName ?? 'user')
-
-            if (response === 200) {
-                return history.replace('/home')
-            }
-        }
-    }
-    setLoading(false)
-    // } catch (error) {
-    //     setLoading(false)
-    //     const errorMessage = error.message
-
-    //     if (errorMessage === 'Request failed with status code 404') {
-    //         console.log('not in databse')
-    //         const success = await createUser()
-
-    //         if (success) {
-    //             return history.replace('/home')
-    //         }
-
-    //         console.log('error unable to create user')
-    //     }
-    // }
-}
 
 const Login: FunctionComponent = () => {
-    const history = useHistory()
-    const [loading, setLoading] = useState(false)
-
-    useEffect(() => {
-        const loggedIn = user.isLoggedIn()
-
-        if (!loggedIn) {
-            auth(history, setLoading)
-        }
-    }, [history, setLoading])
-
-    if (loading) {
-        return (
-            <div className="loader">
-                <CircularProgress />
-            </div>
-        )
-    }
-
     return (
         <div className="login-container">
             <SloganLogo />

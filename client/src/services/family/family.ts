@@ -3,9 +3,9 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import dayjs from 'dayjs'
-import { Family, Person } from '../../models/family'
+import { Family, Vaccinations } from '../../models/family'
 
-const auth = firebase.auth()
+// const auth = firebase.auth()
 const firestore = firebase.firestore()
 
 // type Fetch = (uid: string, name?: string) => Promise<AxiosResponse<any>>
@@ -25,7 +25,7 @@ export const create = async (uid: string, name: string) => {
         [name]: {
             status: 'user',
             vaccines: [],
-            activeVaccines: firebase.firestore.FieldValue.serverTimestamp(),
+            activeVaccines: [],
         },
     })
 
@@ -56,46 +56,33 @@ export const filterActiveVaccines = (family: Family) => {
         const [name, data] = curr
         const { activeVaccines } = data
 
-        const upcomingVaccines = activeVaccines.filter((vaccine) => {
-            const date = dayjs(vaccine.date.toDate())
-            const diff = date.diff(dayjs(), 'month')
+        if (activeVaccines !== undefined) {
+            const upcomingVaccines = activeVaccines.filter((vaccine) => {
+                const date = dayjs(vaccine.date.toDate())
+                const diff = date.diff(dayjs(), 'month')
+    
+                return diff <= vaccinationNotificationRange && diff >= 0
+            })
+    
+            return {
+                ...acc,
+                [name]: upcomingVaccines,
+            }
 
-            return diff <= vaccinationNotificationRange && diff >= 0
-        })
+        }
 
         return {
-            ...acc,
-            [name]: upcomingVaccines,
+            ...acc
         }
     }, {})
 }
 
-// const ppl = {
-//     'alle balle': {
-//         age: 10,
-//         money: 4,
-//     },
-//     knullfitta: {
-//         age: 12,
-//         money: 5,
-//     },
-//     boll: {
-//         age: 2,
-//         money: 6,
-//     },
-// }
+export const anyActiveVaccines = (vaccinations: Vaccinations) => {
+    const vaccines = Object.entries(vaccinations).map((row) => {
+        const data = row[1]
 
-// Object.entries(ppl).reduce((acc, curr) => {
-//     const [name, data] = curr
-//     const { money, age } = data
+        return data.length > 0
+    });
 
-//     if (age < 10) {
-//         return acc
-//     }
-
-//     return {
-//         ...acc,
-//         [name]: money
-//     }
-
-// }, {})
+    return vaccines.includes(true)
+}

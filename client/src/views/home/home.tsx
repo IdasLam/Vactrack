@@ -20,8 +20,6 @@ const Home: FunctionComponent = () => {
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
-    // console.log(loading)
-
     useEffect(() => {
         const isLoggedIn = user.isLoggedIn()
 
@@ -41,7 +39,7 @@ const Home: FunctionComponent = () => {
 
     useEffect(() => {
         if (upcomingVaccinations) {
-            setAnyActiveVaccines(fetch.anyActiveVaccines(upcomingVaccinations));
+            setAnyActiveVaccines(fetch.anyActiveVaccines(upcomingVaccinations))
         }
     }, [upcomingVaccinations])
 
@@ -58,7 +56,10 @@ const Home: FunctionComponent = () => {
             <People family={value} />
             <section className="main-section-container">
                 <p>Featuring</p>
-                <div className="upcoming-vaccinations" style={!anyActiveVaccines ? {display: 'none'} : {display: 'block'}}>
+                <div
+                    className="upcoming-vaccinations"
+                    style={!anyActiveVaccines ? { display: 'none' } : { display: 'block' }}
+                >
                     <p>Upcoming vaccinations</p>
                     <Upcoming vaccines={upcomingVaccinations} />
                 </div>

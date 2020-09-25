@@ -11,6 +11,10 @@ const Upcoming: FunctionComponent<ActiveVaccinations> = (props) => {
     }
 
     const cards = () => {
+        if (!vaccines) {
+            return null
+        }
+
         return Object.entries(vaccines).map((person) => {
             const [name, upcomingVaccinations] = person
             const upcomingCards = upcomingVaccinations.map((vaccine) => {

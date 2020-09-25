@@ -28,5 +28,5 @@ export type Vaccinations = {
 }
 
 export type ActiveVaccinations = {
-    vaccines: Vaccinations
+    vaccines: Vaccinations | undefined
 }

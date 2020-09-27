@@ -3,7 +3,7 @@ import Layout from '../../components/layout/layout'
 import * as user from '../../services/user/user'
 import * as fetch from '../../services/family/family'
 import firebase from 'firebase/app'
-import { useDocumentData } from 'react-firebase-hooks/firestore'
+import { useDocumentData, useCollectionData } from 'react-firebase-hooks/firestore'
 import { Family, Vaccinations } from '../../models/family'
 import Upcoming from '../../components/vaccine/upcoming'
 import People from '../../components/people/people'
@@ -17,11 +17,20 @@ const Home: FunctionComponent = () => {
     const [uid, setUid] = useState<string>()
 
     const doc = firestore.doc(`family/${uid}`)
+    // firestore.collection
+    const article = firestore.collection(`articles`)
     const [value, loading] = useDocumentData<Family>(doc)
+    const [articles, loadingArticles] = useCollectionData(article)
 
     useEffect(() => {
         setUid(user.getUid())
     }, [setUid])
+
+    useEffect(() => {
+        if (articles) {
+            console.log(articles)
+        }
+    }, [articles])
 
     useEffect(() => {
         if (value) {
@@ -35,7 +44,7 @@ const Home: FunctionComponent = () => {
         }
     }, [upcomingVaccinations])
 
-    if (loading) {
+    if (loading || loadingArticles) {
         return <Loader />
     }
 

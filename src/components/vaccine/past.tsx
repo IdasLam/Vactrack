@@ -27,7 +27,7 @@ const PastCards: FunctionComponent<Cards> = (props) => {
         return cards
     }
 
-    return <div>{generateCards()}</div>
+    return <div className='past-vaccinations-container'>{generateCards()}</div>
 }
 
 export default PastCards

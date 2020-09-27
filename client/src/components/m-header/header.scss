@@ -32,3 +32,27 @@ header {
         }
     }
 }
+
+.menu-container {
+    .menu-links {
+        padding-top: 5vh;
+        display: grid;
+        text-align: left;
+        gap: 5vh;
+
+        a:hover {
+            color: rgb(124, 124, 124);
+        }
+
+        a {
+            text-decoration: unset;
+            font-family: 'Roboto', sans-serif;
+            color: #000;
+            transition: color 0.2s ease-in-out;
+        }
+
+        .logout {
+            text-align: center;
+        }
+    }
+}

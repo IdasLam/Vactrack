@@ -3,7 +3,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import dayjs from 'dayjs'
-import { ActiveVaccine, AllTypesOfVaccines, Family, PastVaccinations, Vaccinations } from '../../models/family'
+import { Person, ActiveVaccine, AllTypesOfVaccines, Family, PastVaccinations, Vaccinations } from '../../models/family'
 
 // const auth = firebase.auth()
 const firestore = firebase.firestore()
@@ -142,4 +142,12 @@ export const pastVaccinatons: PastVaccinations = (family, name) => {
     const allVaccinations: AllTypesOfVaccines[] = [...data.activeVaccines, ...data.vaccines]
 
     return allVaccinations
+}
+
+type UserStatus = (data: [string, Person]) => string
+
+export const getUserStatus: UserStatus = (data) => {
+    const userData = data[1]
+
+    return userData.status
 }

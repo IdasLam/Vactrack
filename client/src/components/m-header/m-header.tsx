@@ -1,16 +1,25 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import Logo from '../logo/logo'
-// import { MenuIcon } from '@material-ui/icons'
 import MenuIcon from '@material-ui/icons/Menu'
 import Button from '@material-ui/core/Button'
 import './header.scss'
 import { CSSTransition } from 'react-transition-group'
 import './menu.scss'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import * as user from '../../services/user/user'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 const MHeader: FunctionComponent = () => {
     const [menu, setMenu] = useState(false)
     const history = useHistory()
+
+    const signOut = () => {
+        user.signOut()
+            .then(() => {
+                history.push('/')
+            })
+            .catch(console.error)
+    }
 
     useEffect(() => {
         document.body.style.overflow = menu ? 'hidden' : ''
@@ -38,6 +47,19 @@ const MHeader: FunctionComponent = () => {
                 <CSSTransition in={menu} timeout={300} classNames="menu-transition">
                     <div className="menu-container">
                         <h1>menu</h1>
+                        <div className="menu-links">
+                            <p>
+                                <Link to="/add/person">Add Person</Link>
+                            </p>
+                            <p>
+                                <Link to="/add/person">Add Vaccination</Link>
+                            </p>
+                            <div className="logout">
+                                <Button onClick={signOut}>
+                                    <ExitToAppIcon fontSize="large" color="primary" />
+                                </Button>
+                            </div>
+                        </div>
                     </div>
                 </CSSTransition>
                 <CSSTransition in={menu} timeout={300} classNames="bg-show">

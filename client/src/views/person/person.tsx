@@ -17,12 +17,13 @@ import { Button } from '@material-ui/core'
 
 const firestore = firebase.firestore()
 
-const Person: FunctionComponent = (props) => {
+const Person: FunctionComponent = () => {
     const history = useHistory()
     const query = useQuery()
 
     const [firstname, setFirstname] = useState<string | null>(null)
     const [uid, setUid] = useState<string>()
+    const [status, setStatus] = useState<string>()
     const [data, setData] = useState<[string, family.Person] | undefined>()
     const [upcomingVaccinations, setUpcomingVaccionations] = useState<family.Vaccinations>()
     const [anyActiveVaccines, setAnyActiveVaccines] = useState<boolean>(false)
@@ -47,6 +48,7 @@ const Person: FunctionComponent = (props) => {
 
     useEffect(() => {
         if (data && value) {
+            setStatus(fetch.getUserStatus(data))
             setUpcomingVaccionations(fetch.filterActiveVaccinesByPerson(value, data[0]))
             setAllVaccintaions(fetch.pastVaccinatons(value, data[0]))
         }
@@ -76,6 +78,9 @@ const Person: FunctionComponent = (props) => {
                         >
                             <EditIcon color="primary" />
                         </Button>
+                    </div>
+                    <div className="status">
+                        <p>Person status: {status}</p>
                     </div>
                     <div
                         className="upcoming-vaccinations"

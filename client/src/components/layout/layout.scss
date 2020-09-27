@@ -5,6 +5,7 @@ main {
 .main-section-container {
     width: 90%;
     margin: 0 auto;
+    padding: 3vh 0px;
 
     h1 {
         font-family: 'Roboto', sans-serif;
@@ -17,9 +18,17 @@ main {
 
 @media only screen and (min-width: 950px) {
 
+    body {
+        background-color: #fff;
+    }
+
+    main {
+        overflow: auto;
+    }
+
     .wrapper-container {
         display: grid;
-        grid-template-columns: 1fr 4fr;
+        grid-template-columns: 1fr 3fr;
         
         header {
             .mobile-menu-header {
@@ -28,7 +37,4 @@ main {
     
         }
     }
-
-
-
 }

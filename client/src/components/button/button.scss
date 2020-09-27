@@ -21,3 +21,10 @@
         background-color: #6600ff;
     }
 }
+
+
+@media only screen and (min-width: 950px) {
+    .add_new {
+        left: calc(100vw / 4 + (100vw / 4) * 1.5);
+    }
+}

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import MHeader from '../m-header/m-header'
 import DHeader from '../d-header/d-header'
 import './layout.scss'

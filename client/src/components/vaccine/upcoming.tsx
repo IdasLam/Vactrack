@@ -29,7 +29,7 @@ const Upcoming: FunctionComponent<ActiveVaccinations> = (props) => {
         })
     }
 
-    return <div>{cards()}</div>
+    return <div className="upcoming-vaccine-cards-container">{cards()}</div>
 }
 
 export default Upcoming

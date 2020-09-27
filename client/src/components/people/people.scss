@@ -38,19 +38,58 @@
         background-color: #e91e63;
     }
 
+    .person-container:nth-child(1n):hover{
+        background-color: #c2185b;
+    }
+
     .person-container:nth-child(2n){
         background-color: #9c27b0;
+    }
+    
+    .person-container:nth-child(2n):hover{
+        background-color: #7b1fa2;
     }
     
     .person-container:nth-child(3n){
         background-color: #673ab7;
     }
+
+    .person-container:nth-child(3n):hover{
+        background-color: #512da8;
+    }
     
     .person-container:nth-child(4n){
         background-color: #2196f3;
     }
+    
+    .person-container:nth-child(4n):hover{
+        background-color: #1976d2;
+    }
 
     .new-person {
         background-color: #9e9e9e !important;
+    }
+}
+
+@media only screen and (min-width: 950px) {
+
+    .people-container {
+        gap: 5vw;
+        .person-container {
+            min-width: 20vw;
+
+            &:last-child {
+                margin-right: unset;
+            }
+        }
+
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .people-container {
+        .person-container {
+            min-width: 15vw;
+        }
     }
 }

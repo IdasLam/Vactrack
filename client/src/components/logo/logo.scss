@@ -14,4 +14,22 @@
         font-size: clamp(16px, 5vw, 26px);
         font-family: 'Ruda', sans-serif;
     }
+
+}
+
+.logo-container-slogan {
+    display: block;
+    padding: 10vh 0;
+    text-align: center;
+
+    .logo-container__img {
+        width: 100%;
+        max-width: 70%;
+    }
+
+    .logo-container__slogan {
+        text-align: center;
+        font-size: clamp(16px, 5vw, 26px);
+        font-family: 'Ruda', sans-serif;
+    }
 }

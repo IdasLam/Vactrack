@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react'
 import './header.scss'
 import Button from '@material-ui/core/Button'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import Logo from '../logo/logo'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 const DHeader: FunctionComponent = () => {
     const history = useHistory()
@@ -12,6 +13,19 @@ const DHeader: FunctionComponent = () => {
                 <Button onClick={() => history.push('/home')}>
                     <Logo />
                 </Button>
+                <div className="menu-links">
+                    <p>
+                        <Link to="/add/person">Add Person</Link>
+                    </p>
+                    <p>
+                        <Link to="/add/person">Add Vaccination</Link>
+                    </p>
+                    <div className="logout">
+                        <Button>
+                            <ExitToAppIcon fontSize="large" color="primary" />
+                        </Button>
+                    </div>
+                </div>
             </div>
         </header>
     )

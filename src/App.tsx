@@ -10,6 +10,8 @@ import Home from './views/home/home'
 import Person from './views/person/person'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import Loader from './components/loading/loading'
+import AddPerson from './views/add/person'
+import AddVaccine from './views/add/person'
 
 const theme = createMuiTheme({
     palette: {
@@ -49,6 +51,12 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <Switch>
+                <Route path="/add/person">
+                    <AddPerson />
+                </Route>
+                <Route path="/add/vaccine">
+                    <AddVaccine />
+                </Route>
                 <Route path="/person">
                     <Person />
                 </Route>

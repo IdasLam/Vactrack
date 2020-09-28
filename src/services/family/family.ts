@@ -151,3 +151,13 @@ export const getUserStatus: UserStatus = (data) => {
 
     return userData.status
 }
+
+export const getAllNames = (data: Family) => {
+    const names = Object.entries(data).map((row) => {
+        const [name] = row
+
+        return name
+    })
+
+    return names
+}

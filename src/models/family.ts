@@ -36,3 +36,5 @@ export type AllTypesOfVaccines = Vaccine & {
 }
 
 export type PastVaccinations = (family: Family, name: string) => AllTypesOfVaccines[]
+
+export type Name = string

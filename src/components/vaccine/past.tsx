@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react'
 import { AllTypesOfVaccines } from '../../models/family'
-import dayjs from 'dayjs'
 import { convertDate } from '../../helpers/helpers'
 
 type Cards = {
@@ -27,7 +26,7 @@ const PastCards: FunctionComponent<Cards> = (props) => {
         return cards
     }
 
-    return <div className='past-vaccinations-container'>{generateCards()}</div>
+    return <div className="past-vaccinations-container">{generateCards()}</div>
 }
 
 export default PastCards

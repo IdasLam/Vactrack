@@ -1,9 +1,8 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+// import firebase from 'firebase/app'
+// import 'firebase/firestore'
 
-// const auth = firebase.auth()
-const firestore = firebase.firestore()
+import { Article } from '../../models/article'
 
-const getAllArticles = () => {
-    const docRef = firestore.collection('articles')
+export const getOneArticle = (articles: Article[]) => {
+    console.log(articles)
 }

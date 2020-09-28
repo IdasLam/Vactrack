@@ -8,8 +8,9 @@ import { Family, Vaccinations } from '../../models/family'
 import Upcoming from '../../components/vaccine/upcoming'
 import People from '../../components/people/people'
 import Loader from '../../components/loading/loading'
-import { getOneArticle, getTwoArticles } from '../../services/article/article'
-import { Article } from '../../models/article'
+import { getTwoArticles } from '../../services/article/article'
+import * as articleTypes from '../../models/article'
+import Article from '../../components/article/article'
 
 const firestore = firebase.firestore()
 
@@ -17,12 +18,12 @@ const Home: FunctionComponent = () => {
     const [anyActiveVaccines, setAnyActiveVaccines] = useState<boolean>(false)
     const [upcomingVaccinations, setUpcomingVaccionations] = useState<Vaccinations>({})
     const [uid, setUid] = useState<string>()
-    const [twoArticles, setTwoArticle] = useState<Article[]>()
+    const [twoArticles, setTwoArticle] = useState<articleTypes.Article[]>()
 
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
     const colArticle = firestore.collection(`articles`)
-    const [articles, loadingArticles] = useCollectionData<Article>(colArticle)
+    const [articles, loadingArticles] = useCollectionData<articleTypes.Article>(colArticle)
 
     useEffect(() => {
         setUid(user.getUid())
@@ -50,13 +51,14 @@ const Home: FunctionComponent = () => {
         return <Loader />
     }
 
-    console.log(twoArticles)
-
     return (
         <Layout>
             <People family={value} />
             <section className="main-section-container">
-                <p>Featuring</p>
+                <div>
+                    <p>Featuring</p>
+                    <Article articles={twoArticles} />
+                </div>
                 <div
                     className="upcoming-vaccinations"
                     style={!anyActiveVaccines ? { display: 'none' } : { display: 'block' }}

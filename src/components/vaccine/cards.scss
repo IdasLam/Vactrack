@@ -23,7 +23,6 @@
 
         p:last-child {
             margin-bottom: 0;
-            font-size: clamp(16px, 3vw, 22px);
         }
 
         .vaccine-name,
@@ -46,21 +45,41 @@
     background-color: #43a047;
 }
 
+.vaccine-card:nth-child(1n):hover{
+    background-color: #2E7D32;
+}
+
 .vaccine-card:nth-child(2n){
     background-color: #26a69a;
 }
 
-.vaccine-card:nth-child(3n){
+.vaccine-card:nth-child(2n):hover{
     background-color: #0097a7;
 }
 
-.vaccine-card:nth-child(4n){
-    background-color: #1e88e5;
+.vaccine-card:nth-child(3n){
+    background-color: #26a69a;
 }
 
-.vaccine-card:nth-child(5n){
+.vaccine-card:nth-child(3n):hover{
+    background-color: #00897b;
+}
+
+.vaccine-card:nth-child(4n){
     background-color: #673ab7;
 }
+
+.vaccine-card:nth-child(4n):hover{
+    background-color: #512da8;
+}
+.vaccine-card:nth-child(5n){
+    background-color: #78909c;
+}
+
+.vaccine-card:nth-child(5n):hover{
+    background-color: #546e7a;
+}
+
 
 
 @media only screen and (min-width: 1100px) {

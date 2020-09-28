@@ -15,8 +15,6 @@ export const getTwoArticles = (articles: Article[]) => {
     const firstArticle = getOneArticle(articles)
     let secondArticle = getOneArticle(articles)
 
-    console.log(firstArticle !== secondArticle)
-
     while (firstArticle.title === secondArticle.title) {
         secondArticle = getOneArticle(articles)
     }

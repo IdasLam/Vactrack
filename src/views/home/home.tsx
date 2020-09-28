@@ -8,7 +8,7 @@ import { Family, Vaccinations } from '../../models/family'
 import Upcoming from '../../components/vaccine/upcoming'
 import People from '../../components/people/people'
 import Loader from '../../components/loading/loading'
-import { getOneArticle } from '../../services/article/article'
+import { getOneArticle, getTwoArticles } from '../../services/article/article'
 import { Article } from '../../models/article'
 
 const firestore = firebase.firestore()
@@ -17,12 +17,12 @@ const Home: FunctionComponent = () => {
     const [anyActiveVaccines, setAnyActiveVaccines] = useState<boolean>(false)
     const [upcomingVaccinations, setUpcomingVaccionations] = useState<Vaccinations>({})
     const [uid, setUid] = useState<string>()
+    const [twoArticles, setTwoArticle] = useState<Article[]>()
 
     const doc = firestore.doc(`family/${uid}`)
-    // firestore.collection
-    const article = firestore.collection(`articles`)
     const [value, loading] = useDocumentData<Family>(doc)
-    const [articles, loadingArticles] = useCollectionData<Article>(article)
+    const colArticle = firestore.collection(`articles`)
+    const [articles, loadingArticles] = useCollectionData<Article>(colArticle)
 
     useEffect(() => {
         setUid(user.getUid())
@@ -30,7 +30,7 @@ const Home: FunctionComponent = () => {
 
     useEffect(() => {
         if (articles) {
-            getOneArticle(articles)
+            setTwoArticle(getTwoArticles(articles))
         }
     }, [articles])
 
@@ -49,6 +49,8 @@ const Home: FunctionComponent = () => {
     if (loading || loadingArticles) {
         return <Loader />
     }
+
+    console.log(twoArticles)
 
     return (
         <Layout>

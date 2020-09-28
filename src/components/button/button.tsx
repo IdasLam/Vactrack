@@ -7,6 +7,7 @@ import AddIcon from '@material-ui/icons/Add'
 const MiddeButton: FunctionComponent = () => {
     const path = window.location.pathname
     const addVaccine = ['/home', '/person']
+    const add = ['/add/person', '/add/vaccine']
     const history = useHistory()
 
     if (addVaccine.includes(path)) {
@@ -17,6 +18,19 @@ const MiddeButton: FunctionComponent = () => {
                     onClick={() => {
                         history.push('/add/vaccine')
                     }}
+                >
+                    <AddIcon fontSize="large" />
+                </Button>
+            </div>
+        )
+    } else if (add.includes(path)) {
+        return (
+            <div className="add_new">
+                <Button
+                    variant="contained"
+                    // onClick={() => {
+                    //     history.push('/add/vaccine')
+                    // }}
                 >
                     <AddIcon fontSize="large" />
                 </Button>

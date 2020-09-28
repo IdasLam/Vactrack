@@ -3,7 +3,8 @@ import { FormControl, TextField } from '@material-ui/core'
 import Layout from '../../components/layout/layout'
 import firebase from 'firebase/app'
 import * as user from '../../services/user/user'
-import { Family } from '../../models/family'
+import { Family, Name } from '../../models/family'
+import * as fetch from '../../services/family/family'
 import Loader from '../../components/loading/loading'
 
 import { useDocumentData } from 'react-firebase-hooks/firestore'
@@ -14,6 +15,9 @@ const firestore = firebase.firestore()
 
 const AddPerson: FunctionComponent = () => {
     const [errorName, setErrorName] = useState(false)
+
+    const [nameList, setNameList] = useState<Name[]>()
+
     const [uid, setUid] = useState<string>()
 
     useEffect(() => {
@@ -25,16 +29,15 @@ const AddPerson: FunctionComponent = () => {
 
     useEffect(() => {
         if (value) {
-            console.log(value)
+            setNameList(fetch.getAllNames(value))
         }
     }, [value])
-    // const submit = (event) => {
-
-    // }
 
     if (loading) {
         return <Loader />
     }
+
+    console.log(errorName)
 
     return (
         <Layout>
@@ -43,9 +46,13 @@ const AddPerson: FunctionComponent = () => {
                 <FormControl>
                     <TextField
                         onChange={(event) => {
-                            console.log(event.target.value)
+                            if (nameList) {
+                                setErrorName(validation.nameValidation(event.target.value.toLowerCase(), nameList))
+                            } else {
+                                console.error('something went wrong')
+                            }
                         }}
-                        label="text"
+                        label="Name"
                         error={errorName}
                     />
                 </FormControl>

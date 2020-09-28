@@ -29,6 +29,8 @@
         .vaccine-name,
         span {
             font-weight: bold;
+            font-size: clamp(16px, 5vw, 26px);
+
         }
 
         span {
@@ -62,9 +64,15 @@
 
 
 @media only screen and (min-width: 1100px) {
-    .upcoming-vaccine-cards-container {
+    .upcoming-vaccine-cards-container,
+    .past-vaccinations-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 5vw;
+    }
+
+    .past-vaccinations-container {
+        gap: unset;
+        column-gap: 5vw;
     }
 }

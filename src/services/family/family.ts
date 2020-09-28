@@ -3,7 +3,15 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import dayjs from 'dayjs'
-import { Person, ActiveVaccine, AllTypesOfVaccines, Family, PastVaccinations, Vaccinations } from '../../models/family'
+import {
+    Name,
+    Person,
+    ActiveVaccine,
+    AllTypesOfVaccines,
+    Family,
+    PastVaccinations,
+    Vaccinations,
+} from '../../models/family'
 
 // const auth = firebase.auth()
 const firestore = firebase.firestore()
@@ -152,12 +160,18 @@ export const getUserStatus: UserStatus = (data) => {
     return userData.status
 }
 
+type GetNames = (data: Family) => Name[]
+
 export const getAllNames = (data: Family) => {
     const names = Object.entries(data).map((row) => {
         const [name] = row
 
-        return name
+        return name.toLowerCase()
     })
 
-    return names
+    if (names) {
+        return names
+    }
+
+    return []
 }

@@ -4,7 +4,7 @@ import './logo.scss'
 const SloganLogo: FunctionComponent = () => {
     return (
         <div className="logo-container">
-            <img className="logo-container__img" src="vactrack.svg" alt="" />
+            <img className="logo-container__img" src="/vactrack.svg" alt="" />
         </div>
     )
 }

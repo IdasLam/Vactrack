@@ -3,7 +3,7 @@
     padding: 20px 0;
     padding-bottom: 0;
 
-    .vaccine-card{
+    .vaccine-card {
         position: relative;
         box-shadow: 0px 4px 10px 0px #00000052;
         padding: 20px 40px;
@@ -25,14 +25,18 @@
             margin-bottom: 0;
         }
 
-        .vaccine-name,
-        span {
+        .vaccine-name{
             font-weight: bold;
             font-size: clamp(16px, 5vw, 26px);
-
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 12ch;
         }
-
+        
         span {
+            font-size: clamp(12px, 5vw, 16px);
+            font-weight: bold;
             margin: 20px 40px;
             position: absolute;
             top: 0;
@@ -81,13 +85,26 @@
 }
 
 
+@media only screen and (max-width: 1200px) {
+    .upcoming-vaccinations {
+        .vaccine-card {
+            .vaccine-name {
+                max-width: 10ch;
+            }
+        }
+    }
+}
 
-@media only screen and (min-width: 1100px) {
+@media only screen and (min-width: 1200px) {
+    
+
     .upcoming-vaccine-cards-container,
     .past-vaccinations-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 5vw;
+
+
     }
 
     .past-vaccinations-container {

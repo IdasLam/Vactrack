@@ -11,7 +11,7 @@ import Person from './views/person/person'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import Loader from './components/loading/loading'
 import AddPerson from './views/add/person'
-import AddVaccine from './views/add/person'
+import AddVaccine from './views/add/vaccine'
 
 const theme = createMuiTheme({
     palette: {

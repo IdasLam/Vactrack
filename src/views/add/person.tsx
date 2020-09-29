@@ -11,6 +11,7 @@ import { FormControl, TextField, Button, MenuItem, InputLabel } from '@material-
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import dayjs from 'dayjs'
 import dayjsUtils from '@date-io/dayjs'
+import MiddleButtonSubmit from '../../components/button/sumbit'
 
 const firestore = firebase.firestore()
 
@@ -18,7 +19,8 @@ const AddPerson: FunctionComponent = () => {
     const [errorName, setErrorName] = useState(false)
     const [status, setStatus] = useState<string>('')
     const [name, setName] = useState<string>('')
-    const [date, setDate] = useState<any>()
+    const [date, setDate] = useState<any>(dayjs().format('YYYY-MM-DD'))
+    const [valid, setValid] = useState<boolean>(false)
 
     const [nameList, setNameList] = useState<Name[]>()
 
@@ -37,6 +39,14 @@ const AddPerson: FunctionComponent = () => {
         }
     }, [value])
 
+    useEffect(() => {
+        if (name && !errorName && date && status) {
+            setValid(true)
+        } else {
+            setValid(false)
+        }
+    }, [name, date, errorName, status])
+
     if (loading) {
         return <Loader />
     }
@@ -44,7 +54,7 @@ const AddPerson: FunctionComponent = () => {
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        console.log(event.target)
+        console.log(status, name, date)
     }
 
     return (
@@ -88,15 +98,15 @@ const AddPerson: FunctionComponent = () => {
                                 format="YYYY-MM-DD"
                                 margin="normal"
                                 label="Birthday"
-                                value={dayjs().format('YYYY-MM-DD')}
-                                onChange={(date) => setDate(date)}
+                                value={date}
+                                onChange={(inputDate) => setDate(inputDate?.format('YYYY-MM-DD'))}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change date',
                                 }}
                             />
                         </MuiPickersUtilsProvider>
                     </FormControl>
-                    <Button type="submit">YAS</Button>
+                    <MiddleButtonSubmit valid={valid} />
                 </form>
             </section>
         </Layout>

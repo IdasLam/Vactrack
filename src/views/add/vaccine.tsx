@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import Layout from '../../components/layout/layout'
 import firebase from 'firebase/app'
 import * as user from '../../services/user/user'
-// import * as family from '../../services/family/family'
+import * as family from '../../services/family/family'
 import { Family, Name } from '../../models/family'
 import * as fetch from '../../services/family/family'
 import Loader from '../../components/loading/loading'
@@ -10,7 +10,7 @@ import { useDocumentData } from 'react-firebase-hooks/firestore'
 // import * as validation from '../../services/validation/person'
 import { FormControl, TextField, FormControlLabel, Switch, MenuItem, FormGroup } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
-import dayjs from 'dayjs'
+import dayjs, { OpUnitType } from 'dayjs'
 import dayjsUtils from '@date-io/dayjs'
 // import { useHistory } from 'react-router-dom'
 import MiddleButtonSubmit from '../../components/button/sumbit'
@@ -30,7 +30,7 @@ const AddVaccine: FunctionComponent = () => {
     const [date, setDate] = useState<any>(dayjs().format('YYYY-MM-DD'))
     const [revaccinate, setRevaccinate] = useState<boolean>(false)
     const [remindNumber, setRemindNumber] = useState<string>('1')
-    const [remindTime, setRemindTime] = useState<string>('')
+    const [remindTime, setRemindTime] = useState<OpUnitType>('year')
 
     const [remindError, setRemindError] = useState<boolean>(false)
 
@@ -42,32 +42,27 @@ const AddVaccine: FunctionComponent = () => {
         setUid(user.getUid())
     }, [setUid])
 
+    const doc = firestore.doc(`family/${uid}`)
+    const [value, loading] = useDocumentData<Family>(doc)
+
     useEffect(() => {
-        if (inputVaccineName && inputName && date && !revaccinate) {
+        const firstFormIsFilled = inputVaccineName && inputName && date
+        const secondFormIsFilled = revaccinate && !remindError && remindTime
+
+        if (firstFormIsFilled && !revaccinate) {
             setValid(true)
-        } else if (revaccinate && !remindError && remindTime) {
+        } else if (firstFormIsFilled && secondFormIsFilled) {
             setValid(true)
         } else {
             setValid(false)
         }
     }, [inputVaccineName, inputName, date, revaccinate, remindError, remindTime])
 
-    const doc = firestore.doc(`family/${uid}`)
-    const [value, loading] = useDocumentData<Family>(doc)
-
     useEffect(() => {
         if (value) {
             setNameList(fetch.getAllNames(value, false))
         }
     }, [value])
-
-    // useEffect(() => {
-    //     if (name && !errorName && date && status) {
-    //         setValid(true)
-    //     } else {
-    //         setValid(false)
-    //     }
-    // }, [name, date, errorName, status])
 
     if (loading) {
         return <Loader />
@@ -78,11 +73,19 @@ const AddVaccine: FunctionComponent = () => {
 
         console.log(inputVaccineName, inputName, date, revaccinate, remindNumber, remindTime)
 
-        // if (valid && uid && value) {
-        //     const dateformat = date ? firebase.firestore.Timestamp.fromDate(new Date(date)) : ''
-        //     family.addPerson(uid, status, name, dateformat)
-        //     history.push('/home')
-        // }
+        if (valid) {
+            const dateformat = date ? firebase.firestore.Timestamp.fromDate(new Date(date)) : ''
+
+            const revaccinateDate = revaccinate ? dayjs(date).add(parseInt(remindNumber), remindTime) : 0
+
+            if (revaccinateDate) {
+                console.log(dayjs(revaccinateDate).format('YYYY-MM-DD'))
+            }
+
+            // family.addVaccine()
+            //     family.addPerson(uid, status, name, dateformat)
+            //     history.push('/home')
+        }
     }
 
     const addOptions = () => {
@@ -98,7 +101,7 @@ const AddVaccine: FunctionComponent = () => {
     return (
         <Layout>
             <section className="main-section-container person">
-                <h1>Add a new vaccine</h1>
+                <h1>Add a new vaccination</h1>
                 <form onSubmit={submit}>
                     <FormControl>
                         <TextField
@@ -171,10 +174,11 @@ const AddVaccine: FunctionComponent = () => {
                                     value={remindTime}
                                     select
                                     onChange={(event) => {
-                                        setRemindTime(event.target.value)
+                                        setRemindTime(event.target.value as OpUnitType)
                                     }}
                                     required
                                 >
+                                    <MenuItem value="week">week(s)</MenuItem>
                                     <MenuItem value="month">month(s)</MenuItem>
                                     <MenuItem value="year">year(s)</MenuItem>
                                 </TextField>

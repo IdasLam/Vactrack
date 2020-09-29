@@ -69,7 +69,7 @@ const AddPerson: FunctionComponent = () => {
 
     return (
         <Layout>
-            <section className="main-section-container">
+            <section className="main-section-container person">
                 <h1>Add a new person</h1>
                 <form onSubmit={submit}>
                     <FormControl>

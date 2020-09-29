@@ -8,13 +8,13 @@ import * as fetch from '../../services/family/family'
 import Loader from '../../components/loading/loading'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
 import * as validation from '../../services/validation/person'
-import { FormControl, TextField, Button, MenuItem, InputLabel } from '@material-ui/core'
+import { FormControl, TextField, MenuItem } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import dayjs from 'dayjs'
 import dayjsUtils from '@date-io/dayjs'
 import { useHistory } from 'react-router-dom'
 import MiddleButtonSubmit from '../../components/button/sumbit'
-import './person.scss'
+import './form.scss'
 
 const firestore = firebase.firestore()
 // con history

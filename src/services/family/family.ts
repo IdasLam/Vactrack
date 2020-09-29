@@ -67,17 +67,11 @@ export const addPerson = async (
     uid: string,
     status: string,
     name: string,
-    // family: Family,
     date: firebase.firestore.Timestamp | string,
 ) => {
-    // console.log(family)
-    console.log(uid)
-    console.log(status, name, date)
-
     const data = {
-        // ...family,
         [name]: {
-            activeVaccine: [],
+            activeVaccines: [],
             birthday: date,
             status: status,
             vaccines: [],

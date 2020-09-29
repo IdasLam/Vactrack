@@ -63,12 +63,9 @@ export const login = async (uid: string, name: string) => {
 //     return res.data
 // }
 
-export const addPerson = async (
-    uid: string,
-    status: string,
-    name: string,
-    date: firebase.firestore.Timestamp | string,
-) => {
+type AddPerson = (uid: string, status: string, name: string, date: firebase.firestore.Timestamp | string) => void
+
+export const addPerson: AddPerson = async (uid, status, name, date) => {
     const data = {
         [name]: {
             activeVaccines: [],
@@ -79,6 +76,10 @@ export const addPerson = async (
     }
 
     await firestore.collection('family').doc(uid).set(data, { merge: true })
+}
+
+export const addVaccine = async (family: Family, vaccination: string) => {
+    // getDataForUser()
 }
 
 type FilteredActiveVaccines = {

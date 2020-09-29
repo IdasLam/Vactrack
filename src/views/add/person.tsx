@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import Layout from '../../components/layout/layout'
 import firebase from 'firebase/app'
 import * as user from '../../services/user/user'
+import * as family from '../../services/family/family'
 import { Family, Name } from '../../models/family'
 import * as fetch from '../../services/family/family'
 import Loader from '../../components/loading/loading'
@@ -54,7 +55,10 @@ const AddPerson: FunctionComponent = () => {
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        console.log(status, name, date)
+        if (valid && uid && value) {
+            const dateformat = date ? firebase.firestore.Timestamp.fromDate(new Date(date)) : ''
+            family.addPerson(uid, status, name, dateformat)
+        }
     }
 
     return (

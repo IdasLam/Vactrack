@@ -3,7 +3,6 @@ import { Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import './button.scss'
 import AddIcon from '@material-ui/icons/Add'
-import CheckIcon from '@material-ui/icons/Check'
 
 const MiddeButton: FunctionComponent = () => {
     const path = window.location.pathname

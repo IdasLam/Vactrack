@@ -38,13 +38,13 @@ const Person: FunctionComponent = () => {
 
     useEffect(() => {
         setFirstname(query.get('name') ?? null)
-    }, [setFirstname])
+    }, [setFirstname, query])
 
     useEffect(() => {
         if (value) {
             setData(fetch.getDataForUser(value, firstname))
         }
-    }, [value])
+    }, [value, firstname])
 
     useEffect(() => {
         if (data && value) {
@@ -52,7 +52,7 @@ const Person: FunctionComponent = () => {
             setUpcomingVaccionations(fetch.filterActiveVaccinesByPerson(value, data[0]))
             setAllVaccintaions(fetch.pastVaccinatons(value, data[0]))
         }
-    }, [data])
+    }, [data, value])
 
     useEffect(() => {
         if (upcomingVaccinations) {

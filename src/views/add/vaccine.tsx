@@ -23,13 +23,16 @@ const firestore = firebase.firestore()
 const AddVaccine: FunctionComponent = () => {
     // const history = useHistory()
     // const query = useQuery()
+    const [valid, setValid] = useState<boolean>(false)
 
     const [inputVaccineName, setInputVaccineName] = useState<string>('')
     const [inputName, setInputName] = useState<string>('')
     const [date, setDate] = useState<any>(dayjs().format('YYYY-MM-DD'))
     const [revaccinate, setRevaccinate] = useState<boolean>(false)
-    const [remindNumber, setRemindNumber] = useState<string>('0')
+    const [remindNumber, setRemindNumber] = useState<string>('1')
     const [remindTime, setRemindTime] = useState<string>('')
+
+    const [remindError, setRemindError] = useState<boolean>(false)
 
     const [nameList, setNameList] = useState<Name[]>()
 
@@ -39,9 +42,15 @@ const AddVaccine: FunctionComponent = () => {
         setUid(user.getUid())
     }, [setUid])
 
-    // useEffect(() => {
-    //     setInputName(query.get('person') ?? '')
-    // }, [setInputName])
+    useEffect(() => {
+        if (inputVaccineName && inputName && date && !revaccinate) {
+            setValid(true)
+        } else if (revaccinate && !remindError && remindTime) {
+            setValid(true)
+        } else {
+            setValid(false)
+        }
+    }, [inputVaccineName, inputName, date, revaccinate, remindError, remindTime])
 
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
@@ -141,21 +150,24 @@ const AddVaccine: FunctionComponent = () => {
                             />
                         </FormGroup>
                         {revaccinate ? (
-                            <div>
+                            <React.Fragment>
                                 <TextField
                                     label="Remind in"
                                     type="number"
                                     value={remindNumber}
                                     onChange={(event) => {
                                         setRemindNumber(event.target.value)
+                                        setRemindError(parseInt(event.target.value) <= 0)
                                     }}
                                     InputLabelProps={{
                                         shrink: true,
                                     }}
+                                    error={remindError}
+                                    helperText={remindError ? 'Must be 1 or more' : ''}
                                     required
                                 />
                                 <TextField
-                                    label="Month/Year"
+                                    label="Month or Year"
                                     value={remindTime}
                                     select
                                     onChange={(event) => {
@@ -163,13 +175,13 @@ const AddVaccine: FunctionComponent = () => {
                                     }}
                                     required
                                 >
-                                    <MenuItem value="month">month</MenuItem>
+                                    <MenuItem value="month">month(s)</MenuItem>
                                     <MenuItem value="year">year(s)</MenuItem>
                                 </TextField>
-                            </div>
+                            </React.Fragment>
                         ) : null}
                     </FormControl>
-                    <MiddleButtonSubmit valid={true} />
+                    <MiddleButtonSubmit valid={valid} />
                 </form>
             </section>
         </Layout>

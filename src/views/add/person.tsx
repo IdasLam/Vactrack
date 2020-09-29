@@ -12,11 +12,15 @@ import { FormControl, TextField, Button, MenuItem, InputLabel } from '@material-
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import dayjs from 'dayjs'
 import dayjsUtils from '@date-io/dayjs'
+import { useHistory } from 'react-router-dom'
 import MiddleButtonSubmit from '../../components/button/sumbit'
 
 const firestore = firebase.firestore()
+// con history
 
 const AddPerson: FunctionComponent = () => {
+    const history = useHistory()
+
     const [errorName, setErrorName] = useState(false)
     const [status, setStatus] = useState<string>('')
     const [name, setName] = useState<string>('')
@@ -58,6 +62,7 @@ const AddPerson: FunctionComponent = () => {
         if (valid && uid && value) {
             const dateformat = date ? firebase.firestore.Timestamp.fromDate(new Date(date)) : ''
             family.addPerson(uid, status, name, dateformat)
+            history.push('/home')
         }
     }
 

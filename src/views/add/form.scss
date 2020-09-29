@@ -7,6 +7,10 @@
     }
 }
 
+.MuiFormControlLabel-labelPlacementStart {
+    margin: unset !important;
+}
+
 @media only screen and (max-width: 800px) {
     .main-section-container {
         width: 80%;

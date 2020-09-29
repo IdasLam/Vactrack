@@ -3,34 +3,21 @@ import { Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 import './button.scss'
 import AddIcon from '@material-ui/icons/Add'
+import CheckIcon from '@material-ui/icons/Check'
 
 const MiddeButton: FunctionComponent = () => {
     const path = window.location.pathname
     const addVaccine = ['/home', '/person']
-    const add = ['/add/person', '/add/vaccine']
     const history = useHistory()
 
     if (addVaccine.includes(path)) {
         return (
-            <div className="add_new">
+            <div className="add-new">
                 <Button
                     variant="contained"
                     onClick={() => {
                         history.push('/add/vaccine')
                     }}
-                >
-                    <AddIcon fontSize="large" />
-                </Button>
-            </div>
-        )
-    } else if (add.includes(path)) {
-        return (
-            <div className="add_new">
-                <Button
-                    variant="contained"
-                    // onClick={() => {
-                    //     history.push('/add/vaccine')
-                    // }}
                 >
                     <AddIcon fontSize="large" />
                 </Button>

@@ -4,8 +4,12 @@ import { ActiveVaccinations } from '../../models/family'
 import './cards.scss'
 import { convertDate } from '../../helpers/helpers'
 
-const Upcoming: FunctionComponent<ActiveVaccinations> = (props) => {
-    const { vaccines } = props
+type UpcomingVaccinations = ActiveVaccinations & {
+    displayName?: boolean
+}
+
+const Upcoming: FunctionComponent<UpcomingVaccinations> = (props) => {
+    const { vaccines, displayName = true } = props
 
     const cards = () => {
         if (!vaccines) {
@@ -19,7 +23,7 @@ const Upcoming: FunctionComponent<ActiveVaccinations> = (props) => {
                     <div className="vaccine-card" key={name + vaccine.name + convertDate(vaccine.revaccination)}>
                         <p className="vaccine-name">{vaccine.name}</p>
                         <span>Due {convertDate(vaccine.revaccination)}</span>
-                        <p>{name}</p>
+                        {displayName ? <p>{name}</p> : null}
                         <p>Most recent vaccination: {convertDate(vaccine.date)}</p>
                     </div>
                 )

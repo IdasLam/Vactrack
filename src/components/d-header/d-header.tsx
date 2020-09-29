@@ -28,7 +28,7 @@ const DHeader: FunctionComponent = () => {
                         <Link to="/add/person">Add Person</Link>
                     </p>
                     <p>
-                        <Link to="/add/person">Add Vaccination</Link>
+                        <Link to="/add/vaccine">Add Vaccination</Link>
                     </p>
                     <div className="logout">
                         <Button onClick={signOut}>

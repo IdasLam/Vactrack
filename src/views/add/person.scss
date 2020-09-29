@@ -1,0 +1,14 @@
+.main-section-container {
+    width: 50%;
+
+    .MuiFormControl-root {
+        width: 100%;
+        gap: 5vh;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .main-section-container {
+        width: 80%;
+    }
+}

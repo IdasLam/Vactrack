@@ -14,6 +14,7 @@ import dayjs from 'dayjs'
 import dayjsUtils from '@date-io/dayjs'
 import { useHistory } from 'react-router-dom'
 import MiddleButtonSubmit from '../../components/button/sumbit'
+import './person.scss'
 
 const firestore = firebase.firestore()
 // con history

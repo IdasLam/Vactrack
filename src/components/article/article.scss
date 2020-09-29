@@ -21,7 +21,7 @@
         }
 
         p {
-            color: #000;
+            color: #fff;
             text-transform: capitalize;
         }
 
@@ -32,19 +32,19 @@
 }
 
 .article-container:nth-child(1n){
-    background-color: #81D4FA;
+    background-color: #2196f3;
 }
 
 .article-container:nth-child(1n):hover{
-    background-color: #29B6F6;
+    background-color: #1976d2;
 }
 
 .article-container:nth-child(2n){
-    background-color: #FFF176;
+    background-color: #ff5722;
 }
 
 .article-container:nth-child(2n):hover{
-    background-color: #FDD835;
+    background-color: #e64a19;
 }
 
 @media only screen and (min-width: 650px) {

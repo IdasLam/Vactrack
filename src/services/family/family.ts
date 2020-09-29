@@ -183,13 +183,16 @@ export const getUserStatus: UserStatus = (data) => {
     return userData.status
 }
 
-type GetNames = (data: Family) => Name[]
+type GetNames = (data: Family, lowercased?: boolean) => Name[]
 
-export const getAllNames = (data: Family) => {
+export const getAllNames: GetNames = (data, lowercased = true) => {
     const names = Object.entries(data).map((row) => {
         const [name] = row
 
-        return name.toLowerCase()
+        if (lowercased) {
+            return name.toLowerCase()
+        }
+        return name
     })
 
     if (names) {

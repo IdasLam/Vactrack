@@ -87,7 +87,7 @@ const Person: FunctionComponent = () => {
                         style={!anyActiveVaccines ? { display: 'none' } : { display: 'block' }}
                     >
                         <p>Upcoming vaccinations</p>
-                        <Upcoming vaccines={upcomingVaccinations} />
+                        <Upcoming vaccines={upcomingVaccinations} displayName={false} />
                     </div>
                     <div
                         className="past-vaccinations"

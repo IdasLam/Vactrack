@@ -80,7 +80,7 @@ const Person: FunctionComponent = () => {
                         </Button>
                     </div>
                     <div className="status">
-                        <p>Person status: {status}</p>
+                        <p>Status: {status}</p>
                     </div>
                     <div
                         className="upcoming-vaccinations"

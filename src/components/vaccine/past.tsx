@@ -10,12 +10,12 @@ const PastCards: FunctionComponent<Cards> = (props) => {
     const { vaccines } = props
 
     const generateCards = () => {
-        const cards = vaccines.map((vaccine) => {
+        const cards = vaccines.map((vaccine, index) => {
             const { name, revaccination, date } = vaccine
 
             return (
                 // key={name + vaccine.name + convertDate(vaccine.revaccination)
-                <div className="vaccine-card" key={name + convertDate(date)}>
+                <div className="vaccine-card" key={name + convertDate(date) + index}>
                     <p className="vaccine-name">{name}</p>
                     {revaccination ? <span>Due {convertDate(revaccination)}</span> : null}
                     <p>Vaccinated: {convertDate(date)}</p>

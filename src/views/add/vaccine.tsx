@@ -3,26 +3,25 @@ import Layout from '../../components/layout/layout'
 import firebase from 'firebase/app'
 import * as user from '../../services/user/user'
 import * as family from '../../services/family/family'
-import { Family, Name } from '../../models/family'
+import { InputVaccineData, Family, Name } from '../../models/family'
 import * as fetch from '../../services/family/family'
 import Loader from '../../components/loading/loading'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
-// import * as validation from '../../services/validation/person'
 import { FormControl, TextField, FormControlLabel, Switch, MenuItem, FormGroup } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import dayjs, { OpUnitType } from 'dayjs'
 import dayjsUtils from '@date-io/dayjs'
-// import { useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import MiddleButtonSubmit from '../../components/button/sumbit'
 import './form.scss'
-// import { useQuery } from '../../services/hooks/hooks'
+import Message from 'antd/lib/message'
+import 'antd/dist/antd.css'
 
 const firestore = firebase.firestore()
-// con history
 
 const AddVaccine: FunctionComponent = () => {
-    // const history = useHistory()
-    // const query = useQuery()
+    const history = useHistory()
+
     const [valid, setValid] = useState<boolean>(false)
 
     const [inputVaccineName, setInputVaccineName] = useState<string>('')
@@ -71,20 +70,30 @@ const AddVaccine: FunctionComponent = () => {
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        console.log(inputVaccineName, inputName, date, revaccinate, remindNumber, remindTime)
-
-        if (valid) {
-            const dateformat = date ? firebase.firestore.Timestamp.fromDate(new Date(date)) : ''
-
-            const revaccinateDate = revaccinate ? dayjs(date).add(parseInt(remindNumber), remindTime) : 0
-
-            if (revaccinateDate) {
-                console.log(dayjs(revaccinateDate).format('YYYY-MM-DD'))
+        if (valid && value && uid) {
+            const dateformat = firebase.firestore.Timestamp.fromDate(new Date(date))
+            const formData: InputVaccineData = {
+                name: inputName,
+                vaccineName: inputVaccineName,
+                date: dateformat,
+                revaccination: undefined,
             }
 
-            // family.addVaccine()
-            //     family.addPerson(uid, status, name, dateformat)
-            //     history.push('/home')
+            if (revaccinate) {
+                const revaccinateDate = dayjs(date).add(parseInt(remindNumber), remindTime).toDate()
+                formData.revaccination = firebase.firestore.Timestamp.fromDate(new Date(revaccinateDate))
+            }
+
+            family
+                .addVaccine(value, formData, uid)
+                .then(() => {
+                    Message.success(`A new vaccine has been added to ${inputName}`)
+                    history.push('/home')
+                })
+                .catch((error) => {
+                    Message.error('Unknown error has occured')
+                    console.log(error)
+                })
         }
     }
 
@@ -170,7 +179,7 @@ const AddVaccine: FunctionComponent = () => {
                                     required
                                 />
                                 <TextField
-                                    label="Month or Year"
+                                    label="Week, Month or Year"
                                     value={remindTime}
                                     select
                                     onChange={(event) => {

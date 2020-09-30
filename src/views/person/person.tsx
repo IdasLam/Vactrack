@@ -64,6 +64,16 @@ const Person: FunctionComponent = () => {
         return <Loader />
     }
 
+    if (data === undefined) {
+        return (
+            <Layout>
+                <section className="main-section-container">
+                    <h1>User {firstname} not found</h1>
+                </section>
+            </Layout>
+        )
+    }
+
     if (data) {
         return (
             <Layout>

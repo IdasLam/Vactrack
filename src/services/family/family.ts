@@ -186,9 +186,12 @@ export const getAllNames: GetNames = (data, lowercased = true) => {
     return []
 }
 
-type AddPerson = (uid: string, status: string, name: string, date: firebase.firestore.Timestamp | string) => void
-
-export const addPerson: AddPerson = async (uid, status, name, date) => {
+export const addPerson = async (
+    id: string,
+    status: string,
+    name: string,
+    date: firebase.firestore.Timestamp | string,
+) => {
     const data = {
         [name]: {
             activeVaccines: [],

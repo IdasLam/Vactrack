@@ -11,6 +11,8 @@ import {
     Family,
     PastVaccinations,
     Vaccinations,
+    VaccineData,
+    InputVaccineData,
 } from '../../models/family'
 
 // const auth = firebase.auth()
@@ -63,25 +65,6 @@ export const login = async (uid: string, name: string) => {
 //     return res.data
 // }
 
-type AddPerson = (uid: string, status: string, name: string, date: firebase.firestore.Timestamp | string) => void
-
-export const addPerson: AddPerson = async (uid, status, name, date) => {
-    const data = {
-        [name]: {
-            activeVaccines: [],
-            birthday: date,
-            status: status,
-            vaccines: [],
-        },
-    }
-
-    await firestore.collection('family').doc(uid).set(data, { merge: true })
-}
-
-export const addVaccine = async (family: Family, vaccination: string) => {
-    // getDataForUser()
-}
-
 type FilteredActiveVaccines = {
     [key: string]: ActiveVaccine[]
 }
@@ -128,7 +111,7 @@ export const getDataForUser = (value: Family, firstname: string | null) => {
     return Object.entries(value).find((row) => {
         const fullname = row[0].toLowerCase()
 
-        return firstname !== null && fullname.includes(firstname)
+        return firstname !== null && fullname === firstname.toLowerCase()
     })
 }
 
@@ -201,4 +184,47 @@ export const getAllNames: GetNames = (data, lowercased = true) => {
     }
 
     return []
+}
+
+type AddPerson = (uid: string, status: string, name: string, date: firebase.firestore.Timestamp | string) => void
+
+export const addPerson: AddPerson = async (uid, status, name, date) => {
+    const data = {
+        [name]: {
+            activeVaccines: [],
+            birthday: date,
+            status: status,
+            vaccines: [],
+        },
+    }
+
+    await firestore.collection('family').doc(uid).set(data, { merge: true })
+}
+
+export const addVaccine = async (family: Family, data: InputVaccineData, uid: string) => {
+    const { name, vaccineName, date, revaccination } = data
+    const userDataArray = getDataForUser(family, name)
+
+    const vaccineData: VaccineData = {
+        name: vaccineName,
+        date: date,
+        revaccination,
+    }
+
+    if (userDataArray) {
+        const userData = userDataArray[1]
+
+        if (vaccineData.revaccination !== undefined) {
+            userData.activeVaccines.push(vaccineData as ActiveVaccine)
+        } else {
+            const { revaccination, ...vaccine } = vaccineData
+            userData.vaccines.push(vaccine)
+        }
+
+        family[name] = userData
+
+        console.log(family)
+
+        await firestore.collection('family').doc(uid).set(family)
+    }
 }

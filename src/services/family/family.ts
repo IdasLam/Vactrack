@@ -187,7 +187,7 @@ export const getAllNames: GetNames = (data, lowercased = true) => {
 }
 
 export const addPerson = async (
-    id: string,
+    uid: string,
     status: string,
     name: string,
     date: firebase.firestore.Timestamp | string,

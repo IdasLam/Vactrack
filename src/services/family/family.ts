@@ -111,7 +111,9 @@ export const getDataForUser = (value: Family, firstname: string | null) => {
     return Object.entries(value).find((row) => {
         const fullname = row[0].toLowerCase()
 
-        return firstname !== null && fullname === firstname.toLowerCase()
+        return (
+            firstname !== null && (fullname === firstname.toLowerCase() || fullname.includes(firstname.toLowerCase()))
+        )
     })
 }
 

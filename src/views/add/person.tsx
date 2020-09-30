@@ -15,6 +15,8 @@ import dayjsUtils from '@date-io/dayjs'
 import { useHistory } from 'react-router-dom'
 import MiddleButtonSubmit from '../../components/button/sumbit'
 import './form.scss'
+import Message from 'antd/lib/message'
+import 'antd/dist/antd.css'
 
 const firestore = firebase.firestore()
 // con history
@@ -62,7 +64,17 @@ const AddPerson: FunctionComponent = () => {
 
         if (valid && uid && value) {
             const dateformat = date ? firebase.firestore.Timestamp.fromDate(new Date(date)) : ''
-            family.addPerson(uid, status, name, dateformat)
+            family
+                .addPerson(uid, status, name, dateformat)
+                .then(() => {
+                    Message.success(`${name} has been added to the Family!`)
+                    history.push('/home')
+                })
+                .catch((error) => {
+                    Message.error('Unknown error has occured')
+                    console.log(error)
+                })
+
             history.push('/home')
         }
     }

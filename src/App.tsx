@@ -1,7 +1,7 @@
 import * as firebase from 'firebase/app'
 import './firebase'
 import 'normalize.css'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core'
 import indigo from '@material-ui/core/colors/indigo'
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
@@ -12,6 +12,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import Loader from './components/loading/loading'
 import AddPerson from './views/add/person'
 import AddVaccine from './views/add/vaccine'
+import { userExsists } from './services/family/family'
 
 const theme = createMuiTheme({
     palette: {
@@ -25,9 +26,22 @@ const theme = createMuiTheme({
 })
 
 function App() {
+    const [exsist, setExsists] = useState<boolean>(false)
     const [user, loading] = useAuthState(firebase.auth())
     const history = useHistory()
     const location = useLocation()
+
+    const getExists = async () => {
+        if (user) {
+            setExsists(await userExsists(user))
+        }
+    }
+
+    useEffect(() => {
+        if (user) {
+            getExists()
+        }
+    }, [user])
 
     useEffect(() => {
         const isOnLoginPage = location.pathname === '/'
@@ -43,11 +57,10 @@ function App() {
         }
     }, [user, loading, history, location.pathname])
 
-    if (loading) {
+    if (loading && !exsist) {
         return <Loader />
     }
 
-    // om loggad in kan inte komma in i / vice versa
     return (
         <ThemeProvider theme={theme}>
             <Switch>

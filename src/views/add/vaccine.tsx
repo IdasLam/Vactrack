@@ -20,6 +20,10 @@ import 'antd/dist/antd.css'
 const firestore = firebase.firestore()
 
 const AddVaccine: FunctionComponent = () => {
+    const query = window.location.search
+    const urlParams = new URLSearchParams(query)
+    const [queryName, setQueryName] = useState<string | null>('')
+
     const history = useHistory()
 
     const [valid, setValid] = useState<boolean>(false)
@@ -40,6 +44,10 @@ const AddVaccine: FunctionComponent = () => {
     useEffect(() => {
         setUid(user.getUid())
     }, [setUid])
+
+    useEffect(() => {
+        setQueryName(urlParams.get('name'))
+    }, [urlParams])
 
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
@@ -62,6 +70,18 @@ const AddVaccine: FunctionComponent = () => {
             setNameList(fetch.getAllNames(value, false))
         }
     }, [value])
+
+    useEffect(() => {
+        if (nameList && queryName) {
+            nameList?.forEach((name) => {
+                const inList = name.toLowerCase().includes(queryName)
+
+                if (inList) {
+                    setInputName(name)
+                }
+            })
+        }
+    }, [queryName, nameList])
 
     if (loading) {
         return <Loader />
@@ -88,7 +108,9 @@ const AddVaccine: FunctionComponent = () => {
                 .addVaccine(value, formData, uid)
                 .then(() => {
                     Message.success(`A new vaccine has been added to ${inputName}`)
-                    history.push('/home')
+                    const firstname = inputName.split(' ')[0].toLowerCase()
+
+                    history.push(`/person?name=${firstname}`)
                 })
                 .catch((error) => {
                     Message.error('Unknown error has occured')

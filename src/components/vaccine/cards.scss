@@ -100,7 +100,7 @@
     .past-vaccinations-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 5vw;
+        column-gap: 5vw;
     }
 
     .past-vaccinations-container {

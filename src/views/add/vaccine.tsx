@@ -100,7 +100,7 @@ const AddVaccine: FunctionComponent = () => {
     const addOptions = () => {
         return nameList?.map((name) => {
             return (
-                <MenuItem value={name} key={name}>
+                <MenuItem className="name-option" value={name} key={name}>
                     {name}
                 </MenuItem>
             )

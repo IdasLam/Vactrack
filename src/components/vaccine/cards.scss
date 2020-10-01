@@ -26,6 +26,10 @@
             margin-bottom: 0;
         }
 
+        .person-name {
+            text-transform: capitalize;
+        }
+
         .vaccine-name{
             font-weight: bold;
             font-size: clamp(16px, 5vw, 26px);

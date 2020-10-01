@@ -19,16 +19,12 @@ import {
 const firestore = firebase.firestore()
 
 // type Fetch = (uid: string, name?: string) => Promise<AxiosResponse<any>>
-
 /**
  * Create user in database
  * @param uid
  * @param name
  */
 export const create = async (uid: string, name: string) => {
-    // const response = await Axios.post(url + '/api/account/create', { uid, name })
-    // return response
-
     const docRef = firestore.collection('family').doc(uid)
 
     await docRef.set({
@@ -40,6 +36,22 @@ export const create = async (uid: string, name: string) => {
     })
 
     return 200
+}
+
+export const userExsists = async (user: firebase.User) => {
+    const uid = user.uid
+    const name = user.displayName
+
+    const docRef = await firestore.collection('family').doc(uid).get()
+    const exsists = docRef.exists
+
+    if (!exsists && name) {
+        const res = await create(uid, name)
+
+        return res === 200
+    }
+
+    return true
 }
 
 /**

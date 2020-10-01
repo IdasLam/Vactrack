@@ -23,7 +23,7 @@ const Upcoming: FunctionComponent<UpcomingVaccinations> = (props) => {
                     <div className="vaccine-card" key={name + vaccine.name + convertDate(vaccine.revaccination)}>
                         <p className="vaccine-name">{vaccine.name}</p>
                         <span>Due {convertDate(vaccine.revaccination)}</span>
-                        {displayName ? <p>{name}</p> : null}
+                        {displayName ? <p className="person-name">{name}</p> : null}
                         <p>Most recent vaccination: {convertDate(vaccine.date)}</p>
                     </div>
                 )

@@ -32,7 +32,7 @@ export const create = async (uid: string, name: string, email: string) => {
             status: 'user',
             vaccines: [],
             activeVaccines: [],
-            email: [email],
+            email: email,
         },
     })
 

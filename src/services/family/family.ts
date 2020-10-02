@@ -24,7 +24,7 @@ const firestore = firebase.firestore()
  * @param uid
  * @param name
  */
-export const create = async (uid: string, name: string) => {
+export const create = async (uid: string, name: string, email: string) => {
     const docRef = firestore.collection('family').doc(uid)
 
     await docRef.set({
@@ -32,6 +32,7 @@ export const create = async (uid: string, name: string) => {
             status: 'user',
             vaccines: [],
             activeVaccines: [],
+            email: [email],
         },
     })
 
@@ -41,12 +42,13 @@ export const create = async (uid: string, name: string) => {
 export const userExsists = async (user: firebase.User) => {
     const uid = user.uid
     const name = user.displayName
+    const email = user.email
 
     const docRef = await firestore.collection('family').doc(uid).get()
     const exsists = docRef.exists
 
-    if (!exsists && name) {
-        const res = await create(uid, name)
+    if (!exsists && name && email) {
+        const res = await create(uid, name, email)
 
         return res === 200
     }
@@ -58,19 +60,19 @@ export const userExsists = async (user: firebase.User) => {
  * Login user, if user dont already exist create one
  * @param uid
  */
-export const login = async (uid: string, name: string) => {
-    // const response = await Axios.post(url + '/api/account', { uid })
+// export const login = async (uid: string, name: string) => {
+//     // const response = await Axios.post(url + '/api/account', { uid })
 
-    // console.log(response)
-    // return response
-    const res = await firestore.collection('family').doc(uid).get()
+//     // console.log(response)
+//     // return response
+//     const res = await firestore.collection('family').doc(uid).get()
 
-    if (res.exists) {
-        return 200
-    }
+//     if (res.exists) {
+//         return 200
+//     }
 
-    create(uid, name)
-}
+//     create(uid, name)
+// }
 
 // export const allFamily = async (uid: string) => {
 //     const res = await firestore.collection('family').doc(uid).get()

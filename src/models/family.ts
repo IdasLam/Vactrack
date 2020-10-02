@@ -11,6 +11,7 @@ export type ActiveVaccine = Vaccine & {
 export type Person = {
     activeVaccines: ActiveVaccine[]
     status: string
+    email: string
     birthday?: firebase.firestore.Timestamp
     vaccines: Vaccine[]
 }

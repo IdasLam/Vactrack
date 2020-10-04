@@ -16,7 +16,7 @@ const MiddeButton: FunctionComponent = () => {
                 <Button
                     variant="contained"
                     onClick={() => {
-                        query ? history.push(`/add/vaccine${query}`) : history.push(`/add/vaccine/`)
+                        query ? history.push(`/add/vaccine${query}`) : history.push(`/add/vaccine`)
                     }}
                 >
                     <AddIcon fontSize="large" />

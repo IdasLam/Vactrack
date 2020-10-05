@@ -6,6 +6,8 @@ type Vaccine = {
 
 export type ActiveVaccine = Vaccine & {
     revaccination: firebase.firestore.Timestamp
+    reminded: boolean
+    id: string
 }
 
 export type Person = {
@@ -50,5 +52,7 @@ export type InputVaccineData = {
 export type VaccineData = {
     name: string
     date: firebase.firestore.Timestamp
+    reminded: boolean
     revaccination?: firebase.firestore.Timestamp
+    id: string
 }

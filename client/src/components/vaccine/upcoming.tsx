@@ -22,7 +22,7 @@ const Upcoming: FunctionComponent<UpcomingVaccinations> = (props) => {
             const upcomingCards = upcomingVaccinations.map((vaccine) => {
                 return (
                     <Link
-                        to={'/edit/vaccine?id=' + vaccine.id}
+                        to={'/edit/vaccine?id=' + vaccine.id + '&name=' + name}
                         key={name + vaccine.name + convertDate(vaccine.revaccination)}
                     >
                         <div className="vaccine-card">

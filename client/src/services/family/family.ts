@@ -57,29 +57,6 @@ export const userExsists = async (user: firebase.User) => {
     return true
 }
 
-/**
- * Login user, if user dont already exist create one
- * @param uid
- */
-// export const login = async (uid: string, name: string) => {
-//     // const response = await Axios.post(url + '/api/account', { uid })
-
-//     // console.log(response)
-//     // return response
-//     const res = await firestore.collection('family').doc(uid).get()
-
-//     if (res.exists) {
-//         return 200
-//     }
-
-//     create(uid, name)
-// }
-
-// export const allFamily = async (uid: string) => {
-//     const res = await firestore.collection('family').doc(uid).get()
-//     return res.data
-// }
-
 type FilteredActiveVaccines = {
     [key: string]: ActiveVaccine[]
 }
@@ -109,6 +86,15 @@ export const filterActiveVaccines = (family: Family): FilteredActiveVaccines => 
             ...acc,
         }
     }, {})
+}
+
+export const getPersonData = async (uid: string, name: string) => {
+    const family = await firestore.collection('family').doc(uid).get()
+    const data = family.data()
+
+    if (data !== undefined) {
+        return data[name] as Person
+    }
 }
 
 // for every person in document
@@ -147,13 +133,6 @@ export const filterActiveVaccinesByPerson = (family: Family, name: string) => {
 
     return { [clientName]: data }
 }
-
-// export const pastVaccinatons = (allVaccines:AllTypesOfVaccines[]) => {
-//     allVaccines.forEach(vaccine => {
-//         console.log(vaccine);
-
-//     })
-// }
 
 export const pastVaccinatons: PastVaccinations = (family, name) => {
     const person = Object.entries(family).find((row) => {

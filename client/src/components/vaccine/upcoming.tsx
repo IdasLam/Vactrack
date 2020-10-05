@@ -3,6 +3,7 @@ import React, { FunctionComponent } from 'react'
 import { ActiveVaccinations } from '../../models/family'
 import './cards.scss'
 import { convertDate } from '../../helpers/helpers'
+import { Link } from 'react-router-dom'
 
 type UpcomingVaccinations = ActiveVaccinations & {
     displayName?: boolean
@@ -20,12 +21,17 @@ const Upcoming: FunctionComponent<UpcomingVaccinations> = (props) => {
             const [name, upcomingVaccinations] = person
             const upcomingCards = upcomingVaccinations.map((vaccine) => {
                 return (
-                    <div className="vaccine-card" key={name + vaccine.name + convertDate(vaccine.revaccination)}>
-                        <p className="vaccine-name">{vaccine.name}</p>
-                        <span>Due {convertDate(vaccine.revaccination)}</span>
-                        {displayName ? <p className="person-name">{name}</p> : null}
-                        <p>Most recent vaccination: {convertDate(vaccine.date)}</p>
-                    </div>
+                    <Link
+                        to={'/edit/vaccine?id=' + vaccine.id}
+                        key={name + vaccine.name + convertDate(vaccine.revaccination)}
+                    >
+                        <div className="vaccine-card">
+                            <p className="vaccine-name">{vaccine.name}</p>
+                            <span>Due {convertDate(vaccine.revaccination)}</span>
+                            {displayName ? <p className="person-name">{name}</p> : null}
+                            <p>Most recent vaccination: {convertDate(vaccine.date)}</p>
+                        </div>
+                    </Link>
                 )
             })
 

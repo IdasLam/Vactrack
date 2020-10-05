@@ -3,6 +3,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import dayjs from 'dayjs'
+import { v4 as uuid } from 'uuid'
 import {
     Name,
     Person,
@@ -228,6 +229,8 @@ export const addVaccine = async (family: Family, data: InputVaccineData, uid: st
         name: vaccineName,
         date: date,
         revaccination,
+        reminded: false,
+        id: uuid(),
     }
 
     if (userDataArray) {

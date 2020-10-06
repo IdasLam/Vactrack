@@ -115,7 +115,7 @@ class reminder {
 
     async setReminded(id: string, familyId: string, name: string) {
         const data = await db.collection('family').doc(familyId).get()
-        const familyDoc = await db.collection('family').doc(familyId)
+        const familyDoc = db.collection('family').doc(familyId)
         const family = data.data()
 
         if (family) {

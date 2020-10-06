@@ -2,6 +2,7 @@ type Vaccine = {
     name: string
     date: firebase.firestore.Timestamp
     notes?: string
+    id: string
 }
 
 export type ActiveVaccine = Vaccine & {

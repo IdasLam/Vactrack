@@ -229,3 +229,34 @@ export const addVaccine = async (family: Family, data: InputVaccineData, uid: st
         await firestore.collection('family').doc(uid).set(family)
     }
 }
+
+export const editPerson = async (uid: string, name: string, status: string, birthday: any, newName: string) => {
+    const docRef = firestore.collection('family').doc(uid)
+
+    await docRef.update({
+        [`${name}.status`]: status,
+    })
+
+    if (birthday) {
+        await docRef.update({
+            [`${name}.birthday`]: birthday,
+        })
+    }
+
+    if (newName.toLowerCase() !== name.toLowerCase()) {
+        const family = (await docRef.get()).data()
+
+        if (family) {
+            const person = family[name]
+
+            delete family[name]
+
+            const newFamily = {
+                ...family,
+                [newName]: person,
+            }
+
+            await docRef.set(newFamily)
+        }
+    }
+}

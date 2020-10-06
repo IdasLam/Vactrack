@@ -1,7 +1,6 @@
-type Vaccine = {
+export type Vaccine = {
     name: string
     date: firebase.firestore.Timestamp
-    notes?: string
     id: string
 }
 

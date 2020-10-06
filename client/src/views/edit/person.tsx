@@ -17,8 +17,6 @@ import './../add/form.scss'
 import './edit-form.scss'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Message from 'antd/lib/message'
-import { stat } from 'fs'
-import { Console } from 'console'
 
 const firestore = firebase.firestore()
 
@@ -35,7 +33,6 @@ const EditPerson: FunctionComponent = () => {
 
     const [errorName, setErrorName] = useState(false)
     const [nameList, setNameList] = useState<Name[]>()
-    // const [valid, setValid] = useState<boolean>(false)
 
     useEffect(() => {
         setUid(user.getUid())

@@ -27,6 +27,7 @@ const EditPerson: FunctionComponent = () => {
     const history = useHistory()
     const [uid, setUid] = useState<string>()
     const [personData, setPersonData] = useState<Person>()
+    const [personNotFound, setPersonNotFound] = useState<boolean>(false)
 
     const [personName, setPersonName] = useState<string>()
     const [status, setStatus] = useState<string>()
@@ -49,7 +50,8 @@ const EditPerson: FunctionComponent = () => {
 
             if (data) {
                 setPersonData(data)
-                // om inget g;r error handler
+            } else {
+                setPersonNotFound(true)
             }
         }
     }
@@ -70,8 +72,6 @@ const EditPerson: FunctionComponent = () => {
 
     useEffect(() => {
         if (nameSearch && uid) {
-            // setPersonData(fetch.getPersonData(uid, nameSearch))
-            // skriv i separate funktion
             getPersonData()
         }
     }, [nameSearch, uid])
@@ -104,6 +104,21 @@ const EditPerson: FunctionComponent = () => {
                 .then(() => {
                     Message.success(`${personName} has edited!`)
                     history.push(`/person?name=${personName}`)
+                })
+                .catch((error) => {
+                    Message.error('Unknown error has occured')
+                    console.log(error)
+                })
+        }
+    }
+
+    const deletePerson = () => {
+        if (uid && nameSearch) {
+            fetch
+                .deletePerson(uid, nameSearch)
+                .then(() => {
+                    Message.success(`${personName} has been deleted!`)
+                    history.push(`/home`)
                 })
                 .catch((error) => {
                     Message.error('Unknown error has occured')
@@ -174,7 +189,7 @@ const EditPerson: FunctionComponent = () => {
                         <Button
                             variant="contained"
                             disabled={personData.status === 'user'}
-                            onClick={() => console.log('delete')}
+                            onClick={() => deletePerson()}
                             className="delete-button"
                             startIcon={<DeleteIcon />}
                             color="primary"
@@ -183,6 +198,16 @@ const EditPerson: FunctionComponent = () => {
                         </Button>
                         <MiddleButtonSubmit valid={!errorName} />
                     </form>
+                </section>
+            </Layout>
+        )
+    }
+
+    if (personNotFound) {
+        return (
+            <Layout>
+                <section className="main-section-container">
+                    <h1>Person {nameSearch} was not found.</h1>
                 </section>
             </Layout>
         )

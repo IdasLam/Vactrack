@@ -14,6 +14,7 @@ import AddPerson from './views/add/person'
 import AddVaccine from './views/add/vaccine'
 import { userExsists } from './services/family/family'
 import EditPerson from './views/edit/person'
+import EditVaccine from './views/edit/vaccine'
 
 const theme = createMuiTheme({
     palette: {
@@ -65,6 +66,9 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <Switch>
+                <Route path="/edit/vaccine">
+                    <EditVaccine />
+                </Route>
                 <Route path="/edit/person">
                     <EditPerson />
                 </Route>

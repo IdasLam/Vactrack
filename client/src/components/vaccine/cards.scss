@@ -58,44 +58,46 @@
     }
 }
 
-.vaccine-card:nth-child(1n){
+a:nth-child(1n) .vaccine-card{
     background-color: #43a047;
 }
 
-.vaccine-card:nth-child(1n):hover{
+a:nth-child(1n) .vaccine-card:hover{
     background-color: #2E7D32;
 }
 
-.vaccine-card:nth-child(2n){
+a:nth-child(2n) .vaccine-card{
     background-color: #26a69a;
 }
 
-.vaccine-card:nth-child(2n):hover{
+a:nth-child(2n) .vaccine-card:hover{
     background-color: #0097a7;
 }
 
-.vaccine-card:nth-child(3n){
+a:nth-child(3n) .vaccine-card{
     background-color: #26a69a;
 }
 
-.vaccine-card:nth-child(3n):hover{
+a:nth-child(3n) .vaccine-card:hover{
     background-color: #00897b;
 }
 
-.vaccine-card:nth-child(4n){
+a:nth-child(4n) .vaccine-card{
     background-color: #673ab7;
 }
 
-.vaccine-card:nth-child(4n):hover{
+a:nth-child(4n) .vaccine-card:hover{
     background-color: #512da8;
 }
-.vaccine-card:nth-child(5n){
+a:nth-child(5n) .vaccine-card{
     background-color: #78909c;
 }
 
-.vaccine-card:nth-child(5n):hover{
+a:nth-child(5n) .vaccine-card:hover{
     background-color: #546e7a;
 }
+
+
 
 
 @media only screen and (max-width: 1200px) {

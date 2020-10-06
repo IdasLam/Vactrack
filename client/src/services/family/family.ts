@@ -260,3 +260,13 @@ export const editPerson = async (uid: string, name: string, status: string, birt
         }
     }
 }
+
+export const deletePerson = async (uid: string, name: string) => {
+    const docRef = firestore.collection('family').doc(uid)
+    const family = (await docRef.get()).data()
+
+    if (family) {
+        delete family[name]
+        await docRef.set(family)
+    }
+}

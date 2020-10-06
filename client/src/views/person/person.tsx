@@ -104,7 +104,7 @@ const Person: FunctionComponent = () => {
                         style={allVaccinations.length > 0 ? { display: 'block' } : { display: 'none' }}
                     >
                         <p>Past vaccinations</p>
-                        <PastCards vaccines={allVaccinations} />
+                        <PastCards vaccines={allVaccinations} personName={data[0]} />
                     </div>
                 </section>
             </Layout>

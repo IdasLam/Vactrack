@@ -19,6 +19,7 @@ const Upcoming: FunctionComponent<UpcomingVaccinations> = (props) => {
 
         return Object.entries(vaccines).map((person) => {
             const [name, upcomingVaccinations] = person
+
             const upcomingCards = upcomingVaccinations.map((vaccine) => {
                 return (
                     <Link

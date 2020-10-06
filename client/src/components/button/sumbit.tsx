@@ -10,7 +10,8 @@ type MiddleButtonExtention = {
 const MiddeButtonSubmit: FunctionComponent<MiddleButtonExtention> = (props) => {
     const { valid } = props
     const path = window.location.pathname
-    const add = ['/add/person', '/add/vaccine']
+    const add = ['/add/person', '/add/vaccine', '/edit/person']
+    const edit = ['/edit/person', '/edit/vaccine']
 
     if (add.includes(path)) {
         return (
@@ -21,6 +22,15 @@ const MiddeButtonSubmit: FunctionComponent<MiddleButtonExtention> = (props) => {
             </div>
         )
     }
+    // else if (edit.includes(path)) {
+    //     return (
+    //         <div className="edit-form">
+    //             <Button type="submit" className={valid ? 'valid' : 'invalid'} disabled={!valid}>
+    //                 <CheckIcon />
+    //             </Button>
+    //         </div>
+    //     )
+    // }
 
     return null
 }

@@ -118,6 +118,40 @@ export const getDataForUser = (value: Family, firstname: string | null) => {
     })
 }
 
+export const vaccineFrom = (family: Family, id: string, nameSearch: string) => {
+    const { activeVaccines, vaccines } = family[nameSearch]
+
+    const vaccineData = activeVaccines.find((vaccine) => {
+        return vaccine.id === id
+    })
+
+    if (vaccineData === undefined) {
+        const regularVaccine = vaccines.find((vaccine) => {
+            return vaccine.id === id
+        })
+
+        return regularVaccine ? 'vaccines' : undefined
+    }
+
+    return 'activeVaccines'
+}
+
+export const getDataForVaccine = (family: Family, id: string, nameSearch: string) => {
+    const { activeVaccines, vaccines } = family[nameSearch]
+
+    const vaccineData = activeVaccines.find((vaccine) => {
+        return vaccine.id === id
+    })
+
+    if (vaccineData === undefined) {
+        return vaccines.find((vaccine) => {
+            return vaccine.id === id
+        })
+    }
+
+    return vaccineData
+}
+
 export const filterActiveVaccinesByPerson = (family: Family, name: string) => {
     const familyActiveVaccines = filterActiveVaccines(family)
 

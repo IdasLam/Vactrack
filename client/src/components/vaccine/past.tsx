@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom'
 
 type Cards = {
     vaccines: AllTypesOfVaccines[]
+    personName: string
 }
 
 const PastCards: FunctionComponent<Cards> = (props) => {
-    const { vaccines } = props
+    const { vaccines, personName } = props
 
     const generateCards = () => {
         const cards = vaccines.map((vaccine) => {
@@ -16,7 +17,7 @@ const PastCards: FunctionComponent<Cards> = (props) => {
 
             return (
                 // key={name + vaccine.name + convertDate(vaccine.revaccination)
-                <Link to={'/edit/vaccine?id=' + id + '&name=' + name} key={name + id}>
+                <Link to={'/edit/vaccine?id=' + id + '&name=' + personName} key={name + id}>
                     <div className="vaccine-card">
                         <p className="vaccine-name">{name}</p>
                         {revaccination ? <span>Due {convertDate(revaccination)}</span> : null}

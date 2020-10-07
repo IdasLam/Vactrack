@@ -48,12 +48,6 @@ const EditVaccine: FunctionComponent = () => {
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
-    const getVaccineData = async () => {
-        if (value) {
-            setVaccineData(fetch.getDataForVaccine(value, vaccineIDSearch, nameSearch))
-        }
-    }
-
     useEffect(() => {
         if (vaccineName?.length === 0 || vaccineName === ' ') {
             setErrorName(true)
@@ -71,13 +65,6 @@ const EditVaccine: FunctionComponent = () => {
     }, [nameSearch])
 
     useEffect(() => {
-        if (nameSearch && uid && value) {
-            // getPersonData()
-            getVaccineData()
-        }
-    }, [nameSearch, uid, value])
-
-    useEffect(() => {
         if (vaccineData) {
             setVaccineName(vaccineData.name)
             setVaccineDate(dayjs(vaccineData.date.toDate()).format('YYYY-MM-DD'))
@@ -93,17 +80,18 @@ const EditVaccine: FunctionComponent = () => {
 
     useEffect(() => {
         if (value) {
-            const data = fetch.getDataForVaccine(value, vaccineIDSearch, nameSearch)
             const from = fetch.vaccineFrom(value, vaccineIDSearch, nameSearch)
 
-            if (data === undefined) {
-                setVaccineNotFound(true)
-            } else {
+            if (from) {
+                const data = fetch.getDataForVaccine(value, from, vaccineIDSearch, nameSearch)
+
                 setVaccineData(data)
                 setVaccineFrom(from)
+            } else if (from === undefined) {
+                setVaccineNotFound(true)
             }
         }
-    }, [vaccineData])
+    }, [value])
 
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -220,7 +208,6 @@ const EditVaccine: FunctionComponent = () => {
                         </FormControl>
                         <Button
                             variant="contained"
-                            // disabled={personData.status === 'user'}
                             onClick={() => deletePerson()}
                             className="delete-button"
                             startIcon={<DeleteIcon />}

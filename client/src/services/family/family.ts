@@ -304,3 +304,59 @@ export const deletePerson = async (uid: string, name: string) => {
         await docRef.set(family)
     }
 }
+
+export const editVaccine = async (
+    uid: string,
+    personName: string,
+    vaccineName: string,
+    vaccineDate: string,
+    unsetRevaccination: boolean,
+    vaccineCategory: 'activeVaccines' | 'vaccines',
+    vaccineId: string,
+) => {
+    const docRef = firestore.collection('family').doc(uid)
+    const family = (await docRef.get()).data() as Family
+
+    if (family) {
+        const person = family[personName]
+        const vaccines = person[vaccineCategory]
+        let vaccineIndex
+
+        const vaccine = vaccines.find((vaccineData, index) => {
+            // console.log(vaccineData, index)
+
+            if (vaccineData.id === vaccineId) {
+                vaccineIndex = index
+                return vaccineData
+            }
+        }) as AllTypesOfVaccines
+
+        if (vaccine) {
+            vaccine.name = vaccineName
+            vaccine.date = firebase.firestore.Timestamp.fromDate(new Date(vaccineDate))
+
+            if (!unsetRevaccination) {
+                await docRef.update({
+                    [`${personName}.${vaccineCategory}`]: vaccines,
+                })
+            } else if (unsetRevaccination && vaccineIndex != undefined) {
+                vaccines.splice(vaccineIndex, 1)
+                delete vaccine.revaccination
+
+                vaccine.reminded = false
+
+                const takenVaccineList = person.vaccines
+
+                const newVaccineList = [...takenVaccineList, vaccine]
+
+                console.log([...vaccines])
+                console.log(vaccines)
+
+                await docRef.update({
+                    [`${personName}.vaccines`]: newVaccineList,
+                    [`${personName}.activeVaccines`]: vaccines,
+                })
+            }
+        }
+    }
+}

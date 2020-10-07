@@ -136,20 +136,25 @@ export const vaccineFrom = (family: Family, id: string, nameSearch: string) => {
     return 'activeVaccines'
 }
 
-export const getDataForVaccine = (family: Family, id: string, nameSearch: string) => {
+export const getDataForVaccine = (
+    family: Family,
+    vaccineCategory: 'activeVaccines' | 'vaccines',
+    id: string,
+    nameSearch: string,
+) => {
     const { activeVaccines, vaccines } = family[nameSearch]
 
-    const vaccineData = activeVaccines.find((vaccine) => {
-        return vaccine.id === id
-    })
-
-    if (vaccineData === undefined) {
+    if (vaccineCategory === 'activeVaccines') {
+        return activeVaccines.find((vaccine) => {
+            return vaccine.id === id
+        })
+    } else if (vaccineCategory === 'vaccines') {
         return vaccines.find((vaccine) => {
             return vaccine.id === id
         })
     }
 
-    return vaccineData
+    return undefined
 }
 
 export const filterActiveVaccinesByPerson = (family: Family, name: string) => {
@@ -377,7 +382,7 @@ export const deleteVaccine = async (
             }
         }) as AllTypesOfVaccines
 
-        if (vaccine && vaccineIndex) {
+        if (vaccine && vaccineIndex !== undefined) {
             vaccines.splice(vaccineIndex, 1)
 
             await docRef.update({

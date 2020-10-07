@@ -6,7 +6,7 @@ import { useDocumentData } from 'react-firebase-hooks/firestore'
 import * as fetch from '../../services/family/family'
 import * as user from '../../services/user/user'
 import { AllTypesOfVaccines, Family, Name, Person } from '../../models/family'
-import { FormControl, TextField, MenuItem, Button } from '@material-ui/core'
+import { FormControl, TextField, MenuItem, Button, FormGroup, FormControlLabel, Switch } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import dayjsUtils from '@date-io/dayjs'
 import MiddleButtonSubmit from '../../components/button/sumbit'
@@ -32,15 +32,14 @@ const EditVaccine: FunctionComponent = () => {
     // const [personNotFound, setPersonNotFound] = useState<boolean>(false)
     const [vaccineData, setVaccineData] = useState<AllTypesOfVaccines>()
     const [vaccineNotFound, setVaccineNotFound] = useState<boolean>(false)
-    const [vaccineFrom, setVaccineFrom] = useState<string>()
+    const [vaccineFrom, setVaccineFrom] = useState<'activeVaccines' | 'vaccines' | undefined>()
 
     const [vaccineName, setVaccineName] = useState<string>()
     const [vaccineDate, setVaccineDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
-    const [revaccinateDate, setRevaccinateDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
-    const [unsetRevaccinate, setUnsetRevaccinate] = useState<boolean>()
+    const [revaccinateDate, setRevaccinateDate] = useState<string>()
+    const [unsetRevaccinate, setUnsetRevaccinate] = useState<boolean>(false)
 
     const [errorName, setErrorName] = useState(false)
-    const [nameList, setNameList] = useState<Name[]>()
 
     useEffect(() => {
         setUid(user.getUid())
@@ -49,23 +48,17 @@ const EditVaccine: FunctionComponent = () => {
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
-    // const getPersonData = async () => {
-    //     if (nameSearch && uid) {
-    //         const data = await fetch.getPersonData(uid, nameSearch)
-
-    //         if (data) {
-    //             setPersonData(data)
-    //         } else {
-    //             setPersonNotFound(true)
-    //         }
-    //     }
-    // }
-
     const getVaccineData = async () => {
         if (value) {
             setVaccineData(fetch.getDataForVaccine(value, vaccineIDSearch, nameSearch))
         }
     }
+
+    useEffect(() => {
+        if (vaccineName?.length === 0 || vaccineName === ' ') {
+            setErrorName(true)
+        }
+    }, [vaccineName])
 
     useEffect(() => {
         const name = new URLSearchParams(history.location.search).get('name')
@@ -90,6 +83,8 @@ const EditVaccine: FunctionComponent = () => {
             setVaccineDate(dayjs(vaccineData.date.toDate()).format('YYYY-MM-DD'))
 
             if (vaccineData.revaccination) {
+                console.log('revacc')
+
                 setRevaccinateDate(dayjs(vaccineData.revaccination.toDate()).format('YYYY-MM-DD'))
                 setUnsetRevaccinate(false)
             }
@@ -113,9 +108,24 @@ const EditVaccine: FunctionComponent = () => {
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
+        console.log(vaccineName, vaccineDate, unsetRevaccinate, vaccineFrom)
+
         // const birthdayTime = birthday ? firebase.firestore.Timestamp.fromDate(new Date(birthday)) : null
 
-        if (uid) {
+        if (uid && vaccineName && vaccineFrom) {
+            if (vaccineFrom != undefined) {
+                fetch.editVaccine(
+                    uid,
+                    nameSearch,
+                    vaccineName,
+                    vaccineDate,
+                    unsetRevaccinate,
+                    vaccineFrom,
+                    vaccineIDSearch,
+                )
+            } else {
+                Message.error('Vaccine does not exsist')
+            }
             // fetch
             //     .editPerson(uid, nameSearch, status, birthdayTime, personName)
             //     .then(() => {
@@ -171,41 +181,48 @@ const EditVaccine: FunctionComponent = () => {
                                 id="name"
                                 label="Vaccine name"
                                 value={vaccineName}
-                                // error={errorName}
-                                // helperText={errorName ? 'Person already exsists or invalid name' : ''}
                                 required
                             />
-                            {/* <TextField
-                                label="Status"
-                                value={status}
-                                select
-                                onChange={(event) => {
-                                    setStatus(event.target.value)
-                                }}
-                                required
-                                disabled={personData.status === 'user'}
-                            >
-                                <MenuItem value="user" disabled={true}>
-                                    user
-                                </MenuItem>
-                                <MenuItem value="Custodian/Parent">Custodian/Parent</MenuItem>
-                                <MenuItem value="Child">Child</MenuItem>
-                                <MenuItem value="Pet">Pet</MenuItem>
-                            </TextField> */}
                             <MuiPickersUtilsProvider utils={dayjsUtils}>
-                                {/* <KeyboardDatePicker
+                                <KeyboardDatePicker
                                     disableToolbar
                                     variant="inline"
                                     format="YYYY-MM-DD"
                                     margin="normal"
-                                    label="Birthday"
-                                    value={birthday}
-                                    onChange={(inputDate) => inputDate && setBirthday(inputDate.format('YYYY-MM-DD'))}
+                                    label="Vaccination date"
+                                    value={vaccineDate}
+                                    onChange={(inputDate) =>
+                                        inputDate && setVaccineDate(inputDate.format('YYYY-MM-DD'))
+                                    }
                                     KeyboardButtonProps={{
                                         'aria-label': 'change date',
                                     }}
-                                /> */}
+                                />
                             </MuiPickersUtilsProvider>
+                            {revaccinateDate ? (
+                                <React.Fragment>
+                                    <FormGroup aria-label="position" row>
+                                        <FormControlLabel
+                                            label="Remove revaccination date"
+                                            labelPlacement="start"
+                                            control={
+                                                <Switch
+                                                    checked={unsetRevaccinate}
+                                                    onChange={() => {
+                                                        setUnsetRevaccinate(!unsetRevaccinate)
+                                                    }}
+                                                />
+                                            }
+                                        />
+                                    </FormGroup>
+                                    <TextField
+                                        disabled={true}
+                                        id="name"
+                                        label="Revaccinate date"
+                                        value={revaccinateDate}
+                                    />
+                                </React.Fragment>
+                            ) : null}
                         </FormControl>
                         <Button
                             variant="contained"

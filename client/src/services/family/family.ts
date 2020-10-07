@@ -323,8 +323,6 @@ export const editVaccine = async (
         let vaccineIndex
 
         const vaccine = vaccines.find((vaccineData, index) => {
-            // console.log(vaccineData, index)
-
             if (vaccineData.id === vaccineId) {
                 vaccineIndex = index
                 return vaccineData
@@ -349,14 +347,42 @@ export const editVaccine = async (
 
                 const newVaccineList = [...takenVaccineList, vaccine]
 
-                console.log([...vaccines])
-                console.log(vaccines)
-
                 await docRef.update({
                     [`${personName}.vaccines`]: newVaccineList,
                     [`${personName}.activeVaccines`]: vaccines,
                 })
             }
+        }
+    }
+}
+
+export const deleteVaccine = async (
+    uid: string,
+    vaccineId: string,
+    vaccineCategory: 'activeVaccines' | 'vaccines',
+    personName: string,
+) => {
+    const docRef = firestore.collection('family').doc(uid)
+    const family = (await docRef.get()).data() as Family
+
+    if (family) {
+        const person = family[personName]
+        const vaccines = person[vaccineCategory]
+        let vaccineIndex
+
+        const vaccine = vaccines.find((vaccineData, index) => {
+            if (vaccineData.id === vaccineId) {
+                vaccineIndex = index
+                return vaccineData
+            }
+        }) as AllTypesOfVaccines
+
+        if (vaccine && vaccineIndex) {
+            vaccines.splice(vaccineIndex, 1)
+
+            await docRef.update({
+                [`${personName}.${vaccineCategory}`]: vaccines,
+            })
         }
     }
 }

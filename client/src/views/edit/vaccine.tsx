@@ -108,53 +108,46 @@ const EditVaccine: FunctionComponent = () => {
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        console.log(vaccineName, vaccineDate, unsetRevaccinate, vaccineFrom)
-
-        // const birthdayTime = birthday ? firebase.firestore.Timestamp.fromDate(new Date(birthday)) : null
-
         if (uid && vaccineName && vaccineFrom) {
             if (vaccineFrom != undefined) {
-                fetch.editVaccine(
-                    uid,
-                    nameSearch,
-                    vaccineName,
-                    vaccineDate,
-                    unsetRevaccinate,
-                    vaccineFrom,
-                    vaccineIDSearch,
-                )
+                fetch
+                    .editVaccine(
+                        uid,
+                        nameSearch,
+                        vaccineName,
+                        vaccineDate,
+                        unsetRevaccinate,
+                        vaccineFrom,
+                        vaccineIDSearch,
+                    )
+                    .then(() => {
+                        Message.success(`${vaccineName} has edited!`)
+                        history.push(`/person?name=${nameSearch}`)
+                    })
+                    .catch((error) => {
+                        Message.error('Unknown error has occured')
+                        console.log(error)
+                    })
             } else {
                 Message.error('Vaccine does not exsist')
             }
-            // fetch
-            //     .editPerson(uid, nameSearch, status, birthdayTime, personName)
-            //     .then(() => {
-            //         Message.success(`${personName} has edited!`)
-            //         history.push(`/person?name=${personName}`)
-            //     })
-            //     .catch((error) => {
-            //         Message.error('Unknown error has occured')
-            //         console.log(error)
-            //     })
         }
     }
 
     const deletePerson = () => {
-        // if (uid && nameSearch) {
-        //     fetch
-        //         .deletePerson(uid, nameSearch)
-        //         .then(() => {
-        //             Message.success(`${personName} has been deleted!`)
-        //             history.push(`/home`)
-        //         })
-        //         .catch((error) => {
-        //             Message.error('Unknown error has occured')
-        //             console.log(error)
-        //         })
-        // }
+        if (uid && vaccineName && vaccineFrom) {
+            fetch
+                .deleteVaccine(uid, vaccineIDSearch, vaccineFrom, nameSearch)
+                .then(() => {
+                    Message.success(`${vaccineName} has been deleted!`)
+                    history.push(`/person?name=${nameSearch}`)
+                })
+                .catch((error) => {
+                    Message.error('Unknown error has occured')
+                    console.log(error)
+                })
+        }
     }
-
-    // console.log(value)
 
     if (vaccineNotFound) {
         return (
@@ -227,7 +220,7 @@ const EditVaccine: FunctionComponent = () => {
                         <Button
                             variant="contained"
                             // disabled={personData.status === 'user'}
-                            // onClick={() => deletePerson()}
+                            onClick={() => deletePerson()}
                             className="delete-button"
                             startIcon={<DeleteIcon />}
                             color="primary"

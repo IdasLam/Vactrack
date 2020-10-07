@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
 import * as fetch from '../../services/family/family'
 import * as user from '../../services/user/user'
-import { Family, Name, Person } from '../../models/family'
+import { AllTypesOfVaccines, Family, Name, Person } from '../../models/family'
 import { FormControl, TextField, MenuItem, Button } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import dayjsUtils from '@date-io/dayjs'
@@ -28,14 +28,16 @@ const EditVaccine: FunctionComponent = () => {
     const history = useHistory()
 
     const [uid, setUid] = useState<string>()
-    const [personData, setPersonData] = useState<Person>()
-    const [personNotFound, setPersonNotFound] = useState<boolean>(false)
-    const [vaccineData, setVaccineData] = useState<Vaccine>()
+    // const [personData, setPersonData] = useState<Person>()
+    // const [personNotFound, setPersonNotFound] = useState<boolean>(false)
+    const [vaccineData, setVaccineData] = useState<AllTypesOfVaccines>()
     const [vaccineNotFound, setVaccineNotFound] = useState<boolean>(false)
     const [vaccineFrom, setVaccineFrom] = useState<string>()
 
     const [vaccineName, setVaccineName] = useState<string>()
-    const [vaccinationDate, setVaccinationDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
+    const [vaccineDate, setVaccineDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
+    const [revaccinateDate, setRevaccinateDate] = useState<string>(dayjs().format('YYYY-MM-DD'))
+    const [unsetRevaccinate, setUnsetRevaccinate] = useState<boolean>()
 
     const [errorName, setErrorName] = useState(false)
     const [nameList, setNameList] = useState<Name[]>()
@@ -47,15 +49,21 @@ const EditVaccine: FunctionComponent = () => {
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
-    const getPersonData = async () => {
-        if (nameSearch && uid) {
-            const data = await fetch.getPersonData(uid, nameSearch)
+    // const getPersonData = async () => {
+    //     if (nameSearch && uid) {
+    //         const data = await fetch.getPersonData(uid, nameSearch)
 
-            if (data) {
-                setPersonData(data)
-            } else {
-                setPersonNotFound(true)
-            }
+    //         if (data) {
+    //             setPersonData(data)
+    //         } else {
+    //             setPersonNotFound(true)
+    //         }
+    //     }
+    // }
+
+    const getVaccineData = async () => {
+        if (value) {
+            setVaccineData(fetch.getDataForVaccine(value, vaccineIDSearch, nameSearch))
         }
     }
 
@@ -70,13 +78,21 @@ const EditVaccine: FunctionComponent = () => {
     }, [nameSearch])
 
     useEffect(() => {
-        if (nameSearch && uid) {
-            getPersonData()
+        if (nameSearch && uid && value) {
+            // getPersonData()
+            getVaccineData()
         }
-    }, [nameSearch, uid])
+    }, [nameSearch, uid, value])
 
     useEffect(() => {
         if (vaccineData) {
+            setVaccineName(vaccineData.name)
+            setVaccineDate(dayjs(vaccineData.date.toDate()).format('YYYY-MM-DD'))
+
+            if (vaccineData.revaccination) {
+                setRevaccinateDate(dayjs(vaccineData.revaccination.toDate()).format('YYYY-MM-DD'))
+                setUnsetRevaccinate(false)
+            }
         }
     }, [vaccineData])
 
@@ -84,7 +100,6 @@ const EditVaccine: FunctionComponent = () => {
         if (value) {
             const data = fetch.getDataForVaccine(value, vaccineIDSearch, nameSearch)
             const from = fetch.vaccineFrom(value, vaccineIDSearch, nameSearch)
-            console.log(from)
 
             if (data === undefined) {
                 setVaccineNotFound(true)
@@ -93,9 +108,7 @@ const EditVaccine: FunctionComponent = () => {
                 setVaccineFrom(from)
             }
         }
-    }, [value])
-
-    console.log(personData)
+    }, [vaccineData])
 
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -131,6 +144,8 @@ const EditVaccine: FunctionComponent = () => {
         // }
     }
 
+    // console.log(value)
+
     if (vaccineNotFound) {
         return (
             <Layout>
@@ -141,33 +156,25 @@ const EditVaccine: FunctionComponent = () => {
         )
     }
 
-    if (personData) {
+    if (vaccineData) {
         return (
             <Layout>
                 <section className="main-section-container person">
                     <h1>Edit vaccination</h1>
+                    <p>Vaccination for {nameSearch}</p>
                     <form className="edit-form" onSubmit={submit}>
                         <FormControl>
-                            {/* <TextField
+                            <TextField
                                 onChange={(event) => {
-                                    if (nameList) {
-                                        if (event.target.value.toLowerCase() !== nameSearch.toLowerCase()) {
-                                            setErrorName(
-                                                validation.nameValidation(event.target.value.toLowerCase(), nameList),
-                                            )
-                                        }
-                                        setPersonName(event.target.value)
-                                    } else {
-                                        console.error('something went wrong')
-                                    }
+                                    setVaccineName(event.target.value)
                                 }}
                                 id="name"
-                                label="Name"
-                                value={personName}
-                                error={errorName}
-                                helperText={errorName ? 'Person already exsists or invalid name' : ''}
+                                label="Vaccine name"
+                                value={vaccineName}
+                                // error={errorName}
+                                // helperText={errorName ? 'Person already exsists or invalid name' : ''}
                                 required
-                            /> */}
+                            />
                             {/* <TextField
                                 label="Status"
                                 value={status}
@@ -202,13 +209,13 @@ const EditVaccine: FunctionComponent = () => {
                         </FormControl>
                         <Button
                             variant="contained"
-                            disabled={personData.status === 'user'}
-                            onClick={() => deletePerson()}
+                            // disabled={personData.status === 'user'}
+                            // onClick={() => deletePerson()}
                             className="delete-button"
                             startIcon={<DeleteIcon />}
                             color="primary"
                         >
-                            Delete person
+                            Delete vaccine
                         </Button>
                         <MiddleButtonSubmit valid={!errorName} />
                     </form>

@@ -10,8 +10,7 @@ type MiddleButtonExtention = {
 const MiddeButtonSubmit: FunctionComponent<MiddleButtonExtention> = (props) => {
     const { valid } = props
     const path = window.location.pathname
-    const add = ['/add/person', '/add/vaccine', '/edit/person']
-    const edit = ['/edit/person', '/edit/vaccine']
+    const add = ['/add/person', '/add/vaccine', '/edit/person', '/edit/vaccine']
 
     if (add.includes(path)) {
         return (

@@ -96,6 +96,7 @@ const AddPerson: FunctionComponent = () => {
                             }}
                             id="name"
                             label="Name"
+                            inputProps={{ maxLength: 40 }}
                             error={errorName}
                             helperText={errorName ? 'Person already exsists.' : ''}
                             required

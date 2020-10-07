@@ -146,6 +146,7 @@ const EditPerson: FunctionComponent = () => {
                                 }}
                                 id="name"
                                 label="Name"
+                                inputProps={{ maxLength: 40 }}
                                 value={personName}
                                 error={errorName}
                                 helperText={errorName ? 'Person already exsists or invalid name' : ''}

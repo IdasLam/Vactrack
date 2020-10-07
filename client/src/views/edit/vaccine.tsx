@@ -175,6 +175,7 @@ const EditVaccine: FunctionComponent = () => {
                                 label="Vaccine name"
                                 value={vaccineName}
                                 required
+                                inputProps={{ maxLength: 20 }}
                             />
                             <MuiPickersUtilsProvider utils={dayjsUtils}>
                                 <KeyboardDatePicker

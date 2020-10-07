@@ -142,6 +142,7 @@ const AddVaccine: FunctionComponent = () => {
                                 setInputVaccineName(event.target.value)
                             }}
                             label="Vaccine name"
+                            inputProps={{ maxLength: 20 }}
                             required
                         />
                         <TextField

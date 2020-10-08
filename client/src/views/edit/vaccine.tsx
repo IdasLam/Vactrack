@@ -19,6 +19,9 @@ import Message from 'antd/lib/message'
 
 const firestore = firebase.firestore()
 
+/**
+ * View for edit a vaccine.
+ */
 const EditVaccine: FunctionComponent = () => {
     const [nameSearch, setNameSearch] = useState<string>('')
     const [vaccineIDSearch, setVaccineIDSearch] = useState<string>('')
@@ -26,8 +29,7 @@ const EditVaccine: FunctionComponent = () => {
     const history = useHistory()
 
     const [uid, setUid] = useState<string>()
-    // const [personData, setPersonData] = useState<Person>()
-    // const [personNotFound, setPersonNotFound] = useState<boolean>(false)
+
     const [vaccineData, setVaccineData] = useState<AllTypesOfVaccines>()
     const [vaccineNotFound, setVaccineNotFound] = useState<boolean>(false)
     const [vaccineFrom, setVaccineFrom] = useState<'activeVaccines' | 'vaccines' | undefined>()
@@ -39,6 +41,7 @@ const EditVaccine: FunctionComponent = () => {
 
     const [errorName, setErrorName] = useState(false)
 
+    // Get user id
     useEffect(() => {
         setUid(user.getUid())
     }, [setUid])
@@ -46,12 +49,14 @@ const EditVaccine: FunctionComponent = () => {
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
+    // Form validation for vaccine name
     useEffect(() => {
         if (vaccineName?.length === 0 || vaccineName === ' ') {
             setErrorName(true)
         }
     }, [vaccineName])
 
+    // Get information from url query
     useEffect(() => {
         const name = new URLSearchParams(history.location.search).get('name')
         const vaccineID = new URLSearchParams(history.location.search).get('id')
@@ -62,6 +67,7 @@ const EditVaccine: FunctionComponent = () => {
         }
     }, [nameSearch, history.location.search])
 
+    // Set data from the form
     useEffect(() => {
         if (vaccineData) {
             setVaccineName(vaccineData.name)
@@ -76,6 +82,7 @@ const EditVaccine: FunctionComponent = () => {
         }
     }, [vaccineData])
 
+    // Set form according to data fetched
     useEffect(() => {
         if (value) {
             const from = fetch.vaccineFrom(value, vaccineIDSearch, nameSearch)
@@ -91,6 +98,10 @@ const EditVaccine: FunctionComponent = () => {
         }
     }, [value, nameSearch, vaccineIDSearch])
 
+    /**
+     * Submit will save the edited vaccine and if successfull redirect and push a message, else push error message.
+     * @param event
+     */
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
@@ -120,6 +131,9 @@ const EditVaccine: FunctionComponent = () => {
         }
     }
 
+    /**
+     * Delete will remove vaccine from database, on success will redirect and push message, else push an error message.
+     */
     const deletePerson = () => {
         if (uid && vaccineName && vaccineFrom) {
             fetch
@@ -135,6 +149,7 @@ const EditVaccine: FunctionComponent = () => {
         }
     }
 
+    // If the vaccine was not found in database
     if (vaccineNotFound) {
         return (
             <Layout>
@@ -145,6 +160,7 @@ const EditVaccine: FunctionComponent = () => {
         )
     }
 
+    // If the vaccine was found display a form
     if (vaccineData) {
         return (
             <Layout>

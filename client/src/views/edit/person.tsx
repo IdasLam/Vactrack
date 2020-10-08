@@ -20,6 +20,9 @@ import Message from 'antd/lib/message'
 
 const firestore = firebase.firestore()
 
+/**
+ * View for edit person.
+ */
 const EditPerson: FunctionComponent = () => {
     const [nameSearch, setNameSearch] = useState<string>('')
     const history = useHistory()
@@ -34,6 +37,7 @@ const EditPerson: FunctionComponent = () => {
     const [errorName, setErrorName] = useState(false)
     const [nameList, setNameList] = useState<Name[]>()
 
+    // Get user id
     useEffect(() => {
         setUid(user.getUid())
     }, [setUid])
@@ -53,12 +57,14 @@ const EditPerson: FunctionComponent = () => {
         }
     }
 
+    // Set all names in family
     useEffect(() => {
         if (value) {
             setNameList(fetch.getAllNames(value))
         }
     }, [value])
 
+    // Get name form url query
     useEffect(() => {
         const name = new URLSearchParams(history.location.search).get('name')
 
@@ -73,6 +79,7 @@ const EditPerson: FunctionComponent = () => {
         }
     }, [nameSearch, uid, getPersonData])
 
+    // From persondata set data for the person
     useEffect(() => {
         if (personData) {
             setPersonName(nameSearch)
@@ -84,12 +91,17 @@ const EditPerson: FunctionComponent = () => {
         }
     }, [personData, nameSearch])
 
+    // Error handeling for name input, should not be empty
     useEffect(() => {
-        if (personName === '') {
+        if (personName === '' || personName?.length === 0) {
             setErrorName(true)
         }
     }, [personName])
 
+    /**
+     * When submited will update changes in database, on success redirect and push a message whilst push error message on error.
+     * @param event
+     */
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 

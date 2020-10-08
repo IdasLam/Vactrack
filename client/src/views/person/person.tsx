@@ -17,6 +17,9 @@ import { Button } from '@material-ui/core'
 
 const firestore = firebase.firestore()
 
+/**
+ * View for a person
+ */
 const Person: FunctionComponent = () => {
     const history = useHistory()
     const query = useQuery()
@@ -32,14 +35,17 @@ const Person: FunctionComponent = () => {
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
+    // Get user id
     useEffect(() => {
         setUid(user.getUid())
     }, [history, setUid])
 
+    // Get name from url query
     useEffect(() => {
         setFirstname(query.get('name') ?? null)
     }, [setFirstname, query])
 
+    // Get data for user
     useEffect(() => {
         if (value) {
             setData(fetch.getDataForUser(value, firstname))
@@ -64,6 +70,7 @@ const Person: FunctionComponent = () => {
         return <Loader />
     }
 
+    // If the user not found then display this
     if (data === undefined) {
         return (
             <Layout>

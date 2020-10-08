@@ -19,6 +19,9 @@ import 'antd/dist/antd.css'
 
 const firestore = firebase.firestore()
 
+/**
+ * View for adding a new vaccination.
+ */
 const AddVaccine: FunctionComponent = () => {
     const query = window.location.search
     const urlParams = new URLSearchParams(query)
@@ -41,10 +44,12 @@ const AddVaccine: FunctionComponent = () => {
 
     const [uid, setUid] = useState<string>()
 
+    // Get user id
     useEffect(() => {
         setUid(user.getUid())
     }, [setUid])
 
+    // Get name form url query
     useEffect(() => {
         setQueryName(urlParams.get('name'))
     }, [urlParams])
@@ -52,6 +57,7 @@ const AddVaccine: FunctionComponent = () => {
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
+    // Form validation for inputed data
     useEffect(() => {
         const firstFormIsFilled = inputVaccineName && inputName && date
         const secondFormIsFilled = revaccinate && !remindError && remindTime
@@ -65,12 +71,14 @@ const AddVaccine: FunctionComponent = () => {
         }
     }, [inputVaccineName, inputName, date, revaccinate, remindError, remindTime])
 
+    // Get all names of family members
     useEffect(() => {
         if (value) {
             setNameList(fetch.getAllNames(value, false))
         }
     }, [value])
 
+    // Checks if person name does exsist in family
     useEffect(() => {
         if (nameList && queryName) {
             nameList?.forEach((name) => {
@@ -87,6 +95,11 @@ const AddVaccine: FunctionComponent = () => {
         return <Loader />
     }
 
+    /**
+     * When submited it will add a new vaccination for the specified person,
+     * on success will redirect and push message whilst error will push error message.
+     * @param event
+     */
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
@@ -119,6 +132,7 @@ const AddVaccine: FunctionComponent = () => {
         }
     }
 
+    // Smal component functions that adds options.
     const addOptions = () => {
         return nameList?.map((name) => {
             return (

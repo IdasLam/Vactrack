@@ -4,6 +4,9 @@ import './login.scss'
 import { Button } from '@material-ui/core'
 import * as user from '../../services/user/user'
 
+/**
+ * View for login.
+ */
 const Login: FunctionComponent = () => {
     return (
         <div className="login-container">

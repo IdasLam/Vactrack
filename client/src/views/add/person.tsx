@@ -19,8 +19,10 @@ import Message from 'antd/lib/message'
 import 'antd/dist/antd.css'
 
 const firestore = firebase.firestore()
-// con history
 
+/**
+ * View for adding a new person in family.
+ */
 const AddPerson: FunctionComponent = () => {
     const history = useHistory()
 
@@ -34,6 +36,7 @@ const AddPerson: FunctionComponent = () => {
 
     const [uid, setUid] = useState<string>()
 
+    // Get user id
     useEffect(() => {
         setUid(user.getUid())
     }, [setUid])
@@ -41,12 +44,14 @@ const AddPerson: FunctionComponent = () => {
     const doc = firestore.doc(`family/${uid}`)
     const [value, loading] = useDocumentData<Family>(doc)
 
+    // Fetch all names in family
     useEffect(() => {
         if (value) {
             setNameList(fetch.getAllNames(value))
         }
     }, [value])
 
+    // Form validation
     useEffect(() => {
         if (name && !errorName && date && status) {
             setValid(true)
@@ -59,6 +64,11 @@ const AddPerson: FunctionComponent = () => {
         return <Loader />
     }
 
+    /**
+     * When submited will add a new family member with inputed data,
+     * on success will redirect and push message whilst error will push error message.
+     * @param event
+     */
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 

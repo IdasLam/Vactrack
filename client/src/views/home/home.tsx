@@ -14,6 +14,9 @@ import Article from '../../components/article/article'
 
 const firestore = firebase.firestore()
 
+/**
+ * View for homepage.
+ */
 const Home: FunctionComponent = () => {
     const [anyActiveVaccines, setAnyActiveVaccines] = useState<boolean>(false)
     const [upcomingVaccinations, setUpcomingVaccionations] = useState<Vaccinations>({})
@@ -25,10 +28,12 @@ const Home: FunctionComponent = () => {
     const colArticle = firestore.collection(`articles`)
     const [articles, loadingArticles] = useCollectionData<articleTypes.Article>(colArticle)
 
+    // Get user id
     useEffect(() => {
         setUid(user.getUid())
     }, [setUid])
 
+    // Fetch 2 articles to display
     useEffect(() => {
         if (articles) {
             setTwoArticle(getTwoArticles(articles))

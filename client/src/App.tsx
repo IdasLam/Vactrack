@@ -16,6 +16,7 @@ import { userExsists } from './services/family/family'
 import EditPerson from './views/edit/person'
 import EditVaccine from './views/edit/vaccine'
 
+// Customized color theming for Material-ui
 const theme = createMuiTheme({
     palette: {
         primary: {
@@ -27,12 +28,16 @@ const theme = createMuiTheme({
     },
 })
 
+/**
+ * Main function for the application.
+ */
 function App() {
     const [exsist, setExsists] = useState<boolean>(false)
     const [user, loading] = useAuthState(firebase.auth())
     const history = useHistory()
     const location = useLocation()
 
+    // Checks if there is already a user logged in
     const getExists = async () => {
         if (user) {
             setExsists(await userExsists(user))
@@ -45,6 +50,7 @@ function App() {
         }
     }, [user])
 
+    // If the user is logged in they should not be able to come back to login page
     useEffect(() => {
         const isOnLoginPage = location.pathname === '/'
         const hasLoadedButNotSignedIn = user === null && !loading
@@ -63,6 +69,7 @@ function App() {
         return <Loader />
     }
 
+    // Routing for the app
     return (
         <ThemeProvider theme={theme}>
             <Switch>

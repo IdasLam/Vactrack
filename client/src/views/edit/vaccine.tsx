@@ -5,19 +5,17 @@ import { useHistory } from 'react-router-dom'
 import { useDocumentData } from 'react-firebase-hooks/firestore'
 import * as fetch from '../../services/family/family'
 import * as user from '../../services/user/user'
-import { AllTypesOfVaccines, Family, Name, Person } from '../../models/family'
-import { FormControl, TextField, MenuItem, Button, FormGroup, FormControlLabel, Switch } from '@material-ui/core'
+import { AllTypesOfVaccines, Family } from '../../models/family'
+import { FormControl, TextField, Button, FormGroup, FormControlLabel, Switch } from '@material-ui/core'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers'
 import dayjsUtils from '@date-io/dayjs'
 import MiddleButtonSubmit from '../../components/button/sumbit'
 import Loader from '../../components/loading/loading'
-import * as validation from '../../services/validation/person'
 import dayjs from 'dayjs'
 import './../add/form.scss'
 import './edit-form.scss'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Message from 'antd/lib/message'
-import { Vaccine } from '../../models/family'
 
 const firestore = firebase.firestore()
 
@@ -62,7 +60,7 @@ const EditVaccine: FunctionComponent = () => {
             setNameSearch(name)
             setVaccineIDSearch(vaccineID)
         }
-    }, [nameSearch])
+    }, [nameSearch, history.location.search])
 
     useEffect(() => {
         if (vaccineData) {
@@ -91,13 +89,13 @@ const EditVaccine: FunctionComponent = () => {
                 setVaccineNotFound(true)
             }
         }
-    }, [value])
+    }, [value, nameSearch, vaccineIDSearch])
 
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
         if (uid && vaccineName && vaccineFrom) {
-            if (vaccineFrom != undefined) {
+            if (vaccineFrom !== undefined) {
                 fetch
                     .editVaccine(
                         uid,

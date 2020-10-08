@@ -65,13 +65,13 @@ const EditPerson: FunctionComponent = () => {
         if (name) {
             setNameSearch(name)
         }
-    }, [nameSearch])
+    }, [nameSearch, history.location.search])
 
     useEffect(() => {
         if (nameSearch && uid) {
             getPersonData()
         }
-    }, [nameSearch, uid])
+    }, [nameSearch, uid, getPersonData])
 
     useEffect(() => {
         if (personData) {
@@ -82,7 +82,7 @@ const EditPerson: FunctionComponent = () => {
                 setBirthday(dayjs(personData.birthday.toDate()).format('YYYY-MM-DD'))
             }
         }
-    }, [personData])
+    }, [personData, nameSearch])
 
     useEffect(() => {
         if (personName === '') {

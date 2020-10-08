@@ -342,7 +342,7 @@ export const editVaccine = async (
                 await docRef.update({
                     [`${personName}.${vaccineCategory}`]: vaccines,
                 })
-            } else if (unsetRevaccination && vaccineIndex != undefined) {
+            } else if (unsetRevaccination && vaccineIndex !== undefined) {
                 vaccines.splice(vaccineIndex, 1)
                 delete vaccine.revaccination
 

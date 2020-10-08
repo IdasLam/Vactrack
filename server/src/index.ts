@@ -17,6 +17,12 @@ admin.initializeApp({
 
 const db = admin.firestore()
 
+/**
+ * Goes through every family and get the reminders that are supposed to get an email notification.
+ * Reminders will be sent out a week before the revaccination is due.
+ *
+ * Return ReminderVaccination[]
+ */
 const getVaccinationReminderData = async () => {
     const data = await db.collection('family').get()
 
@@ -77,6 +83,7 @@ const getVaccinationReminderData = async () => {
     return vaccinationReminderData as ReminderVaccination[]
 }
 
+// User node-mailer, creating a transporter through email and password in .env file
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -85,6 +92,9 @@ const transporter = nodemailer.createTransport({
     },
 })
 
+/**
+ * Class reminder that have methods to abel to send an email
+ */
 class reminder {
     vaccinationReminderData: ReminderVaccination[]
 
@@ -92,11 +102,18 @@ class reminder {
         this.vaccinationReminderData = []
     }
 
+    /**
+     * Init the class with vaccinations that will be sent out
+     * @param vaccinationReminderData
+     */
     addReminderData(vaccinationReminderData: ReminderVaccination[]) {
         this.vaccinationReminderData = vaccinationReminderData
         this.createMail()
     }
 
+    /**
+     * Create an email, get temlpate with vaccine and person data. Procceeds to call sendMail method.
+     */
     createMail() {
         return this.vaccinationReminderData.map(async (vaccination) => {
             const { email, personName, id, familyId } = vaccination
@@ -113,6 +130,13 @@ class reminder {
         })
     }
 
+    /**
+     * Set the status of the vaccine to reminded in database.
+     *
+     * @param id
+     * @param familyId
+     * @param name
+     */
     async setReminded(id: string, familyId: string, name: string) {
         const data = await db.collection('family').doc(familyId).get()
         const familyDoc = db.collection('family').doc(familyId)
@@ -138,6 +162,13 @@ class reminder {
         }
     }
 
+    /**
+     * Send email to user.
+     * @param mailOptions
+     * @param id
+     * @param familyId
+     * @param name
+     */
     sendMail(mailOptions: MailData, id: string, familyId: string, name: string) {
         this.setReminded(id, familyId, name)
         transporter.sendMail(mailOptions, (error, info) => {
@@ -152,14 +183,21 @@ class reminder {
     }
 }
 
+// Init the class
 const remind = new reminder()
 
+/**
+ * Fetches data from database.
+ */
 const setReminder = async () => {
     const remminderData = await getVaccinationReminderData()
 
     remind.addReminderData(remminderData)
 }
 
+/**
+ * Will check the database every hour if any new reminders should be sent out.
+ */
 new CronJob('0 * * * *', () => {
     console.log('Checking...')
     setReminder()

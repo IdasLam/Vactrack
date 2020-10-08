@@ -1,3 +1,7 @@
+/**
+ * Customized types used with typescript
+ */
+
 type Vaccine = {
     name: string
     date: FirebaseFirestore.Timestamp

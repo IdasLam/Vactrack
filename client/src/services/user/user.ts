@@ -3,29 +3,33 @@ import 'firebase/auth'
 
 const provider = new firebase.auth.GoogleAuthProvider()
 
+/**
+ * Sign in with firebase auth
+ */
 export const signIn = () => {
     firebase.auth().signInWithRedirect(provider)
-    // console.log('loged')
 }
 
+/**
+ * Sign out with firebase auth
+ * @returns void
+ */
 export const signOut = () => {
     return firebase.auth().signOut()
 }
 
-export const Oauth = () => {
-    return firebase.auth().getRedirectResult()
-}
-
-export const isLoggedIn = () => {
-    // console.log(firebase.auth().currentUser)
-
-    return firebase.auth().currentUser !== null
-}
-
+/**
+ * Get the user info from logged in user
+ * @returns firebase.User | null
+ */
 export const getCurrentUser = () => {
     return firebase.auth().currentUser
 }
 
+/**
+ * Get user id from logged in user
+ * @returns string
+ */
 export const getUid = () => {
     const user = getCurrentUser()
 

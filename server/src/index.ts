@@ -105,6 +105,7 @@ class reminder {
     /**
      * Init the class with vaccinations that will be sent out
      * @param vaccinationReminderData
+     * @returns void
      */
     addReminderData(vaccinationReminderData: ReminderVaccination[]) {
         this.vaccinationReminderData = vaccinationReminderData
@@ -136,6 +137,7 @@ class reminder {
      * @param id
      * @param familyId
      * @param name
+     * @returns void
      */
     async setReminded(id: string, familyId: string, name: string) {
         const data = await db.collection('family').doc(familyId).get()
@@ -168,6 +170,7 @@ class reminder {
      * @param id
      * @param familyId
      * @param name
+     * @returns void
      */
     sendMail(mailOptions: MailData, id: string, familyId: string, name: string) {
         this.setReminded(id, familyId, name)

@@ -24,6 +24,7 @@ const firestore = firebase.firestore()
  * Create user in database
  * @param uid
  * @param name
+ * @returns 200
  */
 export const create = async (uid: string, name: string, email: string) => {
     const docRef = firestore.collection('family').doc(uid)
@@ -40,6 +41,11 @@ export const create = async (uid: string, name: string, email: string) => {
     return 200
 }
 
+/**
+ * If the user exsist return true else will create new user in database
+ * @param user
+ * @returns boolean
+ */
 export const userExsists = async (user: firebase.User) => {
     const uid = user.uid
     const name = user.displayName
@@ -61,7 +67,11 @@ type FilteredActiveVaccines = {
     [key: string]: ActiveVaccine[]
 }
 
-// Get revaccinations 3 months ahead, whole family
+/**
+ * Get revaccinations 3 months ahead, whole family
+ * @param family
+ * @returns FilteredActiveVaccines
+ */
 export const filterActiveVaccines = (family: Family): FilteredActiveVaccines => {
     return Object.entries(family).reduce((acc, curr) => {
         const vaccinationNotificationRange = 3
@@ -88,6 +98,12 @@ export const filterActiveVaccines = (family: Family): FilteredActiveVaccines => 
     }, {})
 }
 
+/**
+ * Get data for specific person in family
+ * @param uid
+ * @param name
+ * @returns Person | undefined
+ */
 export const getPersonData = async (uid: string, name: string) => {
     const family = await firestore.collection('family').doc(uid).get()
     const data = family.data()
@@ -97,7 +113,11 @@ export const getPersonData = async (uid: string, name: string) => {
     }
 }
 
-// for every person in document
+/**
+ * If any active vaccines for the whole family or person
+ * @param vaccinations
+ * @returns boolean
+ */
 export const anyActiveVaccines = (vaccinations: Vaccinations) => {
     const vaccines = Object.entries(vaccinations).map((row) => {
         const data = row[1]
@@ -108,6 +128,12 @@ export const anyActiveVaccines = (vaccinations: Vaccinations) => {
     return vaccines.includes(true)
 }
 
+/**
+ * Get data for specific person
+ * @param value
+ * @param firstname
+ * @returns user data, [string, Person] | undefined
+ */
 export const getDataForUser = (value: Family, firstname: string | null) => {
     return Object.entries(value).find((row) => {
         const fullname = row[0].toLowerCase()
@@ -118,6 +144,14 @@ export const getDataForUser = (value: Family, firstname: string | null) => {
     })
 }
 
+/**
+ * Get what category the vaccination comes from
+ *
+ * @param family
+ * @param id
+ * @param nameSearch
+ * @returns "activeVaccines" | "vaccines" | undefined
+ */
 export const vaccineFrom = (family: Family, id: string, nameSearch: string) => {
     const { activeVaccines, vaccines } = family[nameSearch]
 
@@ -136,6 +170,14 @@ export const vaccineFrom = (family: Family, id: string, nameSearch: string) => {
     return 'activeVaccines'
 }
 
+/**
+ * Get vaccine data
+ * @param family
+ * @param vaccineCategory
+ * @param id
+ * @param nameSearch
+ * @returns Vaccine | undefined
+ */
 export const getDataForVaccine = (
     family: Family,
     vaccineCategory: 'activeVaccines' | 'vaccines',
@@ -157,6 +199,12 @@ export const getDataForVaccine = (
     return undefined
 }
 
+/**
+ * Get upcoming vaccinations for person
+ * @param family
+ * @param name
+ * @returns object
+ */
 export const filterActiveVaccinesByPerson = (family: Family, name: string) => {
     const familyActiveVaccines = filterActiveVaccines(family)
 
@@ -173,6 +221,12 @@ export const filterActiveVaccinesByPerson = (family: Family, name: string) => {
     return { [clientName]: data }
 }
 
+/**
+ * Get past vaccinations for user
+ * @param family
+ * @param name
+ * @returns array
+ */
 export const pastVaccinatons: PastVaccinations = (family, name) => {
     const person = Object.entries(family).find((row) => {
         return row[0] === name
@@ -196,6 +250,11 @@ export const pastVaccinatons: PastVaccinations = (family, name) => {
 
 type UserStatus = (data: [string, Person]) => string
 
+/**
+ * Get the status of user
+ * @param data
+ * @returns string
+ */
 export const getUserStatus: UserStatus = (data) => {
     const userData = data[1]
 
@@ -204,6 +263,12 @@ export const getUserStatus: UserStatus = (data) => {
 
 type GetNames = (data: Family, lowercased?: boolean) => Name[]
 
+/**
+ * Get all family members names
+ * @param data
+ * @param lowercased
+ * @returns array
+ */
 export const getAllNames: GetNames = (data, lowercased = true) => {
     const names = Object.entries(data).map((row) => {
         const [name] = row
@@ -221,6 +286,14 @@ export const getAllNames: GetNames = (data, lowercased = true) => {
     return []
 }
 
+/**
+ * Add new person to the family
+ * @param uid
+ * @param status
+ * @param name
+ * @param date
+ * @returns void
+ */
 export const addPerson = async (
     uid: string,
     status: string,
@@ -239,6 +312,13 @@ export const addPerson = async (
     await firestore.collection('family').doc(uid).set(data, { merge: true })
 }
 
+/**
+ * Add a new vaccine for specific user
+ * @param family
+ * @param data
+ * @param uid
+ * @returns void
+ */
 export const addVaccine = async (family: Family, data: InputVaccineData, uid: string) => {
     const { name, vaccineName, date, revaccination } = data
     const userDataArray = getDataForUser(family, name)
@@ -263,12 +343,19 @@ export const addVaccine = async (family: Family, data: InputVaccineData, uid: st
 
         family[name] = userData
 
-        console.log(family)
-
         await firestore.collection('family').doc(uid).set(family)
     }
 }
 
+/**
+ * Edit person
+ * @param uid
+ * @param name
+ * @param status
+ * @param birthday
+ * @param newName
+ * @returns void
+ */
 export const editPerson = async (uid: string, name: string, status: string, birthday: any, newName: string) => {
     const docRef = firestore.collection('family').doc(uid)
 
@@ -300,6 +387,12 @@ export const editPerson = async (uid: string, name: string, status: string, birt
     }
 }
 
+/**
+ * Remove person from the database
+ * @param uid
+ * @param name
+ * @returns void
+ */
 export const deletePerson = async (uid: string, name: string) => {
     const docRef = firestore.collection('family').doc(uid)
     const family = (await docRef.get()).data()
@@ -310,6 +403,17 @@ export const deletePerson = async (uid: string, name: string) => {
     }
 }
 
+/**
+ * Edit vaccine in the database
+ * @param uid
+ * @param personName
+ * @param vaccineName
+ * @param vaccineDate
+ * @param unsetRevaccination
+ * @param vaccineCategory
+ * @param vaccineId
+ * @returns void
+ */
 export const editVaccine = async (
     uid: string,
     personName: string,
@@ -361,6 +465,14 @@ export const editVaccine = async (
     }
 }
 
+/**
+ * Remove vaccine from specific user
+ * @param uid
+ * @param vaccineId
+ * @param vaccineCategory
+ * @param personName
+ * @returns void
+ */
 export const deleteVaccine = async (
     uid: string,
     vaccineId: string,

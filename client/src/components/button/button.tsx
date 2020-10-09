@@ -4,6 +4,9 @@ import { useHistory } from 'react-router-dom'
 import './button.scss'
 import AddIcon from '@material-ui/icons/Add'
 
+/**
+ * Component for adding a new vaccine
+ */
 const MiddeButton: FunctionComponent = () => {
     const path = window.location.pathname
     const query = window.location.search

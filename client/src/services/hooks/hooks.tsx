@@ -5,10 +5,18 @@ import { useLocation } from 'react-router-dom'
 //     width: undefined | number
 // }
 
+/**
+ * Get url query
+ * @returns URLSearchParams
+ */
 export const useQuery = () => {
     return new URLSearchParams(useLocation().search)
 }
 
+/**
+ * Hook that will get the windows size
+ * @returns number | undefined
+ */
 export const useWindowSize = () => {
     // Initialize state with undefined width/height so server and client renders match
     // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/

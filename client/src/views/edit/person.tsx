@@ -101,6 +101,7 @@ const EditPerson: FunctionComponent = () => {
     /**
      * When submited will update changes in database, on success redirect and push a message whilst push error message on error.
      * @param event
+     * @returns void
      */
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()

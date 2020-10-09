@@ -8,6 +8,10 @@ type Cards = {
     personName: string
 }
 
+/**
+ * Component for showing taken vaccines
+ * @param props
+ */
 const PastCards: FunctionComponent<Cards> = (props) => {
     const { vaccines, personName } = props
 

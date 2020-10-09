@@ -68,6 +68,7 @@ const AddPerson: FunctionComponent = () => {
      * When submited will add a new family member with inputed data,
      * on success will redirect and push message whilst error will push error message.
      * @param event
+     * @returns void
      */
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()

@@ -5,6 +5,10 @@ import './layout.scss'
 import MiddeButton from '../button/button'
 import { useWindowSize } from '../../services/hooks/hooks'
 
+/**
+ * Component for layout template for logged in required views
+ * @param props
+ */
 const Layout: FunctionComponent = (props) => {
     const size = useWindowSize()
 

@@ -101,6 +101,7 @@ const EditVaccine: FunctionComponent = () => {
     /**
      * Submit will save the edited vaccine and if successfull redirect and push a message, else push error message.
      * @param event
+     * @returns void
      */
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()

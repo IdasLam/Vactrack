@@ -99,6 +99,7 @@ const AddVaccine: FunctionComponent = () => {
      * When submited it will add a new vaccination for the specified person,
      * on success will redirect and push message whilst error will push error message.
      * @param event
+     * @returns void
      */
     const submit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()

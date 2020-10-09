@@ -3,6 +3,11 @@
 
 import { Article } from '../../models/article'
 
+/**
+ * Get one article from database
+ * @param articles
+ * @returns object
+ */
 export const getOneArticle = (articles: Article[]) => {
     const articlesCount = Object.keys(articles).length
 
@@ -11,6 +16,11 @@ export const getOneArticle = (articles: Article[]) => {
     return articles[articleRandomIndex]
 }
 
+/**
+ * Get two articles from database
+ * @param articles
+ * @returns array
+ */
 export const getTwoArticles = (articles: Article[]) => {
     const firstArticle = getOneArticle(articles)
     let secondArticle = getOneArticle(articles)

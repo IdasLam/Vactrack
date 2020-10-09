@@ -6,6 +6,9 @@ import Logo from '../logo/logo'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import * as user from '../../services/user/user'
 
+/**
+ * Component for desktop header and navbar
+ */
 const DHeader: FunctionComponent = () => {
     const history = useHistory()
 

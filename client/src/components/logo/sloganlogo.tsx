@@ -1,6 +1,9 @@
 import React, { FunctionComponent } from 'react'
 import './logo.scss'
 
+/**
+ * Component for logo and slogan
+ */
 const SloganLogo: FunctionComponent = () => {
     return (
         <div className="logo-container-slogan">

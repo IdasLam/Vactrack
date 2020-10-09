@@ -9,6 +9,10 @@ type UpcomingVaccinations = ActiveVaccinations & {
     displayName?: boolean
 }
 
+/**
+ * Component for showing upcoming vaccines
+ * @param props
+ */
 const Upcoming: FunctionComponent<UpcomingVaccinations> = (props) => {
     const { vaccines, displayName = true } = props
 

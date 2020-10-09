@@ -7,6 +7,10 @@ type MiddleButtonExtention = {
     valid: boolean
 }
 
+/**
+ * Component for sumbiting in form
+ * @param props
+ */
 const MiddeButtonSubmit: FunctionComponent<MiddleButtonExtention> = (props) => {
     const { valid } = props
     const path = window.location.pathname

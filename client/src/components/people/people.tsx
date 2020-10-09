@@ -5,6 +5,10 @@ import AddIcon from '@material-ui/icons/Add'
 import { Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 
+/**
+ * Component for person container in home page
+ * @param props
+ */
 const People: FunctionComponent<FamilyProps> = (props) => {
     const { family } = props
     const history = useHistory()

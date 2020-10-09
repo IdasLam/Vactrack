@@ -7,6 +7,10 @@ type ArticleComponent = {
     articles: ArticleTypes.Article[] | undefined
 }
 
+/**
+ * Component for article card
+ * @param props
+ */
 const Article: FunctionComponent<ArticleComponent> = (props) => {
     const { articles } = props
 

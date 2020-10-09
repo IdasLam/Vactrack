@@ -9,6 +9,9 @@ import { Link, useHistory } from 'react-router-dom'
 import * as user from '../../services/user/user'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
+/**
+ * Component for mobile header and navbar
+ */
 const MHeader: FunctionComponent = () => {
     const [menu, setMenu] = useState(false)
     const history = useHistory()

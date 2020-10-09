@@ -31,6 +31,8 @@ Follow this setup guide to make sure that the application can run correctly. Ple
 Now the web aplication should be setup and running.
 
 ### Note
+
+#### Port
 If you like to change the default port in `docker-compose.yml`. Read more about how to change the port [here](https://docs.docker.com/compose/compose-file/#ports).
 
 #### Email notification system

@@ -6,7 +6,7 @@ import { firestore } from 'firebase-admin'
  */
 export const initFirestore = async (db: firestore.Firestore) => {
     const family = await db.collection('family').get()
-    const article = await db.collection('family').get()
+    const article = await db.collection('articles').get()
 
     if (family.empty) {
         console.log('Creating family collection...')
@@ -24,26 +24,17 @@ export const initFirestore = async (db: firestore.Firestore) => {
     } else if (article.empty) {
         console.log('Creating articles collection...')
 
-        db.collection('articles')
-            .doc('travelJapan')
-            .set({
-                init: {
-                    link:
-                        'https://wwwnc.cdc.gov/travel/destinations/traveler/none/japan?s_cid=ncezid-dgmq-travel-single-001',
-                    text: 'Guidelines provided by CDC',
-                    title: 'Planning on traveling to Japan?',
-                },
-            })
+        db.collection('articles').doc('travelJapan').set({
+            link: 'https://wwwnc.cdc.gov/travel/destinations/traveler/none/japan?s_cid=ncezid-dgmq-travel-single-001',
+            text: 'Guidelines provided by CDC',
+            title: 'Planning on traveling to Japan?',
+        })
 
-        db.collection('article')
-            .doc('travelSweden')
-            .set({
-                init: {
-                    link:
-                        'https://www.folkhalsomyndigheten.se/the-public-health-agency-of-sweden/communicable-disease-control/vaccinations/travel-vaccinations/',
-                    text: 'Guidelines provided by Folkhälsomyndigheten.',
-                    title: 'Planning on traveling to Sweden?',
-                },
-            })
+        db.collection('articles').doc('travelSweden').set({
+            link:
+                'https://www.folkhalsomyndigheten.se/the-public-health-agency-of-sweden/communicable-disease-control/vaccinations/travel-vaccinations/',
+            text: 'Guidelines provided by Folkhälsomyndigheten.',
+            title: 'Planning on traveling to Sweden?',
+        })
     }
 }

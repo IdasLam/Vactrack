@@ -1,8 +1,12 @@
 version: "3"
 services: 
     server:
-        build: ./server
+        build:
+            context: ./server
+            dockerfile: Dockerfile.prod
     client:
-        build: ./client
-        volumes:
-            - ./client:/client
+        build:
+            context: ./client
+            dockerfile: Dockerfile.prod
+        ports: 
+            - 80:80

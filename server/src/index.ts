@@ -6,6 +6,7 @@ import admin from 'firebase-admin'
 import { Family, ReminderVaccination, MailData, Person } from './models/family'
 import dotenv from 'dotenv'
 import fillMail from './handlebars/index'
+import { initFirestore } from './init'
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
@@ -15,6 +16,8 @@ admin.initializeApp({
 })
 
 const db = admin.firestore()
+
+initFirestore(db)
 
 /**
  * Goes through every family and get the reminders that are supposed to get an email notification.
@@ -115,19 +118,21 @@ class reminder {
      * Create an email, get temlpate with vaccine and person data. Procceeds to call sendMail method.
      */
     createMail() {
-        return this.vaccinationReminderData.map(async (vaccination) => {
-            const { email, personName, id, familyId } = vaccination
+        if (this.vaccinationReminderData) {
+            return this.vaccinationReminderData.map(async (vaccination) => {
+                const { email, personName, id, familyId } = vaccination
 
-            const mailOptions = {
-                from: 'vacktrack@gmail.com',
-                to: email,
-                subject: `Vaccination for ${personName} is due soon.`,
-                text: '',
-                html: await fillMail(vaccination),
-            }
+                const mailOptions = {
+                    from: 'vacktrack@gmail.com',
+                    to: email,
+                    subject: `Vaccination for ${personName} is due soon.`,
+                    text: '',
+                    html: await fillMail(vaccination),
+                }
 
-            this.sendMail(mailOptions, id, familyId, personName)
-        })
+                this.sendMail(mailOptions, id, familyId, personName)
+            })
+        }
     }
 
     /**

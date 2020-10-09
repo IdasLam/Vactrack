@@ -4,6 +4,7 @@ WORKDIR /server
 
 COPY package*.json ./
 COPY src ./
+COPY serviceAccountKey.json .
 
 RUN npm i
 

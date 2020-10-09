@@ -195,4 +195,8 @@ const setReminder = async () => {
 new CronJob('0 * * * *', () => {
     setReminder()
 }).start()
+
+/**
+ * Run once on startup
+ */
 setReminder()

@@ -1,0 +1,15 @@
+FROM node:14 as build
+
+WORKDIR /client
+
+COPY package*.json ./
+COPY src ./src
+COPY public ./public
+COPY tsconfig.json ./
+
+RUN npm i
+RUN npm run build
+
+FROM nginx:stable-alpine
+COPY --from=build /client/build /usr/share/nginx/html
+CMD ["nginx", "-g", "daemon off;"]

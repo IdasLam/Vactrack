@@ -9,7 +9,7 @@ The Gmail account used to send out emails must have been configured according to
 
 The web application is defaulted to port `80`, which needs to be available.
 
-Your `Cloud Firestore` database must have `articles` and `family` collections. The collection `articles` must have the documents in this format, or it will not work as intended:
+Your `Cloud Firestore` database must have `articles`, with atleast 2 documens, and `family` collections. The collection `articles` must have the documents in this format, or it will not work as intended:
 
 ```javascript
 {

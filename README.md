@@ -33,6 +33,9 @@ Now the web aplication should be setup and running.
 ### Note
 If you like to change the default port in `docker-compose.yml`. Read more about how to change the port [here](https://docs.docker.com/compose/compose-file/#ports).
 
+#### Email notification system
+The email system will run once started and then check every hour if any more mails should be sent out.
+
 ## Run the web application in developer mode
 If you want to run the web application mode then access docker-compose.yml and remove `.prod` from the docker files and under server add a volume `./server:/server`. Then run `docker-compose up`.
 

@@ -24,9 +24,16 @@ export const getOneArticle = (articles: Article[]) => {
 export const getTwoArticles = (articles: Article[]) => {
     const firstArticle = getOneArticle(articles)
     let secondArticle = getOneArticle(articles)
+    let attempts = 0
+    const maxAttempts = 1000
 
     while (firstArticle.title === secondArticle.title) {
         secondArticle = getOneArticle(articles)
+        attempts++
+
+        if (attempts > maxAttempts) {
+            return []
+        }
     }
 
     return [firstArticle, secondArticle]

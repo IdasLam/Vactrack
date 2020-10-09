@@ -9,7 +9,7 @@ The Gmail account used to send out emails must have been configured according to
 
 The web application is defaulted to port `80`, which needs to be available.
 
-Your `Cloud Firestore` database must have `articles`, with atleast 2 documents, and `family` collections. The collection `articles` must have the documents in this format, or it will not work as intended:
+In your `Cloud Firestore` the collection `articles` must have the documents in this format, or it will not work as intended:
 
 ```javascript
 {
@@ -28,6 +28,7 @@ Follow this setup guide to make sure that the application can run correctly. Ple
 4. Run `docker-compose up` in your terminal
 5. Go to [http://localhost/](http://localhost/).
 
+Along with docker-compose up the database will get initialised in `Cloud Firestore`.
 Now the web aplication should be setup and running.
 
 ### Note

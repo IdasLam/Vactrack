@@ -3,7 +3,7 @@
 This project was developed for the customer in the course PA1414 at Blekinge Institute of Technology. The web application was ment to be solving the problem where a family should be able to log and keep track of which member has taken which vaccine whilst also being able to get notifications when a vaccination is due.
 
 ## Prerequisites
-Running this project will require you to have `git`, `docker` and `docker-compose` on your system. It will also require access and knowledge to a `Firebase project` and `Cloud Firestore`.
+Running this project will require you to have `git`, `docker` and `docker-compose` on your system. It will also require access `Firebase project` and `Cloud Firestore`. `Cloud Firestore` should be configured so third party reads and writes is allowed.
 
 The Gmail account used to send out emails must have been configured according to this [article](https://support.google.com/accounts/answer/6010255?hl=en).
 

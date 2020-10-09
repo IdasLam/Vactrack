@@ -10,4 +10,3 @@ COPY tsconfig.json ./
 RUN npm i
 
 ENTRYPOINT npm run start
-# ENTRYPOINT npm run build

@@ -1,12 +1,11 @@
 import path from 'path'
 import dayjs from 'dayjs'
 import { CronJob } from 'cron'
-import './hadlebars/'
 import nodemailer from 'nodemailer'
 import admin from 'firebase-admin'
 import { Family, ReminderVaccination, MailData, Person } from './models/family'
 import dotenv from 'dotenv'
-import fillMail from './hadlebars/index'
+import fillMail from './handlebars/index'
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') })
 
@@ -183,6 +182,8 @@ const remind = new reminder()
  * Fetches data from database.
  */
 const setReminder = async () => {
+    console.log('Checking....')
+
     const remminderData = await getVaccinationReminderData()
 
     remind.addReminderData(remminderData)
@@ -192,6 +193,6 @@ const setReminder = async () => {
  * Will check the database every hour if any new reminders should be sent out.
  */
 new CronJob('0 * * * *', () => {
-    console.log('Checking...')
     setReminder()
 }).start()
+setReminder()

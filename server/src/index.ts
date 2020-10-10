@@ -196,6 +196,7 @@ const setReminder = async () => {
 
 /**
  * Will check the database every hour if any new reminders should be sent out.
+ * Default crontime is every hour.
  */
 new CronJob('0 * * * *', () => {
     setReminder()

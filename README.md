@@ -1,6 +1,6 @@
 # Vactrack
 
-This project was developed for a customer in the course PA1414 at Blekinge Institute of Technology in 2020. The web application was meant to solve the problem where a family should be able to log and keep track of which family member has taken which vaccine whilst also being able to an email notification when a vaccination is due.
+This project was developed for a customer in the course PA1414 at Blekinge Institute of Technology in 2020. The web application was meant to solve the problem where a family should be able to log and keep track of which family member has taken which vaccine whilst also being able to send an email notification when a vaccination is due.
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ This project requires that you have created a project and register an app on `Fi
 
 Your `Firebase project` must have the [Google sign in enabled](https://firebase.google.com/docs/auth/web/google-signin), otherwise login will not work.
 
-This application will also require a created database in `Cloud Firestore`.  Follow this [guide](https://firebase.google.com/docs/firestore/quickstart) to setup a database in Cloud Firestore. When seting up the database make sure to update the `rules` to the following:
+This application will also require a created database in `Cloud Firestore`.  Follow this [guide](https://firebase.google.com/docs/firestore/quickstart) to setup a database in Cloud Firestore. When setting up the database make sure to update the `rules` to the following:
 
 ```
 rules_version = '2';
@@ -49,12 +49,12 @@ Follow this setup guide to make sure that the application can run correctly. Ple
 
 1. Run `bash init.bash` in your terminal and follow the instructions carefully.
 2. Generate a private key file according to this [guide](https://firebase.google.com/docs/admin/setup#initialize-sdk).
-3. Rename the generated json file to `serviceAccountKey` and procceed to add it to `vactrack/server`.
+3. Rename the generated json file to `serviceAccountKey` and proceed to add it to `vactrack/server`.
 4. Run `docker-compose up` in your terminal
 5. Go to [http://localhost/](http://localhost/).
 
 Along with docker-compose up the database will get initialised in `Cloud Firestore`.
-Now the web aplication should be setup and running.
+Now the web application should be setup and running.
 
 ### Notes
 
@@ -71,4 +71,4 @@ If you want to run the web application mode then access docker-compose.yml and r
 In both client and server run `npm i`, in the client run `npm run start` whilst in the server run `npm run dev`.
 
 ## Contact
-Project was developed by Ida Lam. Reatch me at lammetida@gmail.com.
+Project was developed by Ida Lam. Reach me at lammetida@gmail.com.

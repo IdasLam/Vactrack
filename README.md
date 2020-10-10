@@ -1,6 +1,6 @@
-# Vacktrack
+# Vactrack
 
-This project was developed for a customer in the course PA1414 at Blekinge Institute of Technology. The web application was meant to solve the problem where a family should be able to log and keep track of which family member has taken which vaccine whilst also being able to an email notification when a vaccination is due.
+This project was developed for a customer in the course PA1414 at Blekinge Institute of Technology in 2020. The web application was meant to solve the problem where a family should be able to log and keep track of which family member has taken which vaccine whilst also being able to an email notification when a vaccination is due.
 
 ## Prerequisites
 
@@ -69,3 +69,6 @@ If you want to run the web application mode then access docker-compose.yml and r
 
 ### Without docker
 In both client and server run `npm i`, in the client run `npm run start` whilst in the server run `npm run dev`.
+
+## Contact
+Project was developed by Ida Lam. Reatch me at lammetida@gmail.com.

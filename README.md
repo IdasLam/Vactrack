@@ -43,6 +43,8 @@ In your `Cloud Firestore` the collection `articles` must have the documents in t
 ```
 
 ## Setup
+Before starting make sure you have everything setup under Prerequisites.
+
 Follow this setup guide to make sure that the application can run correctly. Please make sure to clone the project and also make sure that your terminal is in the folder `vactrack` before you start.
 
 1. Run `bash init.bash` in your terminal and follow the instructions carefully.

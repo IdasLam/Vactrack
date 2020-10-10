@@ -17,7 +17,7 @@ function configFirebase {
     read -p "Enter storageBucket: " storageBucket
     read -p "Enter messagingSenderId: " messagingSenderId
     read -p "Enter appId: " appId
-    read -p "Enter measurementId: " measurementId
+    read -p "Enter measurementId (optional): " measurementId
 
 
     echo -e "\t\"apiKey\": \"$apiKey\"," >> $configPath
@@ -42,7 +42,6 @@ else
         rm "$configPath"
         configFirebase
     fi
-
 fi
 
 emailConfig='./server/.env'
@@ -73,7 +72,6 @@ else
         rm "$emailConfig"
         configEmail
     fi
-
 fi
 
 echo

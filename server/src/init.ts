@@ -21,7 +21,9 @@ export const initFirestore = async (db: firestore.Firestore) => {
                     vaccines: [],
                 },
             })
-    } else if (article.empty) {
+    }
+
+    if (article.empty) {
         console.log('Creating articles collection...')
 
         db.collection('articles').doc('travelJapan').set({

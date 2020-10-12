@@ -50,7 +50,7 @@ Follow this setup guide to make sure that the application can run correctly. Ple
 1. Run `bash init.bash` in your terminal and follow the instructions carefully.
 2. Generate a private key file according to this [guide](https://firebase.google.com/docs/admin/setup#initialize-sdk).
 3. Rename the generated json file to `serviceAccountKey` and proceed to add it to `vactrack/server`.
-4. Run `docker-compose up` in your terminal
+4. Run `docker-compose up` in your terminal.
 5. Go to [http://localhost/](http://localhost/).
 
 Along with docker-compose up the database will get initialised in `Cloud Firestore`.

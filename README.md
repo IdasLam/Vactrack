@@ -71,4 +71,4 @@ If you want to run the web application mode then access docker-compose.yml and r
 In both client and server run `npm i`, in the client run `npm run start` whilst in the server run `npm run dev`.
 
 ## Contact
-Project was developed by Ida Lam. Reach me at lammetida@gmail.com.
+Project was developed by Ida Lam
